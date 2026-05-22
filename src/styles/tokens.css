@@ -265,7 +265,6 @@ section { padding-top: var(--space-5); padding-bottom: var(--space-5); }
   color: var(--text-muted);
   text-transform: uppercase;
 }
-.tag--accent { border-color: var(--accent); color: var(--accent); }
 
 /* Eyebrow */
 .eyebrow {

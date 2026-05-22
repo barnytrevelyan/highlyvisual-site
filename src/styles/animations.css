@@ -82,7 +82,7 @@ html.has-js .reveal-stagger.is-in-view > * {
 .hero-video-wrap {
   position: absolute; inset: 0;
   overflow: hidden;
-  z-index: 1;
+  z-index: -1;
   background: var(--bg);
 }
 .hero-video {

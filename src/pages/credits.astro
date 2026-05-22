@@ -85,7 +85,7 @@ const awardSchema = awards.map((a) => ({
         Plimsoll Productions, Offspring Films, National Geographic, Disney+, Netflix, Apple TV+,
         Channel 4 and others.
       </p>
-      <div class="hero-ctas">
+      <div class="hero-ctas hero-ctas--primary">
         <a href="#productions" class="cta">Productions</a>
         <a href="#awards" class="cta cta--ghost">Awards</a>
         <a href="#press" class="cta cta--ghost">Press</a>
@@ -209,6 +209,14 @@ const awardSchema = awards.map((a) => ({
     margin-bottom: var(--space-3);
   }
   .hero-ctas { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+  .hero-ctas--primary .cta:first-child {
+    background: var(--text);
+    color: var(--bg);
+  }
+  .hero-ctas--primary .cta:first-child:hover {
+    background: var(--text);
+    color: var(--bg);
+  }
 
   /* Additional credits table */
   .additional-credits-table {

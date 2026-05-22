@@ -87,6 +87,7 @@ if (videoJsonld) extraSchema.push(videoJsonld);
         <p class="cs-meta-line">
           <span class="tag">{d.lane.replace('-', ' ')}</span>
           {' '}{d.year}{d.location && <> · {d.location}</>}
+          {' '}<span class="cs-meta-credentials">· CAA-licensed · KFCB-registered</span>
         </p>
         <h1>{d.title}</h1>
         <p class="cs-role">{d.role}</p>
@@ -251,6 +252,11 @@ if (videoJsonld) extraSchema.push(videoJsonld);
     align-items: center;
     gap: var(--space-1);
     flex-wrap: wrap;
+  }
+  .cs-meta-credentials {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
   }
   .cs-role {
     font-size: clamp(17px, 1.6vw, 22px);
