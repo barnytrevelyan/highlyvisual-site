@@ -41,7 +41,7 @@ const absoluteOgImage = new URL(ogImage, Astro.site).toString();
          `script-src 'self'` in the CSP — the inline version was being
          blocked. Loaded synchronously (no defer/async) so the `.has-js`
          class is on <html> before the first reveal element paints. -->
-    <script src="/scripts/animations-gate.js"></script>
+    <script is:inline src="/scripts/animations-gate.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
@@ -192,6 +192,6 @@ const absoluteOgImage = new URL(ogImage, Astro.site).toString();
       <slot />
     </main>
     <Footer />
-    <script src="/scripts/animations.js" defer></script>
+    <script is:inline src="/scripts/animations.js" defer></script>
   </body>
 </html>

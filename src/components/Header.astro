@@ -132,4 +132,4 @@ const navItems = [
 <!-- Mobile nav toggle moved to an external file at /scripts/nav-toggle.js so
      it passes `script-src 'self'` in the CSP. Inline scripts would be
      blocked by the browser before the handler can bind. -->
-<script src="/scripts/nav-toggle.js" defer></script>
+<script is:inline src="/scripts/nav-toggle.js" defer></script>
