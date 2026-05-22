@@ -106,10 +106,11 @@ const description =
   .credits-hero {
     position: relative;
     height: 70vh;
-    min-height: 520px;
+    min-height: 620px;
     overflow: hidden;
     display: flex;
     align-items: flex-end;
+    padding-top: var(--header-height);
   }
   .credits-hero__bg {
     position: absolute; inset: 0;
@@ -120,7 +121,12 @@ const description =
   }
   .credits-hero__gradient {
     position: absolute; inset: 0; z-index: 1;
-    background: linear-gradient(to bottom, rgba(10,10,11,0.6) 0%, rgba(10,10,11,0.1) 30%, rgba(10,10,11,0.92) 100%);
+    /* Show artwork posters often carry busy title text. The gradient stays dark
+       enough across its full vertical extent to mask the underlying poster
+       graphics while still letting the colour and mood show through. */
+    background:
+      linear-gradient(to bottom, rgba(10,10,11,0.78) 0%, rgba(10,10,11,0.55) 45%, rgba(10,10,11,0.95) 100%),
+      linear-gradient(to right, rgba(10,10,11,0.55) 0%, rgba(10,10,11,0.1) 60%, rgba(10,10,11,0.1) 100%);
   }
   .credits-hero__content {
     position: relative;

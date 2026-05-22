@@ -43,6 +43,12 @@
   /* Layout */
   --container-max: 1480px;
   --container-pad: var(--space-4);
+
+  /* Fixed-header clearance — the .site-header is position: fixed at the top
+     of every page. Hero sections must reserve at least this much top padding
+     so their content can never collide with the logo + primary nav. The value
+     accounts for the 64px logo image plus the header's vertical padding. */
+  --header-height: 104px;
 }
 
 /* Reduced motion respect — global */
