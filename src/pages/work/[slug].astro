@@ -23,19 +23,24 @@ const related = allEntries
   .filter((e: any) => e.data.lane === d.lane && e.slug !== entry.slug)
   .slice(0, 3);
 
-// JSON-LD
-const jsonld: any = {
+// JSON-LD blocks — CreativeWork (the production), VideoObject (if there's an
+// embed), and BreadcrumbList for nav-rich-result eligibility.
+const creativeWork: any = {
   '@context': 'https://schema.org',
   '@type': 'CreativeWork',
+  '@id': new URL(Astro.url.pathname, Astro.site).toString() + '#creativework',
   name: d.title,
   about: d.summary,
   contentLocation: d.location,
-  dateCreated: d.year,
-  creator: { '@type': 'Person', name: 'Barny Trevelyan-Johnson', jobTitle: d.role },
+  dateCreated: String(d.year),
+  inLanguage: 'en',
+  creator: { '@type': 'Person', '@id': new URL('/', Astro.site).toString() + '#person' },
   productionCompany: { '@type': 'Organization', name: d.productionHouse },
   image: new URL(d.heroImage, Astro.site).toString(),
+  url: new URL(Astro.url.pathname, Astro.site).toString(),
 };
-if (d.distributor) jsonld.publisher = { '@type': 'Organization', name: d.distributor };
+if (d.distributor) creativeWork.publisher = { '@type': 'Organization', name: d.distributor };
+if (d.awardFraming) creativeWork.award = d.awardFraming;
 
 const videoJsonld = video
   ? {
@@ -47,13 +52,31 @@ const videoJsonld = video
       embedUrl: video.embedUrl,
       uploadDate: video.uploadDate,
       duration: `PT${Math.floor(video.duration / 60)}M${video.duration % 60}S`,
+      contentUrl: video.embedUrl,
+      publisher: { '@type': 'Organization', '@id': new URL('/', Astro.site).toString() + '#organization' },
     }
   : null;
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).toString() },
+    { '@type': 'ListItem', position: 2, name: 'Work', item: new URL('/work/', Astro.site).toString() },
+    { '@type': 'ListItem', position: 3, name: d.title, item: new URL(Astro.url.pathname, Astro.site).toString() },
+  ],
+};
+
+const extraSchema = [creativeWork, breadcrumb];
+if (videoJsonld) extraSchema.push(videoJsonld);
 ---
 <BaseLayout
   title={`${d.title} — Highly Visual`}
   description={d.summary}
   ogImage={d.heroImage}
+  ogType="article"
+  preloadImage={d.heroImage}
+  extraSchema={extraSchema}
 >
   <article class="case-study">
     <!-- Hero -->
@@ -179,8 +202,6 @@ const videoJsonld = video
     </p>
   </article>
 
-  <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
-  {videoJsonld && <script type="application/ld+json" set:html={JSON.stringify(videoJsonld)} />}
 </BaseLayout>
 
 <style>

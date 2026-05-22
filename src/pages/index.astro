@@ -24,9 +24,29 @@ const stockTeasers = videos.filter((v) => v.category === 'stock-teaser');
 
 const title = 'Highly Visual — Natural-history cinematographer, Nairobi';
 const description =
-  "Barny Trevelyan-Johnson's Nairobi-based natural-history and aerial cinematography practice. Drone operator and cinematographer for BBC NHU, Silverback Films, Plimsoll, Offspring, Nat Geo and Disney+. CAA-licensed since 2017. KFCB-registered. 14+ countries. Established 2002.";
+  "Nairobi-based drone operator and cinematographer for BBC NHU, Silverback, Plimsoll, Offspring, Nat Geo, Disney+. CAA-licensed, KFCB-registered. 14+ countries.";
+
+// Featured-work ItemList for richer rich-result eligibility on the home page.
+const featuredItemList = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Selected work — Highly Visual',
+  itemListOrder: 'ItemListOrderAscending',
+  numberOfItems: featured.length,
+  itemListElement: featured.map((w, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: new URL(`/work/${w.slug}/`, Astro.site).toString(),
+    name: w.data.title,
+  })),
+};
 ---
-<BaseLayout title={title} description={description}>
+<BaseLayout
+  title={title}
+  description={description}
+  preloadImage={site.hero.rotator[0]?.src}
+  extraSchema={[featuredItemList]}
+>
   <Hero
     title={site.hero.title}
     sub={site.hero.sub}

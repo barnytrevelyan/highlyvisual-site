@@ -9,11 +9,36 @@ const featuredTestimonials = [
   testimonials.find((t) => t.id === 'barny-revill-earth-from-space')!,
 ];
 
-const title = 'About Highly Visual — Barny Trevelyan-Johnson, Nairobi';
+const title = 'About — Barny Trevelyan-Johnson, drone operator, Nairobi';
 const description =
-  'Highly Visual was established in Tanzania in 2002 and moved to Kenya in 2013. Founded by Barny Trevelyan-Johnson — CAA-licensed drone operator, KFCB-registered local film agent, 14+ countries of professional fieldwork, contributions to Emmy- and Critics Choice-winning natural-history productions.';
+  'Founded by Barny Trevelyan-Johnson — CAA-licensed drone operator, KFCB-registered film agent. 24-year practice, 14+ countries, contributions to Emmy- and Critics Choice-winning productions.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).toString() },
+    { '@type': 'ListItem', position: 2, name: 'About', item: new URL('/about/', Astro.site).toString() },
+  ],
+};
+
+const aboutPage = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  url: new URL('/about/', Astro.site).toString(),
+  primaryImageOfPage: new URL('/img/portrait-barny-flying.jpg', Astro.site).toString(),
+  about: { '@id': new URL('/', Astro.site).toString() + '#person' },
+  mainEntity: { '@id': new URL('/', Astro.site).toString() + '#organization' },
+};
 ---
-<BaseLayout title={title} description={description} ogImage="/img/portrait-barny-flying.jpg">
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage="/img/portrait-barny-flying.jpg"
+  ogType="profile"
+  preloadImage="/img/portrait-barny-flying.jpg"
+  extraSchema={[breadcrumb, aboutPage]}
+>
 
   <!-- About hero — portrait + intro statement -->
   <section class="about-hero">

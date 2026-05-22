@@ -30,11 +30,42 @@ const fixingTestimonials = [
   testimonials.find((t) => t.id === 'barny-revill-earth-from-space')!,
 ];
 
-const title = 'Fixing Services — Highly Visual';
+const title = 'Film fixing in Kenya & East Africa — Highly Visual';
 const description =
-  'Highly Visual is a KFCB-registered Kenyan film agent — fully equipped for foreign and domestic fixing for natural history, broadcast and commercial productions. KCAA + KWS drone permits, scouting, crew, vehicles, helicopters, security, customs, carbon offsetting.';
+  'KFCB-registered local film agent for Kenya & East Africa. KCAA + KWS drone permits, scouting, crew, vehicles, helicopters, carbon offsetting. 14+ countries on record.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).toString() },
+    { '@type': 'ListItem', position: 2, name: 'Fixing', item: new URL('/fixing/', Astro.site).toString() },
+  ],
+};
+
+const service = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: 'Film fixing & local production services',
+  provider: { '@id': new URL('/', Astro.site).toString() + '#organization' },
+  areaServed: [
+    { '@type': 'Country', name: 'Kenya' },
+    { '@type': 'Country', name: 'Tanzania' },
+    { '@type': 'Country', name: 'Uganda' },
+    { '@type': 'Country', name: 'Rwanda' },
+    { '@type': 'Place', name: 'East Africa' },
+  ],
+  audience: { '@type': 'Audience', audienceType: 'International broadcast and commercial productions visiting Kenya & East Africa' },
+  description:
+    'Full-service local film agent for international productions: KFCB clearance, KCAA + KWS drone permits, location scouting, crew, vehicles, helicopters, security, customs and carbon-offset support.',
+};
 ---
-<BaseLayout title={title} description={description} ogImage="/img/kit-on-location.jpg">
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage="/img/kit-on-location.jpg"
+  extraSchema={[breadcrumb, service]}
+>
 
   <!-- Hero -->
   <section class="fixing-hero">

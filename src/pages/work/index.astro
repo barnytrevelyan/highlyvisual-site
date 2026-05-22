@@ -13,11 +13,39 @@ const counts = {
   commercial: allWork.filter((w) => w.data.lane === 'commercial').length,
 };
 
-const title = 'Work — Highly Visual';
+const title = 'Selected case studies — Highly Visual';
 const description =
-  'Case-study work — drone-operator and aerial cinematography contributions to natural-history broadcast, fixing for international productions, and end-to-end commercial production from Nairobi.';
+  'Project-by-project case studies — drone-operator and aerial cinematography for natural-history broadcast, fixing for international productions, and commercial film.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).toString() },
+    { '@type': 'ListItem', position: 2, name: 'Work', item: new URL('/work/', Astro.site).toString() },
+  ],
+};
+
+const workItemList = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Case studies — Highly Visual',
+  numberOfItems: allWork.length,
+  itemListOrder: 'ItemListUnordered',
+  itemListElement: allWork.map((w, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: new URL(`/work/${w.slug}/`, Astro.site).toString(),
+    name: w.data.title,
+  })),
+};
 ---
-<BaseLayout title={title} description={description}>
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage="/img/credit-incredible-animal-journeys.webp"
+  extraSchema={[breadcrumb, workItemList]}
+>
 
   <!-- Hero -->
   <section class="work-hero">

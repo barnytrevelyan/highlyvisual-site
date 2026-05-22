@@ -44,6 +44,12 @@ const year = new Date().getFullYear();
       <span>All footage 4K or higher</span>
       <span aria-hidden="true">·</span>
       <span>Licensed drone operator</span>
+      <span class="footer-spacer" aria-hidden="true"></span>
+      <span class="footer-poweredby">
+        Powered by
+        {' '}
+        <a href="https://novainsight.ke" target="_blank" rel="noopener" title="Nova Insight — website rebuilds and AI-era audits">Nova Insight</a>
+      </span>
     </div>
   </div>
 </footer>
@@ -94,8 +100,28 @@ const year = new Date().getFullYear();
     font-size: 12px;
     color: var(--text-faint);
     display: flex;
+    align-items: center;
     gap: var(--space-3);
     flex-wrap: wrap;
+  }
+  .footer-spacer { flex: 1 1 auto; }
+  .footer-poweredby a {
+    color: var(--text-muted);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--border-strong);
+    padding-bottom: 1px;
+    transition: color var(--motion-normal), border-color var(--motion-normal);
+    display: inline;
+    min-height: 0;
+  }
+  .footer-poweredby a:hover {
+    color: var(--text);
+    border-bottom-color: var(--text);
+    text-decoration: none;
+  }
+  @media (max-width: 600px) {
+    .footer-spacer { display: none; }
+    .footer-poweredby { width: 100%; padding-top: 4px; }
   }
   @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }

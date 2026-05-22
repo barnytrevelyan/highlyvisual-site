@@ -10,11 +10,34 @@ const kasas = videos.find((v) => v.id === '1106721568');
 const stePr = videos.find((v) => v.id === '1007171637');
 const simonKipsang = videos.find((v) => v.id === '1004040980');
 
-const title = 'Services — Highly Visual';
+const title = 'Production services — Highly Visual, Nairobi';
 const description =
-  "Drone and aerial cinematography, long-lens wildlife, film fixing, commercial production. CAA-licensed, KFCB-registered, 14+ countries. Full-stack production services from Nairobi.";
+  'Drone and aerial cinematography, long-lens wildlife, fixing, commercial production. CAA-licensed, KFCB-registered. Full-stack production services from Nairobi.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).toString() },
+    { '@type': 'ListItem', position: 2, name: 'Services', item: new URL('/services/', Astro.site).toString() },
+  ],
+};
+
+const service = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: 'Aerial and natural-history cinematography',
+  provider: { '@id': new URL('/', Astro.site).toString() + '#organization' },
+  areaServed: { '@type': 'Place', name: 'East Africa & worldwide' },
+  description:
+    'Drone-operator and cinematographer-for-hire across natural-history broadcast, fixing for international productions, and end-to-end commercial film production. CAA-licensed, KFCB-registered, 14+ countries on record.',
+};
 ---
-<BaseLayout title={title} description={description}>
+<BaseLayout
+  title={title}
+  description={description}
+  extraSchema={[breadcrumb, service]}
+>
 
   <!-- Services hero -->
   <section class="services-hero">

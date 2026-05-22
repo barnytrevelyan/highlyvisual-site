@@ -2,10 +2,31 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../data/site';
 
-const title = 'Contact — Highly Visual';
-const description = "Get in touch with Barny Trevelyan-Johnson at Highly Visual — Nairobi-based drone operator, cinematographer, and KFCB-registered film fixer.";
+const title = 'Contact Highly Visual — Nairobi';
+const description =
+  'Contact Barny Trevelyan-Johnson at Highly Visual — Nairobi-based drone operator, cinematographer and KFCB-registered film fixer. Direct email or WhatsApp.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).toString() },
+    { '@type': 'ListItem', position: 2, name: 'Contact', item: new URL('/contact/', Astro.site).toString() },
+  ],
+};
+
+const contactPage = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  url: new URL('/contact/', Astro.site).toString(),
+  mainEntity: { '@id': new URL('/', Astro.site).toString() + '#organization' },
+};
 ---
-<BaseLayout title={title} description={description}>
+<BaseLayout
+  title={title}
+  description={description}
+  extraSchema={[breadcrumb, contactPage]}
+>
 
   <!-- Hero -->
   <section class="contact-hero">

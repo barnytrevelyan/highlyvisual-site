@@ -9,12 +9,30 @@ interface Props {
   title: string;
   description: string;
   ogImage?: string;
+  ogType?: 'website' | 'article' | 'profile';
   canonical?: string;
   bodyClass?: string;
+  // JSON-LD blocks injected into <head>. Each entry becomes its own
+  // <script type="application/ld+json"> tag so search engines and AI crawlers
+  // can pick up page-level schema (CreativeWork, BreadcrumbList, VideoObject,
+  // ItemList etc.) on top of the sitewide Organization + Person blocks below.
+  extraSchema?: Record<string, unknown>[];
+  // URL of an image (relative path or absolute) to <link rel="preload"> for LCP.
+  preloadImage?: string;
 }
 
-const { title, description, ogImage = '/img/hero-1-drone-bob-poole.jpg', canonical, bodyClass } = Astro.props;
+const {
+  title,
+  description,
+  ogImage = '/img/portrait-barny-flying.jpg',
+  ogType = 'website',
+  canonical,
+  bodyClass,
+  extraSchema = [],
+  preloadImage,
+} = Astro.props;
 const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
+const absoluteOgImage = new URL(ogImage, Astro.site).toString();
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -40,41 +58,97 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).toStri
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="author" content="Barny Trevelyan-Johnson" />
     <meta name="theme-color" content="#0A0A0B" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <link rel="canonical" href={canonicalURL} />
     <link rel="icon" href="/img/logo.png" type="image/png" />
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:image" content={new URL(ogImage, Astro.site).toString()} />
+    <meta property="og:image" content={absoluteOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${site.name} — ${title}`} />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:locale" content="en_GB" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL(ogImage, Astro.site).toString()} />
+    <meta name="twitter:image" content={absoluteOgImage} />
+    <meta name="twitter:image:alt" content={`${site.name} — ${title}`} />
 
-    <!-- Fonts -->
+    <!-- Performance: preconnect to media providers we embed -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://player.vimeo.com" />
+    <link rel="dns-prefetch" href="https://i.vimeocdn.com" />
+
+    <!-- Fonts — display=swap defers blocking; preconnect above primes the TLS handshake -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-    <!-- Organization JSON-LD -->
+    {preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />}
+
+    <!-- WebSite JSON-LD -->
     <script type="application/ld+json" set:html={JSON.stringify({
       '@context': 'https://schema.org',
-      '@type': 'Organization',
+      '@type': 'WebSite',
+      '@id': site.url + '/#website',
+      url: site.url,
       name: site.name,
+      description: site.description,
+      inLanguage: 'en-GB',
+      publisher: { '@id': site.url + '/#organization' },
+    })} />
+
+    <!-- LocalBusiness + Organization JSON-LD (merged via @type array so the
+         Organization record on the homepage is also a LocalBusiness for Maps
+         and rich-result eligibility) -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': ['Organization', 'LocalBusiness', 'ProfessionalService'],
+      '@id': site.url + '/#organization',
+      name: site.name,
+      alternateName: 'Highly Visual Limited',
       url: site.url,
       logo: site.url + '/img/logo.png',
+      image: site.url + '/img/portrait-barny-flying.jpg',
       foundingDate: '2002',
-      founder: { '@type': 'Person', name: 'Barny Trevelyan-Johnson' },
-      address: { '@type': 'PostalAddress', addressLocality: 'Nairobi', addressCountry: 'KE' },
+      founder: { '@type': 'Person', '@id': site.url + '/#person' },
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Nairobi',
+        addressRegion: 'Nairobi County',
+        addressCountry: 'KE',
+      },
+      geo: { '@type': 'GeoCoordinates', latitude: -1.286389, longitude: 36.817223 },
+      areaServed: [
+        { '@type': 'Country', name: 'Kenya' },
+        { '@type': 'Country', name: 'Tanzania' },
+        { '@type': 'Country', name: 'Uganda' },
+        { '@type': 'Country', name: 'Rwanda' },
+        { '@type': 'Place', name: 'East Africa' },
+      ],
       email: site.email,
       telephone: site.phone,
+      priceRange: '$$$$',
       description: site.description,
+      knowsAbout: [
+        'aerial cinematography',
+        'drone cinematography',
+        'natural history filmmaking',
+        'wildlife cinematography',
+        'film fixing Kenya',
+        'KFCB-registered local film agent',
+        'broadcast production services East Africa',
+      ],
+      hasCredential: [
+        { '@type': 'EducationalOccupationalCredential', credentialCategory: 'license', name: 'UK CAA PfCO UAS 9543 (2017)' },
+        { '@type': 'EducationalOccupationalCredential', credentialCategory: 'registration', name: 'KFCB-registered local film agent (Kenya)' },
+      ],
       sameAs: [
         site.social.instagram,
         site.social.linkedin,
@@ -86,29 +160,42 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).toStri
       ],
     })} />
 
-    <!-- Person JSON-LD -->
+    <!-- Person JSON-LD — Barny as the named operator -->
     <script type="application/ld+json" set:html={JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'Person',
+      '@id': site.url + '/#person',
       name: 'Barny Trevelyan-Johnson',
+      givenName: 'Barny',
+      familyName: 'Trevelyan-Johnson',
       jobTitle: 'Drone Operator · Cinematographer',
-      worksFor: { '@type': 'Organization', name: site.name },
+      worksFor: { '@id': site.url + '/#organization' },
       url: site.url + '/about/',
-      image: site.url + '/img/portrait-attenborough-hires.png',
+      image: site.url + '/img/portrait-barny-flying.jpg',
+      nationality: { '@type': 'Country', name: 'United Kingdom' },
+      workLocation: { '@type': 'City', name: 'Nairobi, Kenya' },
       sameAs: [
         site.social.linkedin,
         site.social.imdb,
         site.social.vimeo,
         site.social.youtube,
         site.social.talentManager,
+        site.social.instagram,
+      ],
+      hasCredential: [
+        { '@type': 'EducationalOccupationalCredential', credentialCategory: 'license', name: 'UK CAA Permission for Commercial Operations — UAS 9543 (2017)' },
       ],
       award: [
-        'Honored by the Television Academy, Primetime Creative Arts Emmy 2021 — Outstanding Cinematography for a Non-Fiction Programme contribution to A Life on Our Planet',
-        'Critics Choice Documentary Award 2022 — Best Cinematography (docuseries) for Our Great National Parks',
-        'Daytime Emmy 2023 — Outstanding Travel, Adventure and Nature Program for Wild Babies',
-        'Jackson Wild 2023 — Animal Behaviour Long Form for Our Planet 2',
+        'Drone-operator contribution to Outstanding Cinematography for a Non-Fiction Programme, 2021 Primetime Creative Arts Emmy Awards — A Life on Our Planet (Silverback Films / Netflix)',
+        'Drone-operator contribution to Best Cinematography (docuseries), 2022 Critics Choice Documentary Awards — Our Great National Parks (Wild Space / Higher Ground / Netflix)',
+        'Drone-operator contribution to Outstanding Travel, Adventure and Nature Program, 2023 Daytime Emmy Awards — Wild Babies (Plimsoll / Netflix)',
+        'Drone-operator contribution to Animal Behaviour Long Form, 2023 Jackson Wild Media Awards — Our Planet 2 (Silverback Films / Netflix)',
       ],
     })} />
+
+    {extraSchema.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
   </head>
   <body class={bodyClass}>
     <a href="#main-content" class="skip-link">Skip to main content</a>
