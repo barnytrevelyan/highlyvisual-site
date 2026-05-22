@@ -29,4 +29,4 @@ Allow: /
 User-agent: anthropic-ai
 Allow: /
 
-Sitemap: https://www.highlyvisual.com/sitemap-index.xml
+Sitemap: https://www.highlyvisual.com/sitemap.xml

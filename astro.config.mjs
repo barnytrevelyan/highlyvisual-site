@@ -1,12 +1,14 @@
 import { defineConfig } from 'astro/config';
-import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 
-// https://astro.build/config
+// @astrojs/sitemap 3.7.2 crashes on this Astro version with "Cannot read
+// properties of undefined (reading 'reduce')" at sitemap/dist/index.js:85
+// and no sitemap file is emitted. Replaced with hand-maintained
+// public/sitemap.xml (19 URLs); robots.txt points to that file.
 export default defineConfig({
   site: 'https://www.highlyvisual.com',
   trailingSlash: 'always',
-  integrations: [sitemap(), mdx()],
+  integrations: [mdx()],
   build: {
     // Inline small CSS into <head> to avoid render-blocking external stylesheets
     // (closes the Nova audit's render-blocking-resources strength baseline).
