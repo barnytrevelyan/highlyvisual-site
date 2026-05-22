@@ -129,35 +129,7 @@ const navItems = [
   }
 </style>
 
-<script is:inline>
-  // Mobile nav toggle. The script is emitted directly after the header markup
-  // in the body, so the button + nav already exist when this runs — no need to
-  // wait for DOMContentLoaded. (Previous DCL-wrapped version never fired its
-  // callback on some load paths because the script executed after DCL had
-  // already passed, leaving the click handler unbound and the hamburger
-  // permanently inert on mobile.)
-  (function () {
-    var btn = document.querySelector('[data-nav-toggle]');
-    var nav = document.querySelector('.primary-nav');
-    if (!btn || !nav) return;
-    btn.addEventListener('click', function () {
-      var open = nav.hasAttribute('data-open');
-      if (open) {
-        nav.removeAttribute('data-open');
-        btn.setAttribute('aria-expanded', 'false');
-      } else {
-        nav.setAttribute('data-open', '');
-        btn.setAttribute('aria-expanded', 'true');
-      }
-    });
-    // Close the menu after tapping any link inside it — keeps the user from
-    // landing on the next page with the dropdown still open.
-    nav.addEventListener('click', function (e) {
-      var a = e.target.closest && e.target.closest('a');
-      if (a && nav.hasAttribute('data-open')) {
-        nav.removeAttribute('data-open');
-        btn.setAttribute('aria-expanded', 'false');
-      }
-    });
-  })();
-</script>
+<!-- Mobile nav toggle moved to an external file at /scripts/nav-toggle.js so
+     it passes `script-src 'self'` in the CSP. Inline scripts would be
+     blocked by the browser before the handler can bind. -->
+<script src="/scripts/nav-toggle.js" defer></script>

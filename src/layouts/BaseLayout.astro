@@ -37,23 +37,11 @@ const absoluteOgImage = new URL(ogImage, Astro.site).toString();
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script is:inline>
-      // Engage the scroll-reveal gate only when JS is available. animations.js
-      // sets window.__hvAnimationsInit when it runs successfully — if that flag
-      // isn't set within 1500ms (404, parse error, blocked by CSP) the safety
-      // timer below forces every .reveal element visible so content can never
-      // be stuck at opacity:0.
-      document.documentElement.classList.add('has-js');
-      window.addEventListener('DOMContentLoaded', function () {
-        setTimeout(function () {
-          if (window.__hvAnimationsInit) return;
-          document.documentElement.classList.remove('has-js');
-          document.querySelectorAll('.reveal, .reveal-stagger').forEach(function (el) {
-            el.classList.add('is-in-view');
-          });
-        }, 1500);
-      });
-    </script>
+    <!-- Scroll-reveal gate + safety timer. Externalised so it passes
+         `script-src 'self'` in the CSP — the inline version was being
+         blocked. Loaded synchronously (no defer/async) so the `.has-js`
+         class is on <html> before the first reveal element paints. -->
+    <script src="/scripts/animations-gate.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
