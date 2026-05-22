@@ -3,7 +3,6 @@ import '../styles/tokens.css';
 import '../styles/animations.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import CredentialBar from '../components/CredentialBar.astro';
 import { site } from '../data/site';
 
 interface Props {
@@ -193,7 +192,6 @@ const absoluteOgImage = new URL(ogImage, Astro.site).toString();
       <slot />
     </main>
     <Footer />
-    <CredentialBar />
     <script is:inline src="/scripts/animations.js" defer></script>
   </body>
 </html>
