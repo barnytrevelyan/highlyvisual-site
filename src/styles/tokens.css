@@ -208,6 +208,18 @@ section { padding-top: var(--space-5); padding-bottom: var(--space-5); }
   transition: transform var(--motion-normal) var(--ease-out);
 }
 .cta:hover::after { transform: translateX(4px); }
+.cta--primary {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+  font-weight: 700;
+}
+.cta--primary:hover {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+  transform: translateY(-2px);
+}
 
 /* Grid utilities */
 .grid { display: grid; gap: var(--space-2); }
