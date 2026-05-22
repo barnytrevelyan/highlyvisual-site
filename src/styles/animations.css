@@ -78,11 +78,11 @@ html.has-js .reveal-stagger.is-in-view > * {
 .hero-rotator__slide:nth-child(3) .hero-rotator__img { animation-duration: 18s; }
 .hero-rotator__slide:nth-child(4) .hero-rotator__img { animation-duration: 20s; animation-direction: alternate-reverse; }
 
-/* === Hero video (when URL supplied) — sits above rotator === */
+/* === Hero video (when URL supplied) — sits above rotator, below hero content (z-index:4) === */
 .hero-video-wrap {
   position: absolute; inset: 0;
   overflow: hidden;
-  z-index: -1;
+  z-index: 1;
   background: var(--bg);
 }
 .hero-video {
@@ -94,7 +94,9 @@ html.has-js .reveal-stagger.is-in-view > * {
   border: 0;
   pointer-events: none;
 }
-@media (prefers-reduced-motion: reduce) {
+/* Hide the Vimeo iframe on phones (saves data + CPU; Ken-Burns rotator
+   still plays as the fallback) and when reduced-motion is requested. */
+@media (max-width: 768px), (prefers-reduced-motion: reduce) {
   .hero-video-wrap { display: none; }
 }
 
