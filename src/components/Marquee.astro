@@ -1,0 +1,33 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  items?: string[];
+  label?: string;
+}
+
+const { items = site.productionHouses, label = 'Production houses' } = Astro.props;
+
+// Duplicate for seamless loop
+const doubled = [...items, ...items];
+---
+<section class="container marquee-section reveal" aria-label={label}>
+  <p class="section-title">{label}</p>
+  <div class="marquee" aria-hidden="false">
+    <div class="marquee-track">
+      {doubled.map((name, i) => (
+        <>
+          <span class="marquee-item">{name}</span>
+          {i < doubled.length - 1 && <span class="marquee-dot">·</span>}
+        </>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .marquee-section {
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
+  }
+</style>

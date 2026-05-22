@@ -1,0 +1,102 @@
+---
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <h4>Contact</h4>
+        <p><a href="mailto:info@highlyvisual.com">info@highlyvisual.com</a></p>
+        <p><a href="tel:+254701397911">+254 701 397 911</a></p>
+        <p>Nairobi, Kenya</p>
+      </div>
+      <div>
+        <h4>Sister sites</h4>
+        <p>
+          <a href="https://hirevisual.com" target="_blank" rel="noopener noreferrer">
+            hirevisual.com — Cinema-grade rental
+          </a>
+        </p>
+        <p>
+          <a href="https://stock.highlyvisual.com" target="_blank" rel="noopener noreferrer">
+            stock.highlyvisual.com — 4K+ stock archive
+          </a>
+        </p>
+      </div>
+      <div>
+        <h4>Social</h4>
+        <p><a href="https://www.instagram.com/highlyvisualke" target="_blank" rel="noopener noreferrer">Instagram</a></p>
+        <p><a href="https://www.linkedin.com/in/barny-trevelyan-johnson-a7770629" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
+        <p><a href="https://vimeo.com/user10135626" target="_blank" rel="noopener noreferrer">Vimeo</a></p>
+        <p><a href="https://www.youtube.com/channel/UCVF7zJB-SFLV6aWQ7sK1zSw" target="_blank" rel="noopener noreferrer">YouTube</a></p>
+        <p><a href="https://www.imdb.com/name/nm8536047/" target="_blank" rel="noopener noreferrer">IMDb</a></p>
+      </div>
+      <div>
+        <h4>Credentials</h4>
+        <p>CAA-licensed (PfCO UAS 9543, 2017)</p>
+        <p>KFCB-registered local film agent</p>
+        <p>Operating in 14+ countries</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© {year} Highly Visual</span>
+      <span aria-hidden="true">·</span>
+      <span>All footage 4K or higher</span>
+      <span aria-hidden="true">·</span>
+      <span>Licensed drone operator</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    margin-top: var(--space-5);
+  }
+  .footer-inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: var(--space-4) var(--container-pad);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+  .site-footer h4 {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 var(--space-2);
+  }
+  .site-footer p {
+    font-size: 14px;
+    margin: 0 0 6px;
+    line-height: 1.5;
+  }
+  .site-footer a {
+    color: var(--text);
+    text-decoration: none;
+    display: inline-block;
+    min-height: 24px;
+  }
+  .site-footer a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    opacity: 1;
+  }
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: var(--space-2);
+    font-size: 12px;
+    color: var(--text-faint);
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+  @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
+</style>

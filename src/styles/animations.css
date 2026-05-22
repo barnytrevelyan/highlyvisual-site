@@ -1,0 +1,391 @@
+/* Animation system — Highly Visual
+   Scroll-triggered reveal, hero rotator, testimonial carousel, ken-burns, card hovers.
+   Hooked up by /src/scripts/animations.js using IntersectionObserver.
+   All animations are CSS-driven; JS only toggles `.is-in-view`. */
+
+/* === Scroll reveal ===
+   Content is visible by default. The `.has-js` class is added to <html> by
+   animations.js as soon as it runs, which engages the fade-in gate. If the
+   script fails to load or errors out, the gate never engages and content stays
+   visible — that's the fallback. A safety-net timer in BaseLayout's inline
+   script also forces .is-in-view on every reveal element if the runtime
+   hasn't booted within 1500ms. */
+html.has-js .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity var(--motion-reveal) var(--ease-out-soft),
+    transform var(--motion-reveal) var(--ease-out-soft);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+html.has-js .reveal.is-in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+html.has-js .reveal--scale {
+  transform: translateY(28px) scale(0.985);
+}
+html.has-js .reveal--scale.is-in-view { transform: translateY(0) scale(1); }
+html.has-js .reveal--fade { transform: none; }
+
+/* Staggered children — uses --i CSS var set by JS */
+html.has-js .reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--motion-reveal) var(--ease-out-soft),
+    transform var(--motion-reveal) var(--ease-out-soft);
+}
+html.has-js .reveal-stagger.is-in-view > * {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+
+/* === Hero rotator (cross-fading still images with Ken Burns) === */
+.hero-rotator {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--bg);
+}
+.hero-rotator__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 2000ms var(--ease-in-out);
+  will-change: opacity, transform;
+}
+.hero-rotator__slide.is-active {
+  opacity: 1;
+}
+.hero-rotator__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  animation: ken-burns 16s ease-in-out infinite alternate;
+}
+@keyframes ken-burns {
+  0%   { transform: scale(1.02) translate(0, 0); }
+  50%  { transform: scale(1.10) translate(-1.5%, -1%); }
+  100% { transform: scale(1.05) translate(1%, -1.5%); }
+}
+
+.hero-rotator__slide:nth-child(2) .hero-rotator__img { animation-direction: alternate-reverse; }
+.hero-rotator__slide:nth-child(3) .hero-rotator__img { animation-duration: 18s; }
+.hero-rotator__slide:nth-child(4) .hero-rotator__img { animation-duration: 20s; animation-direction: alternate-reverse; }
+
+/* === Hero video (when URL supplied) — sits above rotator === */
+.hero-video-wrap {
+  position: absolute; inset: 0;
+  overflow: hidden;
+  z-index: 1;
+  background: var(--bg);
+}
+.hero-video {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw; height: 56.25vw;
+  min-height: 100vh; min-width: 177.78vh;
+  border: 0;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-video-wrap { display: none; }
+}
+
+/* === Testimonial carousel === */
+.testimonial-carousel {
+  position: relative;
+  overflow: hidden;
+}
+.testimonial-track {
+  display: flex;
+  transition: transform 700ms var(--ease-out-soft);
+  will-change: transform;
+}
+.testimonial-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  padding: var(--space-4) clamp(20px, 6vw, 80px);
+  text-align: center;
+}
+.testimonial-quote {
+  position: relative;
+  font-size: clamp(18px, 1.8vw, 24px);
+  line-height: 1.55;
+  font-style: italic;
+  color: var(--text);
+  max-width: 880px;
+  margin: 0 auto var(--space-3);
+}
+.testimonial-quote::before {
+  content: "“";
+  display: block;
+  font-style: normal;
+  font-family: serif;
+  font-size: 64px;
+  line-height: 1;
+  color: var(--text-faint);
+  margin-bottom: var(--space-1);
+}
+.testimonial-attrib {
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+.testimonial-attrib strong {
+  color: var(--text);
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.testimonial-attrib em {
+  font-style: normal;
+  color: var(--text-faint);
+}
+.testimonial-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+.testimonial-dot {
+  width: 32px;
+  height: 3px;
+  background: var(--border-strong);
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: background var(--motion-normal), width var(--motion-normal);
+}
+.testimonial-dot[aria-current="true"] {
+  background: var(--text);
+  width: 48px;
+}
+.testimonial-prev, .testimonial-next {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background var(--motion-normal), border-color var(--motion-normal);
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.testimonial-prev:hover, .testimonial-next:hover {
+  background: var(--surface-2);
+  border-color: var(--text);
+}
+
+/* === Credit-card grid === */
+.credit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-1);
+}
+.credit-card {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--surface);
+  transition: transform var(--motion-normal) var(--ease-out), box-shadow var(--motion-normal) var(--ease-out);
+  cursor: default;
+}
+.credit-card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 800ms var(--ease-out-soft), filter var(--motion-normal);
+  filter: brightness(0.92);
+}
+.credit-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  z-index: 2;
+}
+.credit-card:hover img {
+  transform: scale(1.06);
+  filter: brightness(1);
+}
+.credit-card__caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: var(--space-2);
+  background: linear-gradient(to top, rgba(10,10,11,0.85) 0%, rgba(10,10,11,0) 100%);
+  color: var(--text);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity var(--motion-normal), transform var(--motion-normal);
+}
+.credit-card:hover .credit-card__caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* === Marquee — for client/production house lists when we want them moving === */
+.marquee {
+  overflow: hidden;
+  position: relative;
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+.marquee-track {
+  display: inline-flex;
+  gap: var(--space-4);
+  white-space: nowrap;
+  animation: marquee 45s linear infinite;
+  padding: var(--space-2) 0;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-item {
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  display: inline-block;
+}
+.marquee-dot {
+  color: var(--text-faint);
+  margin: 0 var(--space-2);
+  font-size: 18px;
+}
+
+/* === Awards strip === */
+.awards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-3);
+}
+.award-card {
+  padding: var(--space-3);
+  background: var(--surface);
+  border-left: 2px solid var(--accent);
+  transition: background var(--motion-normal), border-color var(--motion-normal);
+}
+.award-card:hover { background: var(--surface-2); }
+.award-year {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  margin: 0 0 var(--space-1);
+}
+.award-headline {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.35;
+  margin: 0 0 var(--space-1);
+}
+.award-production {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0 0 var(--space-1);
+}
+.award-production em { color: var(--text); font-style: italic; }
+.award-role {
+  font-size: 12px;
+  color: var(--text-faint);
+  letter-spacing: 0.04em;
+}
+
+/* === Service / capability cards (used on home + /services/) === */
+.service-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  overflow: hidden;
+  height: 100%;
+  text-decoration: none;
+  color: var(--text);
+  transition: background var(--motion-normal), transform var(--motion-normal);
+}
+.service-card:hover {
+  background: var(--surface-2);
+  transform: translateY(-3px);
+  opacity: 1;
+}
+.service-card__img {
+  position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+.service-card__img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 1200ms var(--ease-out-soft);
+}
+.service-card:hover .service-card__img img { transform: scale(1.05); }
+.service-card__body { padding: var(--space-3) var(--space-3) var(--space-4); }
+.service-card__title {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0 0 var(--space-1);
+  letter-spacing: -0.01em;
+}
+.service-card__desc {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin: 0 0 var(--space-2);
+}
+.service-card__more {
+  font-size: 13px;
+  color: var(--text);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.service-card__more::after { content: " →"; transition: transform var(--motion-normal); display: inline-block; }
+.service-card:hover .service-card__more::after { transform: translateX(4px); }
+
+/* === Timeline (company history) === */
+.timeline {
+  position: relative;
+  padding-left: var(--space-4);
+  margin: var(--space-3) 0;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: var(--border-strong);
+}
+.timeline-event {
+  position: relative;
+  margin-bottom: var(--space-4);
+}
+.timeline-event::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--space-4) + 3px);
+  top: 8px;
+  width: 9px;
+  height: 9px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+.timeline-year {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin: 0 0 var(--space-1);
+}
+.timeline-event h3 { font-size: 19px; margin: 0 0 6px; }
+.timeline-event p { color: var(--text-muted); font-size: 15px; line-height: 1.6; margin: 0; }

@@ -1,0 +1,401 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getTestimonialBySlug } from '../../data/testimonials';
+import { caseStudyVideos, getVideoById } from '../../data/videos';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('work');
+  return entries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry, allEntries: entries },
+  }));
+}
+
+const { entry, allEntries } = Astro.props;
+const { Content } = await entry.render();
+const d = entry.data;
+const testimonial = getTestimonialBySlug(entry.slug);
+const video = caseStudyVideos[entry.slug] ? getVideoById(caseStudyVideos[entry.slug]) : undefined;
+
+// Related — same lane, exclude self
+const related = allEntries
+  .filter((e: any) => e.data.lane === d.lane && e.slug !== entry.slug)
+  .slice(0, 3);
+
+// JSON-LD
+const jsonld: any = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: d.title,
+  about: d.summary,
+  contentLocation: d.location,
+  dateCreated: d.year,
+  creator: { '@type': 'Person', name: 'Barny Trevelyan-Johnson', jobTitle: d.role },
+  productionCompany: { '@type': 'Organization', name: d.productionHouse },
+  image: new URL(d.heroImage, Astro.site).toString(),
+};
+if (d.distributor) jsonld.publisher = { '@type': 'Organization', name: d.distributor };
+
+const videoJsonld = video
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'VideoObject',
+      name: video.title,
+      description: video.description,
+      thumbnailUrl: new URL(video.thumbnail, Astro.site).toString(),
+      embedUrl: video.embedUrl,
+      uploadDate: video.uploadDate,
+      duration: `PT${Math.floor(video.duration / 60)}M${video.duration % 60}S`,
+    }
+  : null;
+---
+<BaseLayout
+  title={`${d.title} — Highly Visual`}
+  description={d.summary}
+  ogImage={d.heroImage}
+>
+  <article class="case-study">
+    <!-- Hero -->
+    <header class="cs-hero">
+      <img class="cs-hero-img" src={d.heroImage} alt={d.heroAlt} loading="eager" fetchpriority="high" />
+      <div class="cs-hero-gradient" aria-hidden="true"></div>
+      <div class="container cs-hero-content reveal">
+        <p class="cs-meta-line">
+          <span class="tag">{d.lane.replace('-', ' ')}</span>
+          {' '}{d.year}{d.location && <> · {d.location}</>}
+        </p>
+        <h1>{d.title}</h1>
+        <p class="cs-role">{d.role}</p>
+        <p class="cs-house">
+          {d.productionHouse}{d.distributor && <> · {d.distributor}</>}
+        </p>
+      </div>
+    </header>
+
+    <div class="container cs-layout">
+      <!-- Body content -->
+      <div class="cs-prose reveal">
+        <Content />
+      </div>
+
+      <!-- Sidebar credits -->
+      <aside class="cs-sidebar reveal">
+        <div class="cs-credit-block">
+          <p class="section-title">Credits</p>
+          <dl>
+            <div><dt>Production</dt><dd>{d.productionHouse}</dd></div>
+            {d.distributor && <div><dt>Distributor</dt><dd>{d.distributor}</dd></div>}
+            <div><dt>Role</dt><dd>{d.role}</dd></div>
+            <div><dt>Year</dt><dd>{d.year}</dd></div>
+            {d.location && <div><dt>Location</dt><dd>{d.location}</dd></div>}
+            {d.awardFraming && <div><dt>Award</dt><dd class="cs-award">{d.awardFraming}</dd></div>}
+          </dl>
+        </div>
+
+        {d.pressLinks && d.pressLinks.length > 0 && (
+          <div class="cs-credit-block">
+            <p class="section-title">Press</p>
+            <ul class="cs-press-list">
+              {d.pressLinks.map((p) => (
+                <li><a href={p.url} target="_blank" rel="noopener noreferrer">{p.label} ↗</a></li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </aside>
+    </div>
+
+    <!-- Video embed (if available) -->
+    {video && (
+      <div class="container cs-video-section reveal">
+        <p class="section-title">Watch</p>
+        <h2>{video.title}</h2>
+        <p class="section-lede">{video.description}</p>
+        <div class="cs-video">
+          <iframe
+            src={video.embedUrl}
+            title={video.title}
+            loading="lazy"
+            allow="autoplay; fullscreen; picture-in-picture"
+            referrerpolicy="strict-origin-when-cross-origin"
+            sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"></iframe>
+        </div>
+      </div>
+    )}
+
+    <!-- Body images gallery -->
+    {d.bodyImages && d.bodyImages.length > 0 && (
+      <div class="container cs-body-images reveal" aria-label="Gallery">
+        <p class="section-title">Stills from the work</p>
+        <div class={`cs-body-images-grid ${d.bodyImages.length === 1 ? 'is-1' : d.bodyImages.length === 2 ? 'is-2' : 'is-3plus'} reveal-stagger`}>
+          {d.bodyImages.map((img) => (
+            <figure>
+              <img src={img.src} alt={img.alt} loading="lazy" />
+              {img.caption && <figcaption>{img.caption}</figcaption>}
+            </figure>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Testimonial pull-quote -->
+    {testimonial && (
+      <section class="container cs-testimonial reveal" aria-label="What the client said">
+        <p class="section-title">What the client said</p>
+        <figure class="pull-quote-card">
+          <blockquote>{testimonial.quote}</blockquote>
+          <figcaption>
+            <strong>{testimonial.speaker}</strong> · {testimonial.role} · <em>{testimonial.production}</em>{testimonial.distributor && <> · {testimonial.distributor}</>}
+          </figcaption>
+        </figure>
+      </section>
+    )}
+
+    <!-- Related projects -->
+    {related.length > 0 && (
+      <section class="container cs-related reveal" aria-label="Related projects">
+        <p class="section-title">Other {d.lane.replace('-', ' ')} work</p>
+        <div class="grid grid-3 reveal-stagger">
+          {related.map((r: any) => (
+            <a href={`/work/${r.slug}/`} class="card">
+              <div class="card-img-wrap">
+                <img class="card-img" src={r.data.cardImage ?? r.data.heroImage} alt={r.data.cardAlt ?? r.data.heroAlt} loading="lazy" />
+              </div>
+              <div class="card-meta">
+                <h3 class="card-title">{r.data.title}</h3>
+                <p class="card-sub">{r.data.role} · {r.data.productionHouse}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Back -->
+    <p class="container cs-back-row">
+      <a href="/work/" class="cta cta--ghost">← All work</a>
+      <a href="/contact/" class="cta">Discuss a project</a>
+    </p>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
+  {videoJsonld && <script type="application/ld+json" set:html={JSON.stringify(videoJsonld)} />}
+</BaseLayout>
+
+<style>
+  .case-study { margin-bottom: var(--space-5); }
+
+  /* Hero */
+  .cs-hero {
+    position: relative;
+    width: 100%;
+    height: 85vh;
+    min-height: 540px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+  .cs-hero-img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    animation: ken-burns 18s ease-in-out infinite alternate;
+  }
+  .cs-hero-gradient {
+    position: absolute; inset: 0; z-index: 2;
+    background: linear-gradient(to bottom, rgba(10,10,11,0.5) 0%, rgba(10,10,11,0) 30%, rgba(10,10,11,0) 55%, rgba(10,10,11,0.95) 100%);
+  }
+  .cs-hero-content {
+    position: relative; z-index: 3;
+    width: 100%;
+    padding-bottom: clamp(40px, 6vh, 100px);
+  }
+  .cs-hero h1 {
+    font-size: clamp(36px, 6vw, 72px);
+    margin: var(--space-1) 0 var(--space-2);
+    line-height: 1.04;
+  }
+  .cs-meta-line {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    flex-wrap: wrap;
+  }
+  .cs-role {
+    font-size: clamp(17px, 1.6vw, 22px);
+    color: var(--text);
+    margin: 0 0 4px;
+    font-weight: 500;
+  }
+  .cs-house {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  /* Two-column layout below hero */
+  .cs-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: var(--space-5);
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-4);
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .cs-layout { grid-template-columns: 1fr; gap: var(--space-3); }
+  }
+
+  .cs-prose {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--text);
+    max-width: 60ch;
+  }
+  .cs-prose :global(h2) {
+    font-size: clamp(22px, 2.6vw, 30px);
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-2);
+  }
+  .cs-prose :global(h3) { font-size: 20px; margin-top: var(--space-3); margin-bottom: var(--space-1); }
+  .cs-prose :global(p) { margin-bottom: var(--space-2); }
+  .cs-prose :global(strong) { color: var(--text); }
+  .cs-prose :global(a) { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+  .cs-prose :global(em) { font-style: italic; }
+  .cs-prose :global(ul) { padding-left: var(--space-3); margin-bottom: var(--space-3); }
+  .cs-prose :global(li) { margin-bottom: 4px; }
+  .cs-prose :global(blockquote) {
+    border-left: 2px solid var(--accent);
+    padding: var(--space-1) var(--space-3);
+    margin: var(--space-3) 0;
+    font-style: italic;
+    color: var(--text);
+  }
+
+  .cs-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    position: sticky;
+    top: 100px;
+  }
+  @media (max-width: 900px) {
+    .cs-sidebar { position: static; }
+  }
+  .cs-credit-block {
+    padding: var(--space-3);
+    background: var(--surface);
+    border-left: 2px solid var(--accent);
+  }
+  .cs-credit-block dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 8px var(--space-2);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .cs-credit-block dt { color: var(--text-muted); margin: 0; }
+  .cs-credit-block dd { color: var(--text); margin: 0; }
+  .cs-award { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+  .cs-press-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-1) 0 0;
+  }
+  .cs-press-list li {
+    padding: 8px 0;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .cs-press-list li:first-child { border-top: 0; }
+  .cs-press-list a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+
+  /* Video */
+  .cs-video-section {
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
+  }
+  .cs-video-section h2 { margin: var(--space-1) 0 var(--space-1); }
+  .cs-video-section .section-lede { margin-bottom: var(--space-3); }
+  .cs-video {
+    position: relative;
+    padding-top: 56.25%;
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .cs-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+  /* Body image gallery */
+  .cs-body-images {
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
+  }
+  .cs-body-images-grid {
+    display: grid;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+  }
+  .cs-body-images-grid.is-1 { grid-template-columns: 1fr; }
+  .cs-body-images-grid.is-2 { grid-template-columns: 1fr 1fr; }
+  .cs-body-images-grid.is-3plus { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 768px) {
+    .cs-body-images-grid.is-2, .cs-body-images-grid.is-3plus { grid-template-columns: 1fr; }
+  }
+  .cs-body-images-grid figure { margin: 0; }
+  .cs-body-images-grid img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    aspect-ratio: 3/2;
+    transition: transform 1000ms var(--ease-out-soft);
+  }
+  .cs-body-images-grid figure:hover img { transform: scale(1.03); }
+  .cs-body-images-grid figcaption {
+    font-size: 12px;
+    color: var(--text-muted);
+    padding-top: 6px;
+  }
+
+  /* Testimonial pull-quote on case study */
+  .cs-testimonial { padding-top: var(--space-5); padding-bottom: var(--space-3); }
+  .pull-quote-card {
+    margin: 0;
+    padding: var(--space-4);
+    background: var(--surface);
+    border-left: 2px solid var(--accent);
+  }
+  .pull-quote-card blockquote {
+    font-size: clamp(18px, 1.8vw, 22px);
+    line-height: 1.55;
+    font-style: italic;
+    color: var(--text);
+    margin: 0 0 var(--space-2);
+  }
+  .pull-quote-card figcaption {
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+  .pull-quote-card strong { color: var(--text); }
+
+  /* Related */
+  .cs-related { padding-top: var(--space-5); padding-bottom: var(--space-4); }
+
+  /* Back */
+  .cs-back-row {
+    display: flex;
+    gap: var(--space-2);
+    margin: 0 auto;
+    padding-top: var(--space-3);
+    padding-bottom: var(--space-5);
+    flex-wrap: wrap;
+  }
+</style>

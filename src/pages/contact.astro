@@ -1,0 +1,232 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+
+const title = 'Contact — Highly Visual';
+const description = "Get in touch with Barny Trevelyan-Johnson at Highly Visual — Nairobi-based drone operator, cinematographer, and KFCB-registered film fixer.";
+---
+<BaseLayout title={title} description={description}>
+
+  <!-- Hero -->
+  <section class="contact-hero">
+    <img class="contact-hero__bg" src="/img/bts-elephants-sunset.jpg" alt="" loading="eager" />
+    <div class="contact-hero__gradient" aria-hidden="true"></div>
+    <div class="container contact-hero__content reveal">
+      <p class="eyebrow">Contact</p>
+      <h1>Let's talk.</h1>
+      <p class="contact-hero__lede">
+        Word-of-mouth referrals are how most projects find me. The fastest path is direct email
+        or WhatsApp. If you've been referred by a production house I've worked with before,
+        mentioning who sent you helps me reply faster.
+      </p>
+    </div>
+  </section>
+
+  <!-- Contact methods -->
+  <section class="container reveal" aria-label="Contact methods">
+    <div class="contact-grid reveal-stagger">
+
+      <a class="contact-card contact-card--primary" href={`mailto:${site.email}`}>
+        <p class="eyebrow">Email</p>
+        <p class="contact-card__value">{site.email}</p>
+        <p class="contact-card__note">Best for project briefs, scope documents and attachments.</p>
+        <span class="contact-card__cta">Open email →</span>
+      </a>
+
+      <a class="contact-card contact-card--primary" href={site.whatsapp} target="_blank" rel="noopener noreferrer">
+        <p class="eyebrow">Phone &amp; WhatsApp</p>
+        <p class="contact-card__value">{site.phone}</p>
+        <p class="contact-card__note">WhatsApp preferred for international callers. Voice answered Nairobi business hours (EAT, UTC+3).</p>
+        <span class="contact-card__cta">Open WhatsApp ↗</span>
+      </a>
+
+      <div class="contact-card">
+        <p class="eyebrow">Location</p>
+        <p class="contact-card__value">{site.location}</p>
+        <p class="contact-card__note">Travel for shoots is the norm — 14+ countries on the working record. Nairobi base for permits, kit and pre-production.</p>
+      </div>
+
+      <div class="contact-card">
+        <p class="eyebrow">Find me online</p>
+        <div class="social-stack">
+          <a href={site.social.instagram} target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a>
+          <a href={site.social.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+          <a href={site.social.vimeo} target="_blank" rel="noopener noreferrer">Vimeo <span aria-hidden="true">↗</span></a>
+          <a href={site.social.youtube} target="_blank" rel="noopener noreferrer">YouTube <span aria-hidden="true">↗</span></a>
+          <a href={site.social.imdb} target="_blank" rel="noopener noreferrer">IMDb <span aria-hidden="true">↗</span></a>
+          <a href={site.social.talentManager} target="_blank" rel="noopener noreferrer">The Talent Manager <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Sister sites cross-reference -->
+  <section class="container reveal sister-cross" aria-label="Sister sites">
+    <p class="section-title">Looking for something else?</p>
+    <h2>Two sister businesses.</h2>
+    <div class="sister-cross-grid">
+      <a href={site.sister.hire.url} target="_blank" rel="noopener noreferrer" class="sister-cross-card">
+        <h3>Equipment hire</h3>
+        <p>For rental enquiries, go direct to <strong>hirevisual.com</strong> — cinema-grade DJI drones, Sony FX-series cinema cameras, full lighting and audio kits.</p>
+        <span class="contact-card__cta">hirevisual.com ↗</span>
+      </a>
+      <a href={site.sister.stock.url} target="_blank" rel="noopener noreferrer" class="sister-cross-card">
+        <h3>Stock footage licensing</h3>
+        <p>For stock-footage licensing enquiries, go direct to <strong>stock.highlyvisual.com</strong> — 1,200+ broadcast 4K+ clips, with discounted rates for African productions, students and NGOs.</p>
+        <span class="contact-card__cta">stock.highlyvisual.com ↗</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Quick links -->
+  <section class="container reveal quick-links" aria-label="Quick links">
+    <p class="section-title">Or jump straight to</p>
+    <div class="quick-links-row">
+      <a href="/work/" class="cta cta--ghost">See the work</a>
+      <a href="/fixing/" class="cta cta--ghost">Fixing services</a>
+      <a href="/services/" class="cta cta--ghost">Production services</a>
+      <a href="/credits/" class="cta cta--ghost">Full credits</a>
+      <a href="/about/" class="cta cta--ghost">About</a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .contact-hero {
+    position: relative;
+    height: 60vh;
+    min-height: 440px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+  .contact-hero__bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    animation: ken-burns 22s ease-in-out infinite alternate;
+  }
+  .contact-hero__gradient {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(to bottom, rgba(10,10,11,0.5) 0%, rgba(10,10,11,0.1) 30%, rgba(10,10,11,0.92) 100%);
+  }
+  .contact-hero__content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding-bottom: clamp(40px, 6vh, 80px);
+  }
+  .contact-hero__content h1 { margin: var(--space-1) 0 var(--space-3); }
+  .contact-hero__lede {
+    font-size: clamp(17px, 1.5vw, 22px);
+    line-height: 1.55;
+    max-width: 700px;
+    color: var(--text);
+    opacity: 0.92;
+  }
+
+  /* Contact grid */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+  }
+  @media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; } }
+
+  .contact-card {
+    display: block;
+    padding: var(--space-4);
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    border-left: 2px solid var(--border-strong);
+    transition: border-left-color var(--motion-normal), background var(--motion-normal), transform var(--motion-normal);
+  }
+  .contact-card--primary:hover {
+    border-left-color: var(--accent);
+    background: var(--surface-2);
+    transform: translateX(4px);
+    opacity: 1;
+  }
+  .contact-card__value {
+    font-size: clamp(22px, 2.5vw, 32px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: var(--space-1) 0 var(--space-2);
+    color: var(--text);
+  }
+  .contact-card__note {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin: 0 0 var(--space-2);
+  }
+  .contact-card__cta {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.04em;
+  }
+
+  /* Social stack */
+  .social-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: var(--space-1);
+  }
+  .social-stack a {
+    font-size: 16px;
+    color: var(--text);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .social-stack a:last-child { border-bottom: 0; }
+  .social-stack a:hover { color: var(--accent); opacity: 1; }
+
+  /* Sister cross-reference */
+  .sister-cross { padding-top: var(--space-5); }
+  .sister-cross-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+  @media (max-width: 768px) { .sister-cross-grid { grid-template-columns: 1fr; } }
+  .sister-cross-card {
+    display: block;
+    padding: var(--space-4);
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    transition: background var(--motion-normal), transform var(--motion-normal);
+    border-top: 2px solid var(--accent);
+  }
+  .sister-cross-card:hover {
+    background: var(--surface-2);
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+  .sister-cross-card h3 { font-size: 24px; margin: 0 0 var(--space-2); }
+  .sister-cross-card p { font-size: 15px; color: var(--text-muted); line-height: 1.6; margin: 0 0 var(--space-2); }
+
+  /* Quick links */
+  .quick-links {
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-6);
+  }
+  .quick-links-row {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-top: var(--space-2);
+  }
+</style>

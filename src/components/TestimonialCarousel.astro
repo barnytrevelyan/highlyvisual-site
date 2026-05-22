@@ -1,0 +1,57 @@
+---
+import { testimonials as defaultTestimonials, type Testimonial } from '../data/testimonials';
+
+interface Props {
+  items?: Testimonial[];
+  autorotate?: boolean;
+  interval?: number;
+  label?: string;
+}
+
+const {
+  items = defaultTestimonials,
+  autorotate = true,
+  interval = 8000,
+  label = 'Testimonials',
+} = Astro.props;
+---
+<section class="container testimonial-section reveal" aria-label={label}>
+  <p class="section-title">What clients say</p>
+  <div class="testimonial-carousel"
+       data-autorotate={String(autorotate)}
+       data-interval={String(interval)}
+       tabindex="0"
+       role="region"
+       aria-roledescription="carousel"
+       aria-label={label}>
+    <div class="testimonial-track">
+      {items.map((t) => (
+        <article class="testimonial-slide" aria-roledescription="slide">
+          <blockquote class="testimonial-quote">{t.quote}</blockquote>
+          <p class="testimonial-attrib">
+            <strong>{t.speaker}</strong> · {t.role} · <em>{t.production}</em>{t.distributor && <> · {t.distributor}</>}
+          </p>
+        </article>
+      ))}
+    </div>
+    <div class="testimonial-controls">
+      <button class="testimonial-prev" type="button" aria-label="Previous testimonial">‹</button>
+      <div class="testimonial-dots" role="tablist" aria-label="Testimonial navigation">
+        {items.map((_, i) => (
+          <button class="testimonial-dot" type="button" role="tab" aria-label={`Testimonial ${i+1}`} aria-current={i === 0 ? 'true' : 'false'}></button>
+        ))}
+      </div>
+      <button class="testimonial-next" type="button" aria-label="Next testimonial">›</button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonial-section {
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-5);
+  }
+  .testimonial-section .section-title {
+    text-align: center;
+  }
+</style>

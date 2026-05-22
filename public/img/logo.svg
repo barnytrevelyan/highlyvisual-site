@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 130" role="img" aria-label="Highly Visual">
+  <ellipse cx="240" cy="65" rx="232" ry="58" fill="none" stroke="currentColor" stroke-width="3"/>
+  <text x="240" y="68" text-anchor="middle" dominant-baseline="central"
+        fill="currentColor"
+        font-family="Inter, -apple-system, BlinkMacSystemFont, system-ui, sans-serif"
+        font-weight="700" font-size="58" letter-spacing="-0.005em">Highly Visual</text>
+</svg>

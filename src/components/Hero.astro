@@ -1,0 +1,138 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  rotator?: Array<{ src: string; alt: string }>;
+  videoUrl?: string | null;
+  title: string;
+  sub: string;
+  cta?: { label: string; href: string };
+  secondaryCta?: { label: string; href: string };
+  height?: 'full' | 'large' | 'medium';
+}
+
+const {
+  rotator = site.hero.rotator,
+  videoUrl = site.hero.videoUrl,
+  title,
+  sub,
+  cta,
+  secondaryCta,
+  height = 'full',
+} = Astro.props;
+---
+<section class={`hero hero--${height}`} aria-label="Hero">
+  <!-- Cinematic still rotator with Ken Burns. Replaced by video iframe if videoUrl is set. -->
+  <div class="hero-rotator" data-interval="5500" aria-hidden="true">
+    {rotator.map((slide, i) => (
+      <div class={`hero-rotator__slide ${i === 0 ? 'is-active' : ''}`}>
+        <img class="hero-rotator__img"
+             src={slide.src}
+             alt={slide.alt}
+             loading={i === 0 ? 'eager' : 'lazy'}
+             fetchpriority={i === 0 ? 'high' : 'auto'} />
+      </div>
+    ))}
+  </div>
+
+  {videoUrl && (
+    <div class="hero-video-wrap" aria-hidden="true">
+      <iframe class="hero-video"
+              src={videoUrl}
+              title="Natural-history showreel"
+              frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture"
+              loading="eager"
+              referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+  )}
+
+  <div class="hero-gradient" aria-hidden="true"></div>
+
+  <div class="hero-content container">
+    <div class="reveal">
+      <p class="eyebrow">Highly Visual · Nairobi · est. 2002</p>
+      <h1 set:html={title} />
+      <p class="hero-sub">{sub}</p>
+      <div class="hero-ctas">
+        {cta && <a href={cta.href} class="cta">{cta.label}</a>}
+        {secondaryCta && <a href={secondaryCta.href} class="cta cta--ghost">{secondaryCta.label}</a>}
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll-hint" aria-hidden="true">
+    <span>Scroll</span>
+    <svg width="14" height="22" viewBox="0 0 14 22" fill="none">
+      <rect x="0.5" y="0.5" width="13" height="21" rx="6.5" stroke="currentColor" opacity="0.6"/>
+      <rect x="6" y="5" width="2" height="5" rx="1" fill="currentColor">
+        <animate attributeName="y" values="5;9;5" dur="2.4s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="1;0.2;1" dur="2.4s" repeatCount="indefinite" />
+      </rect>
+    </svg>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    background: var(--bg);
+  }
+  .hero--full   { height: 100vh; min-height: 640px; }
+  .hero--large  { height: 80vh;  min-height: 560px; }
+  .hero--medium { height: 60vh;  min-height: 440px; }
+
+  .hero-gradient {
+    position: absolute; inset: 0;
+    z-index: 3;
+    background:
+      linear-gradient(to bottom, rgba(10,10,11,0.55) 0%, rgba(10,10,11,0) 25%, rgba(10,10,11,0) 55%, rgba(10,10,11,0.95) 100%),
+      linear-gradient(to right, rgba(10,10,11,0.4) 0%, rgba(10,10,11,0) 60%);
+    pointer-events: none;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 4;
+    width: 100%;
+    padding-bottom: clamp(48px, 8vh, 120px);
+  }
+  .hero h1 {
+    max-width: 18ch;
+    margin: 0 0 var(--space-3);
+  }
+  .hero-sub {
+    font-size: clamp(15px, 1.4vw, 19px);
+    color: var(--text);
+    opacity: 0.9;
+    line-height: 1.55;
+    max-width: 640px;
+    margin: 0 0 var(--space-3);
+  }
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: var(--space-3);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    color: var(--text);
+    opacity: 0.6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+</style>

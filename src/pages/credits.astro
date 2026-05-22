@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CreditGrid from '../components/CreditGrid.astro';
+import AwardsGrid from '../components/AwardsGrid.astro';
+import { credits, additionalCredits } from '../data/awards';
+import { site } from '../data/site';
+
+const title = 'Credits — Highly Visual';
+const description =
+  'Drone-operator and cinematography credits for BBC NHU, Silverback Films, Plimsoll, Offspring, Nat Geo, Disney+, Netflix, Apple TV+, Amazon Prime Video. Six award contributions between 2020 and 2024.';
+---
+<BaseLayout title={title} description={description}>
+
+  <!-- Hero -->
+  <section class="credits-hero">
+    <img class="credits-hero__bg" src="/img/credit-the-green-planet.jpg" alt="" loading="eager" />
+    <div class="credits-hero__gradient" aria-hidden="true"></div>
+    <div class="container credits-hero__content reveal">
+      <p class="eyebrow">Credits · 2002 — present</p>
+      <h1>The full filmography.</h1>
+      <p class="credits-hero__lede">
+        Drone-operator and aerial-cinematography contributions across the world's natural-history
+        broadcast slate. 30+ broadcast credits across the BBC Natural History Unit, Silverback Films,
+        Plimsoll Productions, Offspring Films, National Geographic, Disney+, Netflix, Apple TV+,
+        Channel 4 and others.
+      </p>
+      <div class="hero-ctas">
+        <a href="#productions" class="cta">Productions</a>
+        <a href="#awards" class="cta cta--ghost">Awards</a>
+        <a href="#press" class="cta cta--ghost">Press</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visual credit grid -->
+  <section id="productions" class="container reveal" aria-label="Production credits — visual grid">
+    <p class="section-title">Selected productions</p>
+    <h2>Show artwork from the work.</h2>
+    <p class="section-lede">
+      Featured productions where I've contributed drone-operator and aerial cinematography.
+      Click through to per-project case studies where they exist.
+    </p>
+    <CreditGrid />
+  </section>
+
+  <!-- Additional text-only credits -->
+  <section class="container reveal" aria-label="Additional credits">
+    <p class="section-title">Additional credits</p>
+    <h2>The complete list.</h2>
+    <p class="section-lede">
+      Broader production credits — drone-operator and aerial-cinematography contributions across the
+      slate. Per-card promo art is being added; productions below are confirmed credits.
+    </p>
+    <div class="additional-credits-table reveal-stagger">
+      {additionalCredits.map((c) => (
+        <div class="credit-row">
+          <div class="credit-row__year">{c.year}</div>
+          <div class="credit-row__title">
+            <strong>{c.title}</strong>
+            {c.productionHouse && <span class="credit-row__house"> · {c.productionHouse}</span>}
+            {c.distributor && <span class="credit-row__dist"> · {c.distributor}</span>}
+          </div>
+          <div class="credit-row__role">{c.role}</div>
+          <div class="credit-row__lane"><span class="tag">{c.lane.replace('-', ' ')}</span></div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Awards -->
+  <section id="awards">
+    <AwardsGrid />
+  </section>
+
+  <!-- Press -->
+  <section id="press" class="container reveal" aria-label="Press">
+    <p class="section-title">Press</p>
+    <h2>Third-party coverage.</h2>
+    <ul class="press-list reveal-stagger">
+      {site.press.map((p) => (
+        <li>
+          <a href={p.url} target="_blank" rel="noopener noreferrer">
+            <span class="press-meta">{p.outlet} · {p.year}</span>
+            <span class="press-title">{p.title}</span>
+            <span class="press-arrow">↗</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- CTA -->
+  <section class="container reveal final-cta-section" aria-label="Get in touch">
+    <h2>Looking for someone with these credits?</h2>
+    <div class="final-cta-row">
+      <a href="/contact/" class="cta">Start a conversation</a>
+      <a href="/work/" class="cta cta--ghost">Case studies</a>
+      <a href={site.social.imdb} target="_blank" rel="noopener noreferrer" class="cta cta--ghost">IMDb profile ↗</a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .credits-hero {
+    position: relative;
+    height: 70vh;
+    min-height: 520px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+  .credits-hero__bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    animation: ken-burns 20s ease-in-out infinite alternate;
+  }
+  .credits-hero__gradient {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(to bottom, rgba(10,10,11,0.6) 0%, rgba(10,10,11,0.1) 30%, rgba(10,10,11,0.92) 100%);
+  }
+  .credits-hero__content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding-bottom: clamp(40px, 6vh, 100px);
+  }
+  .credits-hero__content h1 {
+    max-width: 14ch;
+    margin: var(--space-1) 0 var(--space-3);
+  }
+  .credits-hero__lede {
+    font-size: clamp(16px, 1.5vw, 20px);
+    line-height: 1.6;
+    max-width: 720px;
+    color: var(--text);
+    opacity: 0.92;
+    margin-bottom: var(--space-3);
+  }
+  .hero-ctas { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+
+  /* Additional credits table */
+  .additional-credits-table {
+    margin-top: var(--space-3);
+  }
+  .credit-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 220px 120px;
+    align-items: baseline;
+    gap: var(--space-3);
+    padding: var(--space-2) 0;
+    border-top: 1px solid var(--border);
+    font-size: 14px;
+    line-height: 1.5;
+    transition: padding-left var(--motion-normal) var(--ease-out), background var(--motion-normal);
+  }
+  .credit-row:last-child { border-bottom: 1px solid var(--border); }
+  .credit-row:hover { padding-left: 12px; background: var(--surface); }
+  .credit-row__year {
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+  .credit-row__title strong { color: var(--text); font-weight: 600; }
+  .credit-row__house { color: var(--text-muted); }
+  .credit-row__dist { color: var(--text-faint); }
+  .credit-row__role { color: var(--text); font-size: 13px; }
+  .credit-row__lane { text-align: right; }
+  @media (max-width: 900px) {
+    .credit-row {
+      grid-template-columns: 1fr;
+      gap: 4px;
+      padding: var(--space-3) 0;
+    }
+    .credit-row__lane { text-align: left; }
+  }
+
+  /* Press */
+  .press-list { list-style: none; padding: 0; margin: 0; }
+  .press-list li a {
+    display: grid;
+    grid-template-columns: 280px 1fr 32px;
+    align-items: baseline;
+    gap: var(--space-3);
+    padding: var(--space-3) 0;
+    border-top: 1px solid var(--border);
+    font-size: 16px;
+    transition: padding-left var(--motion-normal) var(--ease-out);
+  }
+  .press-list li:last-child a { border-bottom: 1px solid var(--border); }
+  .press-list li a:hover { padding-left: 12px; opacity: 1; }
+  .press-meta { color: var(--text-muted); font-size: 13px; letter-spacing: 0.04em; }
+  .press-arrow { color: var(--text-muted); font-size: 18px; text-align: right; }
+  @media (max-width: 768px) {
+    .press-list li a { grid-template-columns: 1fr; gap: 4px; }
+    .press-arrow { display: none; }
+  }
+
+  /* Final CTA */
+  .final-cta-section {
+    text-align: center;
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-6);
+  }
+  .final-cta-section h2 {
+    font-size: clamp(32px, 4.5vw, 56px);
+    margin: 0 0 var(--space-3);
+  }
+  .final-cta-row {
+    display: flex;
+    gap: var(--space-2);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>

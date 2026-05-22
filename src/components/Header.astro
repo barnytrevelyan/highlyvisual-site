@@ -1,0 +1,149 @@
+---
+const pathname = Astro.url.pathname;
+const navItems = [
+  { href: '/work/',     label: 'Work' },
+  { href: '/services/', label: 'Services' },
+  { href: '/fixing/',   label: 'Fixing' },
+  { href: '/credits/',  label: 'Credits' },
+  { href: '/about/',    label: 'About' },
+  { href: '/contact/',  label: 'Contact' },
+];
+---
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" class="logo" aria-label="Highly Visual — home">
+      <img src="/img/logo.png" alt="Highly Visual" width="249" height="80" />
+    </a>
+    <nav class="primary-nav" aria-label="Primary">
+      {navItems.map(({ href, label }) => (
+        <a href={href} aria-current={pathname === href || pathname.startsWith(href.replace(/\/$/, '/')) ? 'page' : undefined}>{label}</a>
+      ))}
+    </nav>
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" data-nav-toggle>
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    transition: background var(--motion-normal), backdrop-filter var(--motion-normal), border-bottom-color var(--motion-normal);
+    border-bottom: 1px solid transparent;
+  }
+  .site-header.is-scrolled {
+    background: rgba(10, 10, 11, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom-color: var(--border);
+  }
+  .header-inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: var(--space-2) var(--container-pad);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+  .logo { display: inline-block; line-height: 0; color: var(--text); flex-shrink: 0; }
+  .logo img { height: 64px; width: auto; display: block; }
+  .primary-nav {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+  }
+  .primary-nav a {
+    font-size: 13.5px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 10px 0;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    color: var(--text);
+  }
+  .primary-nav a::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 8px;
+    height: 1px;
+    background: var(--text);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--motion-normal) var(--ease-out);
+  }
+  .primary-nav a:hover::after,
+  .primary-nav a[aria-current="page"]::after { transform: scaleX(1); }
+  .primary-nav a:hover { opacity: 1; }
+
+  .nav-toggle {
+    display: none;
+    background: transparent;
+    border: 0;
+    padding: 10px;
+    cursor: pointer;
+    width: 48px; height: 48px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 22px; height: 2px;
+    background: var(--text);
+    transition: transform var(--motion-normal), opacity var(--motion-normal);
+  }
+
+  @media (max-width: 900px) {
+    .nav-toggle { display: inline-flex; }
+    .logo img { height: 52px; }
+    .primary-nav {
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      background: rgba(10, 10, 11, 0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      flex-direction: column;
+      gap: 0;
+      align-items: stretch;
+      padding: var(--space-2) var(--container-pad);
+      display: none;
+    }
+    .primary-nav[data-open] { display: flex; }
+    .primary-nav a {
+      font-size: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .primary-nav a:last-child { border-bottom: 0; }
+  }
+  @media (max-width: 480px) {
+    .header-inner { padding: var(--space-2) var(--space-2); }
+    .logo img { height: 44px; }
+  }
+</style>
+
+<script is:inline>
+  // Mobile nav toggle — small inline script, no need for hydration framework
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.querySelector('[data-nav-toggle]');
+    const nav = document.querySelector('.primary-nav');
+    if (!btn || !nav) return;
+    btn.addEventListener('click', () => {
+      const open = nav.hasAttribute('data-open');
+      if (open) {
+        nav.removeAttribute('data-open');
+        btn.setAttribute('aria-expanded', 'false');
+      } else {
+        nav.setAttribute('data-open', '');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+</script>

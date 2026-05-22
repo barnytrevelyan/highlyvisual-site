@@ -1,0 +1,211 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const allWork = (await getCollection('work')).sort(
+  (a, b) => (a.data.order ?? 99) - (b.data.order ?? 99),
+);
+
+const counts = {
+  all: allWork.length,
+  'natural-history': allWork.filter((w) => w.data.lane === 'natural-history').length,
+  fixing: allWork.filter((w) => w.data.lane === 'fixing').length,
+  commercial: allWork.filter((w) => w.data.lane === 'commercial').length,
+};
+
+const title = 'Work — Highly Visual';
+const description =
+  'Case-study work — drone-operator and aerial cinematography contributions to natural-history broadcast, fixing for international productions, and end-to-end commercial production from Nairobi.';
+---
+<BaseLayout title={title} description={description}>
+
+  <!-- Hero -->
+  <section class="work-hero">
+    <img class="work-hero__bg" src="/img/bts-elephants-aerial.jpg" alt="" loading="eager" />
+    <div class="work-hero__gradient" aria-hidden="true"></div>
+    <div class="container work-hero__content reveal">
+      <p class="eyebrow">Work</p>
+      <h1>Selected case studies.</h1>
+      <p class="work-hero__lede">
+        Project-by-project deep dives. The full credit list — 30+ broadcast productions —
+        lives on <a href="/credits/">/credits/</a>; this is where each one gets a page of its own.
+      </p>
+    </div>
+  </section>
+
+  <!-- Filter + grid -->
+  <section class="container work-section reveal" aria-label="Work index">
+    <div class="filter-bar">
+      <input class="filter-radio" type="radio" name="lane" id="lane-all" checked />
+      <input class="filter-radio" type="radio" name="lane" id="lane-natural-history" />
+      <input class="filter-radio" type="radio" name="lane" id="lane-fixing" />
+      <input class="filter-radio" type="radio" name="lane" id="lane-commercial" />
+
+      <div class="chips" role="group" aria-label="Filter by lane">
+        <label for="lane-all">All <span class="count">{counts.all}</span></label>
+        <label for="lane-natural-history">Natural history <span class="count">{counts['natural-history']}</span></label>
+        <label for="lane-fixing">Fixing <span class="count">{counts.fixing}</span></label>
+        <label for="lane-commercial">Commercial <span class="count">{counts.commercial}</span></label>
+      </div>
+
+      <div class="grid grid-3 work-grid reveal-stagger">
+        {allWork.map((w) => (
+          <a href={`/work/${w.slug}/`} class="card work-card" data-lane={w.data.lane}>
+            <div class="card-img-wrap">
+              <img class="card-img" src={w.data.cardImage ?? w.data.heroImage} alt={w.data.cardAlt ?? w.data.heroAlt} loading="lazy" />
+            </div>
+            <div class="card-meta">
+              <p class="tag">{w.data.lane.replace('-', ' ')}</p>
+              <h3 class="card-title">{w.data.title}</h3>
+              <p class="card-sub">{w.data.role}</p>
+              <p class="card-meta-line">{w.data.productionHouse}{w.data.distributor && <> · {w.data.distributor}</>} · {w.data.year}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- See all credits CTA -->
+  <section class="container reveal final-cta-section" aria-label="See all credits">
+    <h2>Want the full filmography?</h2>
+    <p class="section-lede">
+      30+ broadcast productions, six award contributions, four press citations — all on one page.
+    </p>
+    <div class="final-cta-row">
+      <a href="/credits/" class="cta">All credits, awards &amp; press</a>
+      <a href="/contact/" class="cta cta--ghost">Get in touch</a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .work-hero {
+    position: relative;
+    height: 55vh;
+    min-height: 420px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+  .work-hero__bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    animation: ken-burns 22s ease-in-out infinite alternate;
+  }
+  .work-hero__gradient {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(to bottom, rgba(10,10,11,0.5) 0%, rgba(10,10,11,0.1) 30%, rgba(10,10,11,0.92) 100%);
+  }
+  .work-hero__content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding-bottom: clamp(40px, 6vh, 80px);
+  }
+  .work-hero__content h1 { margin: var(--space-1) 0 var(--space-3); max-width: 14ch; }
+  .work-hero__lede {
+    font-size: clamp(17px, 1.5vw, 22px);
+    line-height: 1.55;
+    max-width: 700px;
+    color: var(--text);
+    opacity: 0.92;
+  }
+  .work-hero__content a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+
+  .work-section { padding-top: var(--space-4); }
+
+  /* Filter chips */
+  .filter-radio {
+    position: absolute;
+    width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); border: 0;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin-bottom: var(--space-3);
+  }
+  .chips label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    min-height: 48px;
+    transition: color var(--motion-normal), border-color var(--motion-normal), background var(--motion-normal);
+  }
+  .chips label:hover { color: var(--text); border-color: var(--border-strong); }
+  .chips label .count {
+    color: var(--text-faint);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+  #lane-all:checked ~ .chips label[for="lane-all"],
+  #lane-natural-history:checked ~ .chips label[for="lane-natural-history"],
+  #lane-fixing:checked ~ .chips label[for="lane-fixing"],
+  #lane-commercial:checked ~ .chips label[for="lane-commercial"] {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+  }
+  #lane-all:checked ~ .chips label[for="lane-all"] .count,
+  #lane-natural-history:checked ~ .chips label[for="lane-natural-history"] .count,
+  #lane-fixing:checked ~ .chips label[for="lane-fixing"] .count,
+  #lane-commercial:checked ~ .chips label[for="lane-commercial"] .count {
+    color: rgba(10,10,11,0.7);
+  }
+  /* Hide non-matching cards */
+  #lane-natural-history:checked ~ .work-grid .work-card:not([data-lane="natural-history"]) { display: none; }
+  #lane-fixing:checked ~ .work-grid .work-card:not([data-lane="fixing"]) { display: none; }
+  #lane-commercial:checked ~ .work-grid .work-card:not([data-lane="commercial"]) { display: none; }
+  /* Focus ring */
+  #lane-all:focus-visible ~ .chips label[for="lane-all"],
+  #lane-natural-history:focus-visible ~ .chips label[for="lane-natural-history"],
+  #lane-fixing:focus-visible ~ .chips label[for="lane-fixing"],
+  #lane-commercial:focus-visible ~ .chips label[for="lane-commercial"] {
+    outline: 2px solid var(--text);
+    outline-offset: 2px;
+  }
+
+  .work-grid { margin-bottom: var(--space-6); }
+
+  .work-card .card-img-wrap { aspect-ratio: 16/10; }
+  .work-card .card-meta { padding: var(--space-3) var(--space-2) var(--space-3); }
+  .work-card .card-title { font-size: 22px; letter-spacing: -0.01em; margin: 4px 0 6px; }
+  .work-card .card-sub { font-size: 14px; color: var(--text); margin-bottom: 2px; }
+  .card-meta-line { font-size: 12px; color: var(--text-muted); margin: 0; letter-spacing: 0.02em; }
+
+  /* Final CTA */
+  .final-cta-section {
+    text-align: center;
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-6);
+  }
+  .final-cta-section h2 {
+    font-size: clamp(28px, 4vw, 48px);
+    margin: 0 0 var(--space-2);
+  }
+  .final-cta-section .section-lede {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: var(--space-3);
+  }
+  .final-cta-row {
+    display: flex;
+    gap: var(--space-2);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>

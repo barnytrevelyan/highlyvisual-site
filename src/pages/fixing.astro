@@ -1,0 +1,381 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { testimonials } from '../data/testimonials';
+
+// The 17 fixing services — verbatim from the operator's live highlyvisual.com /fixing page.
+const services = [
+  { title: 'KFCB Film Permits',     body: 'We can arrange in just a day or two.' },
+  { title: 'Flights',               body: 'Domestic or international, scheduled or charter.' },
+  { title: 'Parks &amp; Reserves',  body: 'Permits to film in National Parks, Reserves and Conservancies.' },
+  { title: 'Drone Permits',         body: 'We facilitate KCAA and KWS permits.' },
+  { title: 'Stock library',         body: 'A growing selection of archive footage to supplement your project needs.' },
+  { title: 'Accommodation',         body: "We will often be able to get you better rates than you can — try us out." },
+  { title: 'Special Passes',        body: 'We can arrange these for you in just a few weeks.' },
+  { title: 'Customs Clearance',     body: 'We only use the best.' },
+  { title: 'Location Scouting',     body: 'We know East Africa like the back of our hand and can suggest the best locations.' },
+  { title: 'Remote filming',        body: 'We can arrange reactive remote filming to get the shots in a hurry.' },
+  { title: 'Vehicle Hire',          body: 'From people-carriers to specialist camera vehicles, or even helicopters.' },
+  { title: 'Guides',                body: 'With experience of film crews, whether it be in wilderness areas or the slums.' },
+  { title: 'Interviews &amp; special access', body: 'We are well connected — set up interviews or special access.' },
+  { title: 'Local talent',          body: 'From casting directors to wardrobe and art directors. Local crew from camera and sound to grip.' },
+  { title: 'Equipment rental and sourcing', body: 'From drones and cameras to batteries, tripods, radios and director chairs.' },
+  { title: 'Remote Camps',          body: 'Tailored private camps in remote locations with safe charging and equipment storage.' },
+  { title: 'Security',              body: 'Whether it be from the local community or trained and armed close protection.' },
+  { title: 'Carbon offsetting',     body: 'We can arrange this to suit your production requirements with accredited and ethical suppliers.' },
+];
+
+// Featured testimonials specifically relevant to fixing services
+const fixingTestimonials = [
+  testimonials.find((t) => t.id === 'sally-cryer-wild-babies')!,
+  testimonials.find((t) => t.id === 'barny-revill-earth-from-space')!,
+];
+
+const title = 'Fixing Services — Highly Visual';
+const description =
+  'Highly Visual is a KFCB-registered Kenyan film agent — fully equipped for foreign and domestic fixing for natural history, broadcast and commercial productions. KCAA + KWS drone permits, scouting, crew, vehicles, helicopters, security, customs, carbon offsetting.';
+---
+<BaseLayout title={title} description={description} ogImage="/img/kit-on-location.jpg">
+
+  <!-- Hero -->
+  <section class="fixing-hero">
+    <img class="fixing-hero__bg" src="/img/body-storm-landscape.jpg" alt="" loading="eager" />
+    <div class="fixing-hero__gradient" aria-hidden="true"></div>
+    <div class="container fixing-hero__content reveal">
+      <p class="eyebrow">Services · KFCB-registered film agent</p>
+      <h1>Fixing services in Kenya<br />&amp; East Africa.</h1>
+      <p class="fixing-hero__lede">
+        Highly Visual Limited is registered as a Kenyan film agent and is well equipped for assisting
+        with foreign and domestic fixing for natural history and conservation projects.
+        Below are just some of the fixing services we can offer — please get in touch for rates and
+        further information.
+      </p>
+      <div class="hero-ctas">
+        <a href="/contact/" class="cta">Enquire about a production</a>
+        <a href="#services" class="cta cta--ghost">Browse services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- The 17 services -->
+  <section id="services" class="container reveal" aria-label="Fixing services">
+    <p class="section-title">What we deliver</p>
+    <h2>Eighteen years of East African production logistics in one shop.</h2>
+    <div class="fixing-grid reveal-stagger">
+      {services.map((s, i) => (
+        <article class="fixing-card">
+          <p class="fixing-card__num">{String(i + 1).padStart(2, '0')}</p>
+          <h3 set:html={s.title} />
+          <p set:html={s.body} />
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- In the field — visual proof tied to specific service categories -->
+  <section class="container reveal field-section" aria-label="Fixing in the field">
+    <p class="section-title">In the field</p>
+    <h2>What the services look like on the ground.</h2>
+    <div class="field-grid reveal-stagger">
+      <figure class="field-card">
+        <img src="/img/bts-launching-mavic.jpg" alt="Operator launching a Mavic drone at sunrise above mist-filled hills" loading="lazy" />
+        <figcaption>
+          <span class="field-card__tag">Drone permits · KCAA &amp; KWS</span>
+          <p>Cinema-payload aerial operations under CAA-licensed PfCO. Permits cleared in parallel with the shoot calendar.</p>
+        </figcaption>
+      </figure>
+      <figure class="field-card">
+        <img src="/img/kit-on-location.jpg" alt="Crew with tripod-mounted cinema kit on the Maasai Mara at sunrise" loading="lazy" />
+        <figcaption>
+          <span class="field-card__tag">Local crew · Guides · Vehicles</span>
+          <p>Local camera and grip crew, vetted guides, location vehicles — the relationships that make remote access actually happen.</p>
+        </figcaption>
+      </figure>
+      <figure class="field-card">
+        <img src="/img/body-coastal-aerial.jpg" alt="Aerial of East African coastline — turquoise reef and white beach" loading="lazy" />
+        <figcaption>
+          <span class="field-card__tag">Location scouting · Reactive remote filming</span>
+          <p>From the Mara to the Indian Ocean — the access, the timing window, and the in-region knowledge to get the unit on it.</p>
+        </figcaption>
+      </figure>
+      <figure class="field-card">
+        <img src="/img/aerial-remote-camp.jpg" alt="Aerial of a remote tented camp in escarpment landscape" loading="lazy" />
+        <figcaption>
+          <span class="field-card__tag">Remote camps · Accommodation · Security</span>
+          <p>Tailored private camps for crew in remote concessions — safe charging, equipment storage, and trained protection where it's needed.</p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Testimonials supporting fixing -->
+  <section class="container reveal" aria-label="What clients say about fixing">
+    <p class="section-title">What clients say</p>
+    <h2>Fixing-specific feedback from productions we've supported.</h2>
+    <div class="fixing-testimonials">
+      {fixingTestimonials.map((t) => (
+        <figure class="pull-quote-card">
+          <blockquote>{t.quote}</blockquote>
+          <figcaption><strong>{t.speaker}</strong> · {t.role} · <em>{t.production}</em></figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+
+  <!-- Process / how to engage -->
+  <section class="container reveal" aria-label="Working with us">
+    <p class="section-title">Working together</p>
+    <h2>How a fixing engagement runs.</h2>
+    <div class="process-grid reveal-stagger">
+      <article class="process-step">
+        <p class="process-step__num">01 · Enquiry</p>
+        <h3>Brief in, scope out</h3>
+        <p>
+          Email <a href="mailto:info@highlyvisual.com">info@highlyvisual.com</a> with what
+          you're trying to shoot, when, where, and the production-house name if any.
+          For tight timelines, WhatsApp <a href="https://wa.me/254701397911" target="_blank" rel="noopener noreferrer">+254 701 397 911</a> is faster.
+        </p>
+      </article>
+      <article class="process-step">
+        <p class="process-step__num">02 · Pre-production</p>
+        <h3>Permits, scouting, crew</h3>
+        <p>
+          KFCB permits typically clear in 24–48 hours when needed. KCAA and KWS drone permits
+          run in parallel. Location scouting and conservancy access negotiations begin in week one;
+          local crew bookings firm up as the shoot date approaches.
+        </p>
+      </article>
+      <article class="process-step">
+        <p class="process-step__num">03 · On the day</p>
+        <h3>Production services</h3>
+        <p>
+          On-site fixing during the shoot — vehicles, guides, accommodation, security,
+          customs flow, and where it makes sense, primary cameraman / drone operator integrated
+          into the unit.
+        </p>
+      </article>
+      <article class="process-step">
+        <p class="process-step__num">04 · After the wrap</p>
+        <h3>Carbon, customs, archive</h3>
+        <p>
+          Carbon offsetting through accredited and ethical suppliers. Customs clearance for
+          export of footage and kit. Stock-archive access for supplementary coverage where useful.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="container reveal final-cta-section" aria-label="Get in touch">
+    <h2>Coming to Kenya?</h2>
+    <p class="section-lede">
+      The fastest path is direct email or WhatsApp. If you've been referred by a production
+      house I've worked with before, mentioning who sent you helps me reply faster.
+    </p>
+    <div class="final-cta-row">
+      <a href="/contact/" class="cta">Start a conversation</a>
+      <a href="/work/" class="cta cta--ghost">See production credits</a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .fixing-hero {
+    position: relative;
+    height: 80vh;
+    min-height: 540px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+  .fixing-hero__bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    animation: ken-burns 20s ease-in-out infinite alternate;
+  }
+  .fixing-hero__gradient {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(to bottom, rgba(10,10,11,0.5) 0%, rgba(10,10,11,0.1) 30%, rgba(10,10,11,0.7) 100%);
+  }
+  .fixing-hero__content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding-bottom: clamp(40px, 6vh, 100px);
+  }
+  .fixing-hero__content h1 {
+    margin: var(--space-1) 0 var(--space-3);
+    max-width: 14ch;
+  }
+  .fixing-hero__lede {
+    font-size: clamp(16px, 1.5vw, 20px);
+    line-height: 1.6;
+    max-width: 680px;
+    color: var(--text);
+    opacity: 0.92;
+    margin-bottom: var(--space-3);
+  }
+  .hero-ctas { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+
+  /* 18-service grid */
+  .fixing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+  @media (max-width: 1024px) { .fixing-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .fixing-grid { grid-template-columns: 1fr; } }
+  .fixing-card {
+    padding: var(--space-3);
+    background: var(--surface);
+    border-top: 2px solid var(--border-strong);
+    transition: background var(--motion-normal), border-top-color var(--motion-normal), transform var(--motion-normal);
+  }
+  .fixing-card:hover {
+    background: var(--surface-2);
+    border-top-color: var(--accent);
+    transform: translateY(-3px);
+  }
+  .fixing-card__num {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    margin: 0 0 var(--space-1);
+  }
+  .fixing-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 var(--space-1);
+    color: var(--text);
+  }
+  .fixing-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* In-the-field image grid */
+  .field-section { padding-top: var(--space-5); }
+  .field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+  @media (max-width: 768px) { .field-grid { grid-template-columns: 1fr; } }
+  .field-card {
+    margin: 0;
+    background: var(--surface);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--motion-normal), background var(--motion-normal);
+  }
+  .field-card:hover { transform: translateY(-3px); background: var(--surface-2); }
+  .field-card img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+    transition: transform 1200ms var(--ease-out-soft);
+  }
+  .field-card:hover img { transform: scale(1.03); }
+  .field-card figcaption {
+    padding: var(--space-2) var(--space-3) var(--space-3);
+  }
+  .field-card__tag {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-1);
+  }
+  .field-card figcaption p {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  /* Testimonials */
+  .fixing-testimonials {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+  }
+  @media (max-width: 900px) { .fixing-testimonials { grid-template-columns: 1fr; } }
+  .pull-quote-card {
+    margin: 0;
+    padding: var(--space-3);
+    background: var(--surface);
+    border-left: 2px solid var(--accent);
+  }
+  .pull-quote-card blockquote {
+    font-size: 16px;
+    line-height: 1.65;
+    font-style: italic;
+    color: var(--text);
+    margin: 0 0 var(--space-2);
+  }
+  .pull-quote-card figcaption {
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+  .pull-quote-card strong { color: var(--text); }
+
+  /* Process */
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+  }
+  @media (max-width: 768px) { .process-grid { grid-template-columns: 1fr; } }
+  .process-step {
+    padding: var(--space-3);
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+  .process-step__num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+    margin: 0 0 var(--space-1);
+  }
+  .process-step h3 { font-size: 19px; margin: 0 0 var(--space-1); }
+  .process-step p { font-size: 14px; line-height: 1.65; color: var(--text-muted); margin: 0; }
+  .process-step a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+
+  /* Final CTA */
+  .final-cta-section {
+    text-align: center;
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-6);
+  }
+  .final-cta-section h2 {
+    font-size: clamp(32px, 4.5vw, 56px);
+    margin: 0 0 var(--space-2);
+  }
+  .final-cta-section .section-lede {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: var(--space-3);
+  }
+  .final-cta-row {
+    display: flex;
+    gap: var(--space-2);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>

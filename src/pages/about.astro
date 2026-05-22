@@ -1,0 +1,484 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AwardsGrid from '../components/AwardsGrid.astro';
+import { site } from '../data/site';
+import { testimonials } from '../data/testimonials';
+
+const featuredTestimonials = [
+  testimonials.find((t) => t.id === 'sally-thomson-iaj')!,
+  testimonials.find((t) => t.id === 'barny-revill-earth-from-space')!,
+];
+
+const title = 'About Highly Visual — Barny Trevelyan-Johnson, Nairobi';
+const description =
+  'Highly Visual was established in Tanzania in 2002 and moved to Kenya in 2013. Founded by Barny Trevelyan-Johnson — CAA-licensed drone operator, KFCB-registered local film agent, 14+ countries of professional fieldwork, contributions to Emmy- and Critics Choice-winning natural-history productions.';
+---
+<BaseLayout title={title} description={description} ogImage="/img/portrait-attenborough-hires.png">
+
+  <!-- About hero — portrait + intro statement -->
+  <section class="about-hero">
+    <div class="container about-hero-inner">
+      <div class="about-portrait reveal reveal--scale">
+        <img src="/img/portrait-attenborough-hires.png" alt="Barny Trevelyan-Johnson with Sir David Attenborough" loading="eager" fetchpriority="high" />
+      </div>
+      <div class="about-intro reveal">
+        <p class="eyebrow">About</p>
+        <h1>An ethical, green, and compliant filmmaking company.</h1>
+        <p class="about-lede">
+          Highly Visual is deeply committed to responsible filmmaking and conservation.
+          With a focus on natural history, every project adheres to strict environmental
+          guidelines, minimising impact on wildlife and ecosystems.
+        </p>
+        <p class="about-lede">
+          The company prioritises compliance with local laws — permits, wildlife-protection
+          regulations, KFCB and KCAA — while fostering strong relationships with local
+          communities and conservation organisations to support ethical storytelling.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Company story / timeline -->
+  <section class="container reveal" aria-label="Company history">
+    <p class="section-title">The story</p>
+    <h2>Twenty-four years and counting.</h2>
+    <p class="section-lede">
+      The company started as a stills practice in Tanzania in 2002. We moved to Kenya in 2013,
+      became the first company in the region to work professionally with drones, and have
+      since evolved into a film-led practice across natural-history broadcast, fixing and
+      commercial production.
+    </p>
+    <div class="timeline reveal-stagger">
+      <div class="timeline-event">
+        <p class="timeline-year">2002</p>
+        <h3>Founded in Tanzania</h3>
+        <p>
+          Highly Visual is established. Initial focus: stills photography across East African
+          natural-history and conservation subjects.
+        </p>
+      </div>
+      <div class="timeline-event">
+        <p class="timeline-year">2013</p>
+        <h3>Moved to Kenya</h3>
+        <p>
+          The company moves to Nairobi. East African production, fixing and aerial work become
+          the core practice.
+        </p>
+      </div>
+      <div class="timeline-event">
+        <p class="timeline-year">2017</p>
+        <h3>CAA-licensed drone operator</h3>
+        <p>
+          Barny becomes a CAA-approved drone pilot with a Permission for Commercial Operations
+          (PfCO UAS 9543) — issued by the UK Civil Aviation Authority. Highly Visual
+          becomes the first company in the region to work professionally with drones for broadcast.
+        </p>
+      </div>
+      <div class="timeline-event">
+        <p class="timeline-year">2020 — 2024</p>
+        <h3>Honored across six award cycles</h3>
+        <p>
+          Drone-operator and aerial cinematography contributions to productions honoured by
+          the Television Academy (Primetime &amp; Daytime Emmys), Critics Choice, Jackson Wild,
+          and others. See the detailed list below.
+        </p>
+      </div>
+      <div class="timeline-event">
+        <p class="timeline-year">Today</p>
+        <h3>14+ countries, full broadcast tier</h3>
+        <p>
+          Active across the BBC NHU, Silverback Films, Plimsoll, Offspring, Nat Geo / Disney+
+          and Netflix slates. KFCB-registered local film agent. Operates with current Kenyan
+          and UK licences, fully insured. Sister businesses at <a href={site.sister.hire.url} target="_blank" rel="noopener noreferrer">hirevisual.com</a>
+          (cinema-grade rental) and <a href={site.sister.stock.url} target="_blank" rel="noopener noreferrer">stock.highlyvisual.com</a> (4K+ broadcast archive).
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Banner — operator at work, narrative bridge from history to today -->
+  <figure class="about-banner reveal">
+    <img src="/img/heli-cabin-dusk.jpg" alt="Inside a helicopter cabin at dusk, looking out over East African dryland" loading="lazy" />
+    <figcaption>Last-light heli transit over the dryland — most of the working day is on aircraft or on foot.</figcaption>
+  </figure>
+
+  <!-- Operator bio (Barny, specifically) -->
+  <section class="container reveal" aria-label="About Barny">
+    <div class="bio-block">
+      <div class="bio-block__main">
+        <p class="section-title">The operator</p>
+        <h2>Barny Trevelyan-Johnson.</h2>
+        <p class="bio-block__lede">
+          The most experienced drone operator in the region, with over ten years of professional
+          drone work and a deeper photography and cinematography practice that began two decades
+          earlier. Holds current Kenyan and UK licences and is fully insured.
+        </p>
+        <p>
+          Operates professionally across 14+ countries, including some of the planet's most extreme
+          environments — Arctic, Antarctic, high-altitude, marine, dryland.
+          Documentary photography consultant and BBC collaborating photographer.
+        </p>
+        <p>
+          Comfortable working as part of a large crew or independently; happy to arrange remote
+          or reactionary filming where the production can't be on site.
+        </p>
+      </div>
+      <aside class="bio-block__creds">
+        <p class="section-title">Credentials</p>
+        <ul class="creds-list">
+          <li><strong>UK CAA PfCO</strong> — Permission for Commercial Operations, UAS 9543. Issued 2017.</li>
+          <li><strong>KFCB-registered</strong> local film agent in Kenya.</li>
+          <li><strong>Current licences</strong> in both Kenya and the United Kingdom.</li>
+          <li><strong>Fully insured</strong> for commercial drone operations.</li>
+          <li><strong>14+ countries</strong> of professional fieldwork, including extreme environments.</li>
+          <li><strong>PADI Diving Licence</strong> · First Aid · Motorcycle Licence · EU Work Permit.</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Awards section -->
+  <AwardsGrid label="Awards & recognition" />
+
+  <!-- Conservation context banner — wildlife close-up -->
+  <figure class="about-banner about-banner--portrait reveal">
+    <img src="/img/wildlife-cheetah-profile.jpg" alt="Cheetah in profile on long grass — natural-history subject coverage" loading="lazy" />
+    <figcaption>The work is for the subjects in front of the lens — every project adheres to strict environmental and proximity guidelines.</figcaption>
+  </figure>
+
+  <!-- Brand pillars -->
+  <section class="container reveal" aria-label="How I work">
+    <p class="section-title">How I work</p>
+    <h2>Ethics first.</h2>
+    <div class="pillars-grid reveal-stagger">
+      {site.pillars.map((p) => (
+        <article class="pillar">
+          <h3>{p.title}</h3>
+          <p>{p.body}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Kit list -->
+  <section class="container reveal" aria-label="Kit">
+    <p class="section-title">Kit</p>
+    <h2>Cinema-tier across drone, ground and audio.</h2>
+    <p class="section-lede">
+      Owned kit is supplemented through the in-house rental house
+      <a href={site.sister.hire.url} target="_blank" rel="noopener noreferrer">hirevisual.com</a>,
+      so production-day rigs scale to the brief.
+    </p>
+    <div class="kit-grid">
+      <div>
+        <h3>Drones</h3>
+        <ul>{site.kit.drones.map((k) => <li>{k}</li>)}</ul>
+      </div>
+      <div>
+        <h3>Cinema cameras</h3>
+        <ul>{site.kit.cinemaCameras.map((k) => <li>{k}</li>)}</ul>
+      </div>
+      <div>
+        <h3>Lenses</h3>
+        <ul>{site.kit.lenses.map((k) => <li>{k}</li>)}</ul>
+      </div>
+      <div>
+        <h3>Audio</h3>
+        <ul>{site.kit.sound.map((k) => <li>{k}</li>)}</ul>
+      </div>
+      <div>
+        <h3>Other</h3>
+        <ul>{site.kit.other.map((k) => <li>{k}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Locations banner — where the work happens -->
+  <figure class="about-banner reveal">
+    <img src="/img/aerial-migration-mara.jpg" alt="Aerial of wildebeest migration across the Mara plains" loading="lazy" />
+    <figcaption>Wildebeest migration aerial, Maasai Mara — recurring assignment territory.</figcaption>
+  </figure>
+
+  <!-- Locations -->
+  <section class="container reveal" aria-label="Locations">
+    <p class="section-title">Where I work</p>
+    <h2>14 countries. East African base.</h2>
+    <p class="section-lede">
+      Operating from Nairobi as the home base, with extensive ongoing fieldwork across the East
+      African parks and conservancies and recurring international assignments.
+    </p>
+    <div class="locations-grid reveal-stagger">
+      <div>
+        <h3>Countries</h3>
+        <p class="locations-list">{site.countries.join(' · ')}</p>
+      </div>
+      <div>
+        <h3>East African parks &amp; conservancies</h3>
+        <p class="locations-list">{site.parks.join(' · ')}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured testimonials -->
+  <section class="container reveal" aria-label="Testimonials">
+    <p class="section-title">What clients say</p>
+    <div class="about-testimonials">
+      {featuredTestimonials.map((t) => (
+        <figure class="pull-quote-card">
+          <blockquote>{t.quote}</blockquote>
+          <figcaption><strong>{t.speaker}</strong> · {t.role} · <em>{t.production}</em></figcaption>
+        </figure>
+      ))}
+    </div>
+    <p class="featured-cta"><a href="/work/" class="cta cta--ghost">More projects, more quotes →</a></p>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="container reveal final-cta-section" aria-label="Get in touch">
+    <h2>Looking for someone to fly?</h2>
+    <div class="final-cta-row">
+      <a href="/contact/" class="cta">Start a conversation</a>
+      <a href="/services/" class="cta cta--ghost">Services overview</a>
+      <a href="/fixing/" class="cta cta--ghost">Fixing services</a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .about-hero {
+    padding-top: clamp(120px, 18vh, 200px);
+    padding-bottom: var(--space-5);
+  }
+  .about-hero-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.3fr);
+    gap: var(--space-5);
+    align-items: center;
+  }
+  .about-portrait {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .about-portrait img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+  .about-intro h1 {
+    font-size: clamp(36px, 4.8vw, 64px);
+    max-width: 18ch;
+    margin: var(--space-1) 0 var(--space-3);
+    line-height: 1.05;
+  }
+  .about-lede {
+    font-size: clamp(15px, 1.4vw, 19px);
+    line-height: 1.65;
+    color: var(--text);
+    opacity: 0.92;
+    max-width: 580px;
+    margin-bottom: var(--space-2);
+  }
+  @media (max-width: 900px) {
+    .about-hero-inner { grid-template-columns: 1fr; gap: var(--space-3); }
+  }
+
+  /* Body banner images */
+  .about-banner {
+    margin: var(--space-5) 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  .about-banner img {
+    width: 100%;
+    aspect-ratio: 21 / 9;
+    object-fit: cover;
+    display: block;
+  }
+  .about-banner--portrait img {
+    aspect-ratio: 16 / 9;
+  }
+  .about-banner figcaption {
+    max-width: var(--container-max);
+    margin: var(--space-2) auto 0;
+    padding: 0 var(--container-pad);
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+    line-height: 1.55;
+  }
+
+  /* Bio portrait inside bio block */
+  .bio-portrait {
+    margin: 0 0 var(--space-3);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--surface);
+    max-width: 420px;
+  }
+  .bio-portrait img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Bio block */
+  .bio-block {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: var(--space-5);
+    margin-top: var(--space-3);
+  }
+  @media (max-width: 900px) {
+    .bio-block { grid-template-columns: 1fr; }
+  }
+  .bio-block__lede {
+    font-size: clamp(17px, 1.6vw, 22px);
+    line-height: 1.55;
+    margin-bottom: var(--space-2);
+  }
+  .bio-block__main p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--text);
+    opacity: 0.92;
+    margin-bottom: var(--space-2);
+    max-width: 60ch;
+  }
+  .bio-block__creds {
+    background: var(--surface);
+    padding: var(--space-3);
+    border-left: 2px solid var(--accent);
+    align-self: start;
+  }
+  .creds-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .creds-list li {
+    padding: 10px 0;
+    border-top: 1px solid var(--border);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .creds-list li:first-child { border-top: 0; }
+  .creds-list strong { color: var(--text); font-weight: 600; }
+
+  /* Pillars */
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+  }
+  @media (max-width: 768px) { .pillars-grid { grid-template-columns: 1fr; } }
+  .pillar {
+    padding: var(--space-3);
+    background: var(--surface);
+    border-top: 2px solid var(--accent);
+  }
+  .pillar h3 { font-size: 18px; margin: 0 0 var(--space-1); }
+  .pillar p { font-size: 14px; line-height: 1.6; color: var(--text-muted); margin: 0; }
+
+  /* Kit */
+  .kit-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+  }
+  @media (max-width: 900px) { .kit-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .kit-grid { grid-template-columns: 1fr; } }
+  .kit-grid > div {
+    padding: var(--space-2) 0;
+    border-top: 1px solid var(--border);
+  }
+  .kit-grid h3 {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    margin: 0 0 var(--space-2);
+  }
+  .kit-grid ul { list-style: none; padding: 0; margin: 0; }
+  .kit-grid li {
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 4px 0;
+    color: var(--text);
+  }
+
+  /* Locations */
+  .locations-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    margin-top: var(--space-3);
+  }
+  @media (max-width: 768px) { .locations-grid { grid-template-columns: 1fr; } }
+  .locations-grid h3 {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    margin: 0 0 var(--space-2);
+  }
+  .locations-list {
+    font-size: clamp(17px, 1.6vw, 22px);
+    line-height: 1.7;
+    color: var(--text);
+    margin: 0;
+  }
+
+  /* Testimonials on about */
+  .about-testimonials {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    margin-top: var(--space-3);
+  }
+  @media (max-width: 900px) { .about-testimonials { grid-template-columns: 1fr; } }
+  .pull-quote-card {
+    margin: 0;
+    padding: var(--space-3);
+    background: var(--surface);
+    border-left: 2px solid var(--accent);
+  }
+  .pull-quote-card blockquote {
+    font-size: 16px;
+    line-height: 1.6;
+    font-style: italic;
+    color: var(--text);
+    margin: 0 0 var(--space-2);
+  }
+  .pull-quote-card figcaption {
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+  .pull-quote-card strong { color: var(--text); }
+
+  /* Final CTA */
+  .final-cta-section {
+    text-align: center;
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-6);
+  }
+  .final-cta-section h2 {
+    font-size: clamp(32px, 4.5vw, 56px);
+    margin: 0 0 var(--space-3);
+  }
+  .final-cta-row {
+    display: flex;
+    gap: var(--space-2);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .featured-cta {
+    margin-top: var(--space-3);
+  }
+</style>

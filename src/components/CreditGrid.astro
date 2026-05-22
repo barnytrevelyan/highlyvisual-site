@@ -1,0 +1,59 @@
+---
+import { credits as defaultCredits, type Credit } from '../data/awards';
+
+interface Props {
+  items?: Credit[];
+  limit?: number;
+  showCaptionOnHover?: boolean;
+}
+
+const { items = defaultCredits, limit, showCaptionOnHover = true } = Astro.props;
+const list = limit ? items.slice(0, limit) : items;
+---
+<div class="credit-grid reveal-stagger">
+  {list.map((c) => (
+    <div class="credit-card" data-lane={c.lane} title={`${c.title} — ${c.productionHouse}${c.distributor ? ' · ' + c.distributor : ''} · ${c.year}`}>
+      {c.url ? (
+        <a href={c.url} aria-label={`${c.title} — case study`} class="credit-card__link">
+          <img src={c.cardImage} alt={`${c.title} — show artwork`} loading="lazy" onerror="this.style.opacity=0" />
+          {showCaptionOnHover && (
+            <div class="credit-card__caption">
+              <div class="credit-card__title"><em>{c.title}</em></div>
+              <div class="credit-card__meta">{c.role} · {c.year}</div>
+            </div>
+          )}
+        </a>
+      ) : (
+        <>
+          <img src={c.cardImage} alt={`${c.title} — show artwork`} loading="lazy" onerror="this.style.opacity=0" />
+          {showCaptionOnHover && (
+            <div class="credit-card__caption">
+              <div class="credit-card__title"><em>{c.title}</em></div>
+              <div class="credit-card__meta">{c.role} · {c.year}</div>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  ))}
+</div>
+
+<style>
+  .credit-card__link {
+    display: block;
+    width: 100%; height: 100%;
+    color: inherit;
+  }
+  .credit-card__title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .credit-card__title em { font-style: italic; }
+  .credit-card__meta {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+</style>

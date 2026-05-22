@@ -1,0 +1,366 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TestimonialCarousel from '../components/TestimonialCarousel.astro';
+import { site } from '../data/site';
+import { testimonials } from '../data/testimonials';
+import { videos } from '../data/videos';
+
+const cheliPeacock = videos.find((v) => v.id === '808308047');
+const kasas = videos.find((v) => v.id === '1106721568');
+const stePr = videos.find((v) => v.id === '1007171637');
+const simonKipsang = videos.find((v) => v.id === '1004040980');
+
+const title = 'Services — Highly Visual';
+const description =
+  "Drone and aerial cinematography, long-lens wildlife, film fixing, commercial production. CAA-licensed, KFCB-registered, 14+ countries. Full-stack production services from Nairobi.";
+---
+<BaseLayout title={title} description={description}>
+
+  <!-- Services hero -->
+  <section class="services-hero">
+    <img class="services-hero__bg" src="/img/hero-3-canoes.jpg" alt="" loading="eager" />
+    <div class="services-hero__gradient" aria-hidden="true"></div>
+    <div class="container services-hero__content reveal">
+      <p class="eyebrow">Services · 24 years operating</p>
+      <h1>One operator. Full broadcast tier. End-to-end.</h1>
+      <p class="services-hero__lede">
+        Drone and aerial cinematography for natural-history broadcast and premium commercial work.
+        Long-lens wildlife. KFCB-registered film fixing across East Africa.
+        Solo-end-to-end commercial production. CAA-licensed since 2017.
+      </p>
+      <div class="hero-ctas">
+        <a href="#drone" class="cta">Drone &amp; aerial</a>
+        <a href="#long-lens" class="cta cta--ghost">Long-lens</a>
+        <a href="/fixing/" class="cta cta--ghost">Fixing</a>
+        <a href="#production" class="cta cta--ghost">Production</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Drone & aerial -->
+  <section id="drone" class="service-section service-section--alt">
+    <div class="container service-section__inner reveal">
+      <div class="service-section__media">
+        <img src="/img/hero-1-drone-bob-poole.jpg" alt="DJI Inspire 2 silhouetted against East African sunrise" loading="lazy" />
+      </div>
+      <div class="service-section__body">
+        <p class="section-title">01 · Drone &amp; aerial</p>
+        <h2>Cinema-grade aerial across natural-history and commercial.</h2>
+        <p>
+          CAA-licensed since 2017 (PfCO UAS 9543). DJI Inspire 3 for RAW-spec broadcast,
+          Mavic 3 Cine for fast-deploy aerial. Aerial-to-aerial coordination,
+          low-altitude wildlife follows, coastal and landscape, dawn and dusk.
+        </p>
+        <p>
+          Integrated into the BBC Natural History Unit, Silverback Films, Plimsoll Productions
+          and Offspring Films broadcast workflows. RED-camera-tier deliverables in the same
+          edit timeline as the lead unit.
+        </p>
+        <ul class="service-points">
+          <li>DJI Inspire 3 · Mavic 3 Cine · Mavic 2 Pro</li>
+          <li>Aerial-to-aerial flight coordination</li>
+          <li>Low-altitude wildlife with proximity discipline</li>
+          <li>Remote / reactive filming where the production can't be on site</li>
+        </ul>
+        <p><a href="/credits/" class="service-section__more">See drone credits →</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Long-lens cinematography -->
+  <section id="long-lens" class="service-section">
+    <div class="container service-section__inner reveal">
+      <div class="service-section__body">
+        <p class="section-title">02 · Long-lens cinematography</p>
+        <h2>Patient, ethical wildlife coverage.</h2>
+        <p>
+          Sony 200-600mm and 70-200mm on FX6 / FX3 / A7R5 bodies. Multi-day waits across the
+          Mara, Tsavo East, Samburu, Amboseli and Mount Kenya. Comfortable on extended NHU
+          schedules — long-lens-plus-drone is the standard broadcast workflow at this tier.
+        </p>
+        <p>
+          Wildlife ethics are non-negotiable: respectable distance, no behaviour-affecting
+          proximity, no bait. The clients who book me back the most cite the proximity
+          discipline first.
+        </p>
+        <ul class="service-points">
+          <li>Sony FX6 · FX3 · A7R5 · PXW-FS7</li>
+          <li>Sony 200-600mm · 70-200mm f/4 · G-Master prime set</li>
+          <li>Sound Devices MixPre · Rode NTG4+ for in-the-field sound</li>
+          <li>Familiar with RED HELIUM / GEMINI / V-RAPTOR broadcast workflows</li>
+        </ul>
+      </div>
+      <div class="service-section__media">
+        <img src="/img/hero-2-serval.jpg" alt="Serval in tall grass, long-lens" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Fixing -->
+  <section id="fixing" class="service-section service-section--alt">
+    <div class="container service-section__inner reveal">
+      <div class="service-section__media">
+        <img src="/img/sup-1-fixing.jpg" alt="Safari camp with crew around the campfire at dusk on the Mara" loading="lazy" />
+      </div>
+      <div class="service-section__body">
+        <p class="section-title">03 · Film fixing</p>
+        <h2>KFCB-registered local film agent.</h2>
+        <p>
+          On-the-ground production lead for international natural-history, broadcast and
+          commercial crews coming into Kenya. KFCB film permits typically arrive in 24–48 hours.
+          KCAA and KWS drone permits run in parallel. Then it's location scouting, crew sourcing,
+          vehicles, accommodation, security, customs, carbon offsetting.
+        </p>
+        <p>
+          When it makes sense, I run as fixer-and-shooter — primary cameraman embedded inside
+          the unit. That's how the Silk Road Visual exhibition project ran across the 2025
+          production block.
+        </p>
+        <p>
+          <a href="/fixing/" class="cta cta--ghost">Full 18-service list →</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Commercial production -->
+  <section id="production" class="service-section">
+    <div class="container service-section__inner reveal">
+      <div class="service-section__body">
+        <p class="section-title">04 · Commercial &amp; brand production</p>
+        <h2>Solo end-to-end commercial production.</h2>
+        <p>
+          One of Kenya's most dynamic film-production companies, known for capturing stunning
+          cinematic imagery that showcases the country's rich biodiversity, landscapes, and
+          culture. Specialising in visually compelling documentaries, promotional films,
+          and infomercials.
+        </p>
+        <p>
+          For commercial briefs I work solo from concept to delivery — producer, director, DOP,
+          drone operator, post — so the rig stays lean and the budget goes to screen rather than
+          to crew overhead. Recent commercial deliverables: Kasas Air Charter (2026),
+          Cheli &amp; Peacock Mobile Safaris (2023), Wildlife Works profile film (2024).
+        </p>
+        <p>
+          State-of-the-art equipment including drones and advanced camera systems, with a
+          commitment to sustainability and ethical filmmaking practices.
+        </p>
+      </div>
+      <div class="service-section__media">
+        {kasas && (
+          <div class="service-section__embed">
+            <iframe
+              src={kasas.embedUrl}
+              title={kasas.title}
+              loading="lazy"
+              allow="autoplay; fullscreen; picture-in-picture"
+              referrerpolicy="strict-origin-when-cross-origin"
+              sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"></iframe>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- Stock teaser strip -->
+  <section class="container reveal" aria-label="Stock footage">
+    <p class="section-title">05 · Stock footage</p>
+    <h2>1,200+ broadcast clips and growing.</h2>
+    <p class="section-lede">
+      The stock archive lives on a dedicated property:
+      <a href={site.sister.stock.url} target="_blank" rel="noopener noreferrer">stock.highlyvisual.com</a>.
+      All footage shot in 4K or higher by a CAA-licensed drone operator and camera operator.
+      Aerial Archive and Long Lens Wildlife are the two main showcases — both with downloadable
+      watermarked previews. Discounted rates for African productions, students and NGOs.
+    </p>
+    <div class="stock-strip">
+      <a href={site.sister.stock.url} target="_blank" rel="noopener noreferrer" class="card">
+        <div class="card-img-wrap">
+          <img class="card-img" src="/img/bts-elephants-aerial.jpg" alt="Aerial wildlife stock footage from Kenya" loading="lazy" />
+        </div>
+        <div class="card-meta">
+          <h3 class="card-title">Aerial Archive</h3>
+          <p class="card-sub">1,200+ aerial clips · Drone &amp; Aerial · 4K+ · Kenya parks &amp; conservancies</p>
+        </div>
+      </a>
+      <a href={site.sister.stock.url} target="_blank" rel="noopener noreferrer" class="card">
+        <div class="card-img-wrap">
+          <img class="card-img" src="/img/body-crested-crane.jpg" alt="Long-lens wildlife stock footage from Kenya" loading="lazy" />
+        </div>
+        <div class="card-meta">
+          <h3 class="card-title">Long Lens Wildlife</h3>
+          <p class="card-sub">Telephoto wildlife · Slog3 4K · All Kenya parks</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Kit hire teaser -->
+  <section class="container reveal" aria-label="Kit hire">
+    <p class="section-title">06 · Kit hire</p>
+    <h2>Cinema-grade rental — sister business.</h2>
+    <p class="section-lede">
+      Cinema-grade rental kit (DJI Inspire 3, Sony FX6, FX3, A7R5, full audio and lighting kits)
+      is run as a dedicated rental house at
+      <a href={site.sister.hire.url} target="_blank" rel="noopener noreferrer">hirevisual.com</a> —
+      Nairobi-based, day rates, weekly rates at 4× day. Same WhatsApp number.
+    </p>
+    <a href={site.sister.hire.url} target="_blank" rel="noopener noreferrer" class="cta cta--ghost">Visit hirevisual.com →</a>
+  </section>
+
+  <!-- Testimonials -->
+  <TestimonialCarousel />
+
+  <!-- Final CTA -->
+  <section class="container reveal final-cta-section" aria-label="Get in touch">
+    <h2>Planning a Kenyan shoot?</h2>
+    <p class="section-lede">
+      Direct email or WhatsApp is fastest. Mention the production house, the shoot window,
+      and the rough kit and crew needs and I'll come back with a scope and timeline.
+    </p>
+    <div class="final-cta-row">
+      <a href="/contact/" class="cta">Start a conversation</a>
+      <a href="/credits/" class="cta cta--ghost">Production credits</a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .services-hero {
+    position: relative;
+    height: 75vh;
+    min-height: 540px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+  .services-hero__bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    animation: ken-burns 20s ease-in-out infinite alternate;
+  }
+  .services-hero__gradient {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(to bottom, rgba(10,10,11,0.55) 0%, rgba(10,10,11,0.1) 30%, rgba(10,10,11,0.85) 100%);
+  }
+  .services-hero__content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding-bottom: clamp(40px, 6vh, 100px);
+  }
+  .services-hero__content h1 {
+    max-width: 16ch;
+    margin: var(--space-1) 0 var(--space-3);
+  }
+  .services-hero__lede {
+    font-size: clamp(16px, 1.5vw, 20px);
+    line-height: 1.6;
+    max-width: 680px;
+    color: var(--text);
+    opacity: 0.92;
+    margin-bottom: var(--space-3);
+  }
+  .hero-ctas { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+
+  /* Service section — alternating image / text layouts */
+  .service-section {
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-6);
+  }
+  .service-section--alt { background: var(--surface); }
+  .service-section__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+    align-items: center;
+  }
+  @media (max-width: 900px) {
+    .service-section__inner { grid-template-columns: 1fr; gap: var(--space-3); }
+  }
+  .service-section__media {
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background: var(--bg);
+  }
+  .service-section__media img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 1500ms var(--ease-out-soft);
+  }
+  .service-section:hover .service-section__media img { transform: scale(1.03); }
+  .service-section__embed {
+    position: relative;
+    padding-top: 56.25%;
+  }
+  .service-section__embed iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    border: 0;
+  }
+  .service-section__body h2 { margin: var(--space-1) 0 var(--space-3); }
+  .service-section__body p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text);
+    opacity: 0.92;
+    margin-bottom: var(--space-2);
+    max-width: 60ch;
+  }
+  .service-points {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-2) 0 var(--space-3);
+  }
+  .service-points li {
+    padding: 8px 0;
+    border-top: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .service-points li:last-child { border-bottom: 1px solid var(--border); }
+  .service-section__more {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+  }
+
+  /* Stock strip */
+  .stock-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+  @media (max-width: 768px) { .stock-strip { grid-template-columns: 1fr; } }
+
+  /* Final CTA */
+  .final-cta-section {
+    text-align: center;
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-6);
+  }
+  .final-cta-section h2 {
+    font-size: clamp(32px, 4.5vw, 56px);
+    margin: 0 0 var(--space-2);
+  }
+  .final-cta-section .section-lede {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: var(--space-3);
+  }
+  .final-cta-row {
+    display: flex;
+    gap: var(--space-2);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>

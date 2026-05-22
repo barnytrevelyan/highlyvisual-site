@@ -1,0 +1,27 @@
+---
+import { awards as defaultAwards, type Award } from '../data/awards';
+
+interface Props {
+  items?: Award[];
+  label?: string;
+}
+
+const { items = defaultAwards, label = 'Awards & recognition' } = Astro.props;
+---
+<section class="container awards-section reveal" aria-label={label}>
+  <p class="section-title">{label}</p>
+  <p class="section-lede">
+    Drone-operator and aerial contributions to productions honoured by the Television Academy,
+    Critics Choice, Jackson Wild, the Royal Television Society and others between 2020 and 2024.
+  </p>
+  <div class="awards-grid reveal-stagger">
+    {items.map((a) => (
+      <article class="award-card">
+        <p class="award-year">{a.year} · {a.body}</p>
+        <h3 class="award-headline">{a.award}</h3>
+        <p class="award-production"><em>{a.production}</em> — {a.productionHouse}{a.distributor && <> · {a.distributor}</>}</p>
+        <p class="award-role">{a.operatorRole} · <strong style="color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;font-weight:600;font-size:11px">{a.status}</strong></p>
+      </article>
+    ))}
+  </div>
+</section>
