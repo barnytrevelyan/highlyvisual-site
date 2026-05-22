@@ -67,6 +67,7 @@
     { "source": "/remote-filming",              "destination": "/services/",                      "permanent": true },
     { "source": "/stock-footage",               "destination": "https://stock.highlyvisual.com/", "permanent": true },
     { "source": "/product-page/:slug*",         "destination": "https://hirevisual.com/",         "permanent": true },
+    { "source": "/category/:slug*",             "destination": "https://hirevisual.com/",         "permanent": true },
     { "source": "/pages-sitemap.xml",           "destination": "/sitemap.xml",                    "permanent": true },
     { "source": "/store-products-sitemap.xml",  "destination": "/sitemap.xml",                    "permanent": true },
     { "source": "/store-categories-sitemap.xml","destination": "/sitemap.xml",                    "permanent": true },
