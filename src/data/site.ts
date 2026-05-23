@@ -50,6 +50,7 @@ export const site = {
     { name: 'Off the Fence',                    logo: '/img/logos/off-the-fence.png' },
     { name: 'National Geographic',              logo: '/img/logos/national-geographic.png' },
     { name: 'Disney',                           logo: '/img/logos/disney.png' },
+    { name: 'Silk Road Visual',                 logo: '/img/logos/silk-road-visual.png',        plate: 'light' as const },
     { name: 'Magical Kenya · Kenya Tourism Board', logo: '/img/logos/magical-kenya.png',         plate: 'light' as const },
   ],
   // Brand pillars — operator's own framing from /filming-1 (live site About page)
