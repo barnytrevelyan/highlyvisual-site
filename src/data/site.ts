@@ -35,20 +35,22 @@ export const site = {
         'Aerial, long-lens wildlife, East African ecology — 2,700+ clips and growing. Licensed for broadcast; discounted rates for African productions, students and NGOs.',
     },
   },
-  // The 10-house list shown on the homepage strip; the broader client list lives on About.
+  // Production houses shown on the homepage marquee — operator-supplied logos
+  // processed for the dark theme. `name` is the alt text and the on-card label;
+  // `logo` is the static asset; `plate: 'light'` applies a white background to
+  // brand marks whose colours need a light surface to read (Silverback, Magical
+  // Kenya). The broader client list lives on /about/.
   productionHouses: [
-    'BBC Natural History Unit',
-    'Silverback Films',
-    'Plimsoll Productions',
-    'Offspring Films',
-    'Studio Silverback',
-    'National Geographic',
-    'Disney+',
-    'Netflix',
-    'Silk Road Visual',
-    'Kenya Tourism Board',
-    'Apple TV+',
-    'Channel 4',
+    { name: 'BBC Studios Natural History Unit', logo: '/img/logos/bbc-nhu.png' },
+    { name: 'Silverback Films',                 logo: '/img/logos/silverback-films.png',        plate: 'light' as const },
+    { name: 'Plimsoll Productions',             logo: '/img/logos/plimsoll-productions.png' },
+    { name: 'Wildstar Films',                   logo: '/img/logos/wildstar-films.png' },
+    { name: 'Wild Space Productions',           logo: '/img/logos/wild-space-productions.png' },
+    { name: 'Humblebee Films',                  logo: '/img/logos/humblebee-films.png' },
+    { name: 'Off the Fence',                    logo: '/img/logos/off-the-fence.png' },
+    { name: 'National Geographic',              logo: '/img/logos/national-geographic.png' },
+    { name: 'Disney',                           logo: '/img/logos/disney.png' },
+    { name: 'Magical Kenya · Kenya Tourism Board', logo: '/img/logos/magical-kenya.png',         plate: 'light' as const },
   ],
   // Brand pillars — operator's own framing from /filming-1 (live site About page)
   pillars: [
