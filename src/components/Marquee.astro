@@ -27,8 +27,8 @@ const doubled = [...items, ...items];
 
 <style>
   .marquee-section {
-    padding-top: var(--space-5);
-    padding-bottom: var(--space-5);
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
   }
   /* Logo-cell sizing — every logo normalised to a consistent visible height so
      wildly different aspect ratios don't break the rhythm. The cell is a flex
@@ -63,10 +63,6 @@ const doubled = [...items, ...items];
     height: 48px;
   }
   @media (max-width: 768px) {
-    .marquee-section {
-      padding-top: var(--space-4);
-      padding-bottom: var(--space-4);
-    }
     .marquee-logo { margin: 0 var(--space-3); }
     .marquee-logo img { height: 46px; }
     .marquee-logo.is-plate img { height: 36px; }
