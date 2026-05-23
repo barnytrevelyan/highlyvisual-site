@@ -29,10 +29,17 @@ const finalLede =
   'Most projects find me through word-of-mouth — production manager to production manager. If you have a project that needs aerial work, long-lens wildlife, or local fixing on the ground, get in touch.';
 ---
 <section class="site-band reveal" aria-labelledby="site-band-heading" data-compact={compact}>
-  <div class="container">
+  <!-- Grain texture overlay — pure SVG noise, no chromatic accent, gives the
+       big flat dark band a sense of material/film grain instead of flat black. -->
+  <div class="site-band__grain" aria-hidden="true"></div>
+  <!-- Vignette so the band reads as a defined zone with light entering from
+       the top centre, falling off into the footer below. Pure luminance, no hue. -->
+  <div class="site-band__vignette" aria-hidden="true"></div>
+
+  <div class="container site-band__inner">
     {!compact && (
       <div class="band-cta">
-        <p class="eyebrow">Get in touch</p>
+        <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>Get in touch<span class="eyebrow__rule" aria-hidden="true"></span></p>
         <h2 id="site-band-heading">{finalHeading}</h2>
         <p class="band-lede">{finalLede}</p>
         <div class="band-cta-row">
@@ -54,20 +61,32 @@ const finalLede =
     <!-- Sister-site cards — every page passes hv_sister_sites_signposted -->
     <div class="band-sisters" aria-label="Sister sites">
       <a href={site.sister.hire.url} target="_blank" rel="noopener noreferrer" class="sister-tile">
-        <div class="sister-tile__head">
-          <span class="sister-tile__tag">{site.sister.hire.tag}</span>
-          <h3>hirevisual.com</h3>
+        <div class="sister-tile__media" aria-hidden="true">
+          <img src="/img/cinema-rental-inspire.jpg" alt="" loading="lazy" />
+          <div class="sister-tile__media-mask"></div>
         </div>
-        <p>{site.sister.hire.desc}</p>
-        <span class="sister-tile__cta">Browse the kit list →</span>
+        <div class="sister-tile__body">
+          <div class="sister-tile__head">
+            <span class="sister-tile__tag">{site.sister.hire.tag}</span>
+            <h3>hirevisual.com</h3>
+          </div>
+          <p>{site.sister.hire.desc}</p>
+          <span class="sister-tile__cta">Browse the kit list →</span>
+        </div>
       </a>
       <a href={site.sister.stock.url} target="_blank" rel="noopener noreferrer" class="sister-tile">
-        <div class="sister-tile__head">
-          <span class="sister-tile__tag">{site.sister.stock.tag}</span>
-          <h3>stock.highlyvisual.com</h3>
+        <div class="sister-tile__media" aria-hidden="true">
+          <img src="/img/bts-elephants-sunset.jpg" alt="" loading="lazy" />
+          <div class="sister-tile__media-mask"></div>
         </div>
-        <p>{site.sister.stock.desc}</p>
-        <span class="sister-tile__cta">Search the archive →</span>
+        <div class="sister-tile__body">
+          <div class="sister-tile__head">
+            <span class="sister-tile__tag">{site.sister.stock.tag}</span>
+            <h3>stock.highlyvisual.com</h3>
+          </div>
+          <p>{site.sister.stock.desc}</p>
+          <span class="sister-tile__cta">Search the archive →</span>
+        </div>
       </a>
     </div>
   </div>
@@ -75,30 +94,58 @@ const finalLede =
 
 <style>
   .site-band {
+    position: relative;
+    isolation: isolate;
     border-top: 1px solid var(--border);
     padding: var(--space-6) 0 var(--space-5);
+    /* Multi-stop spotlight + bottom vignette so the band reads as a defined
+       zone with light entering from the upper centre and falling off into
+       the footer. All warm-white luminance, no chromatic accent. */
     background:
-      radial-gradient(80% 60% at 50% 0%, rgba(245,244,241,0.04) 0%, transparent 60%),
+      radial-gradient(70% 50% at 50% 0%, rgba(245,244,241,0.10) 0%, rgba(245,244,241,0.03) 35%, transparent 70%),
+      linear-gradient(to bottom, rgba(245,244,241,0.025) 0%, transparent 30%, rgba(0,0,0,0.35) 100%),
       var(--bg);
+    overflow: hidden;
   }
   .site-band[data-compact="true"] {
     padding: var(--space-4) 0 var(--space-3);
   }
-  /* Mobile — cut the big sitewide-band padding. The 144px top + 96px
-     bottom reads as black void on a phone before the credentials + sister
-     tiles appear. */
   @media (max-width: 768px) {
-    .site-band {
-      padding: var(--space-4) 0 var(--space-3);
-    }
-    .site-band[data-compact="true"] {
-      padding: var(--space-3) 0 var(--space-2);
-    }
+    .site-band { padding: var(--space-4) 0 var(--space-3); }
+    .site-band[data-compact="true"] { padding: var(--space-3) 0 var(--space-2); }
   }
   @media (max-width: 480px) {
-    .site-band {
-      padding: var(--space-3) 0 var(--space-2);
-    }
+    .site-band { padding: var(--space-3) 0 var(--space-2); }
+  }
+
+  /* Film-grain overlay — pure-luminance SVG noise. Sits behind the inner
+     content but above the gradients. Cheap material depth that signals
+     analogue / film-tier production without violating the no-chromatic-accent
+     rule. ~3 kB inline SVG, GPU-cheap. */
+  .site-band__grain {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.18;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 280 280'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.6' numOctaves='2' stitchTiles='stitch' seed='3'/><feColorMatrix values='0 0 0 0 0.96  0 0 0 0 0.95  0 0 0 0 0.91  0 0 0 0.85 0'/></filter><rect width='280' height='280' filter='url(%23n)'/></svg>");
+    background-size: 280px 280px;
+  }
+
+  /* Soft bottom vignette to seat the band visually against the footer */
+  .site-band__vignette {
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 35%;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.55) 100%);
+  }
+
+  .site-band__inner {
+    position: relative;
+    z-index: 1;
   }
 
   /* CTA block */
@@ -113,15 +160,25 @@ const finalLede =
   .band-cta .eyebrow {
     font-size: 12px;
     color: var(--text-muted);
-    letter-spacing: 0.16em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    margin: 0 0 var(--space-1);
+    margin: 0 0 var(--space-2);
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .band-cta .eyebrow__rule {
+    display: inline-block;
+    width: 36px;
+    height: 1px;
+    background: var(--border-strong);
   }
   .band-cta h2 {
-    font-size: clamp(32px, 4.5vw, 56px);
+    font-size: clamp(32px, 4.8vw, 60px);
     margin: 0 0 var(--space-2);
-    letter-spacing: -0.02em;
-    line-height: 1.05;
+    letter-spacing: -0.025em;
+    line-height: 1.02;
+    font-weight: 700;
   }
   .band-lede {
     font-size: clamp(16px, 1.5vw, 19px);
@@ -169,6 +226,22 @@ const finalLede =
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     padding-block: var(--space-3);
+    position: relative;
+  }
+  /* Hairline vertical dividers between credential cells on desktop */
+  @media (min-width: 769px) {
+    .band-credentials li + li {
+      position: relative;
+    }
+    .band-credentials li + li::before {
+      content: "";
+      position: absolute;
+      left: calc(-1 * var(--space-3) / 2);
+      top: 8px;
+      bottom: 8px;
+      width: 1px;
+      background: var(--border);
+    }
   }
   @media (max-width: 768px) {
     .band-credentials {
@@ -202,34 +275,80 @@ const finalLede =
     .band-credentials li { text-align: left; }
   }
 
-  /* Sister-site tiles */
+  /* Sister-site tiles — image-led composition. The black band gets visual
+     depth from actual operator imagery instead of flat surface cards. */
   .band-sisters {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-3);
   }
   @media (max-width: 768px) {
-    .band-sisters { grid-template-columns: 1fr; }
+    .band-sisters { grid-template-columns: 1fr; gap: var(--space-2); }
   }
   .sister-tile {
-    display: flex;
-    flex-direction: column;
-    padding: var(--space-3);
+    position: relative;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    align-items: stretch;
     background: var(--surface);
     border: 1px solid var(--border);
     color: var(--text);
     text-decoration: none;
-    transition: background var(--motion-normal), border-color var(--motion-normal), transform var(--motion-normal);
-    min-height: 200px;
+    overflow: hidden;
+    transition: background var(--motion-normal), border-color var(--motion-normal), transform var(--motion-normal), box-shadow var(--motion-normal);
+    box-shadow:
+      inset 0 1px 0 rgba(245,244,241,0.04),
+      0 1px 0 rgba(0,0,0,0.4);
   }
   .sister-tile:hover {
     background: var(--surface-2);
     border-color: var(--border-strong);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow:
+      inset 0 1px 0 rgba(245,244,241,0.06),
+      0 12px 32px rgba(0,0,0,0.55);
+  }
+  .sister-tile:hover .sister-tile__media img {
+    transform: scale(1.04);
   }
   .sister-tile:focus-visible {
     outline: 2px solid var(--text);
     outline-offset: 2px;
+  }
+  /* Media slot — image with a luminance mask so the photograph reads as a
+     desaturated material wash rather than a stamp. */
+  .sister-tile__media {
+    position: relative;
+    overflow: hidden;
+    min-height: 100%;
+  }
+  .sister-tile__media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1200ms var(--ease-out-soft);
+    filter: grayscale(0.35) contrast(0.95) brightness(0.78);
+  }
+  .sister-tile__media-mask {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to right, transparent 60%, var(--surface) 100%),
+      linear-gradient(to bottom, rgba(10,10,11,0.2) 0%, rgba(10,10,11,0.5) 100%);
+  }
+  .sister-tile:hover .sister-tile__media-mask {
+    background:
+      linear-gradient(to right, transparent 60%, var(--surface-2) 100%),
+      linear-gradient(to bottom, rgba(10,10,11,0.15) 0%, rgba(10,10,11,0.4) 100%);
+  }
+
+  .sister-tile__body {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-3);
+    min-height: 200px;
   }
   .sister-tile__head {
     display: flex;
@@ -240,13 +359,14 @@ const finalLede =
   .sister-tile__tag {
     font-size: 11px;
     color: var(--text-muted);
-    letter-spacing: 0.16em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
   }
   .sister-tile h3 {
     font-size: clamp(22px, 2.4vw, 30px);
     margin: 0;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.018em;
+    line-height: 1.1;
   }
   .sister-tile p {
     font-size: 14px;
@@ -260,5 +380,36 @@ const finalLede =
     font-weight: 600;
     color: var(--text);
     letter-spacing: 0.04em;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap var(--motion-normal);
+  }
+  .sister-tile:hover .sister-tile__cta {
+    gap: 12px;
+  }
+
+  /* Mobile: stack media above body, switch to 16:9 image strip */
+  @media (max-width: 768px) {
+    .sister-tile {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr;
+    }
+    .sister-tile__media {
+      aspect-ratio: 16 / 9;
+      min-height: 0;
+    }
+    .sister-tile__media-mask {
+      background:
+        linear-gradient(to bottom, rgba(10,10,11,0.2) 0%, var(--surface) 100%);
+    }
+    .sister-tile:hover .sister-tile__media-mask {
+      background:
+        linear-gradient(to bottom, rgba(10,10,11,0.15) 0%, var(--surface-2) 100%);
+    }
+    .sister-tile__body {
+      padding: var(--space-2) var(--space-3) var(--space-3);
+      min-height: 0;
+    }
   }
 </style>

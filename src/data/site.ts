@@ -32,7 +32,7 @@ export const site = {
       url: 'https://stock.highlyvisual.com',
       tag: '4K+ broadcast stock archive',
       desc:
-        'Aerial, long-lens wildlife, East African ecology — 1,200+ clips and growing. Licensed for broadcast; discounted rates for African productions, students and NGOs.',
+        'Aerial, long-lens wildlife, East African ecology — 2,700+ clips and growing. Licensed for broadcast; discounted rates for African productions, students and NGOs.',
     },
   },
   // The 10-house list shown on the homepage strip; the broader client list lives on About.

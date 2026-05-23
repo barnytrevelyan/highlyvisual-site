@@ -170,7 +170,7 @@ const featuredItemList = {
       <p class="section-title">Reels &amp; archive</p>
       <h2>Watch the archive.</h2>
       <p class="section-lede">
-        Two short walkthroughs of the stock archive at <a href={site.sister.stock.url} target="_blank" rel="noopener noreferrer">stock.highlyvisual.com</a> — 1,200+ broadcast-quality clips and growing.
+        Two short walkthroughs of the stock archive at <a href={site.sister.stock.url} target="_blank" rel="noopener noreferrer">stock.highlyvisual.com</a> — 2,700+ broadcast-quality clips and growing.
       </p>
     </header>
     <div class="grid grid-2 reveal-stagger">
@@ -215,38 +215,46 @@ const featuredItemList = {
   </section>
 
   <!-- Section: Sister sites -->
-  <section class="container sister-section reveal" aria-label="Sister sites">
-    <header class="section-head">
-      <p class="section-title">Sister sites</p>
-      <h2>Hire &amp; stock — separate properties.</h2>
-      <p class="section-lede">
-        Equipment hire and the broadcast stock archive live on dedicated domains.
-        Both are run from the same Nairobi shop and share the same WhatsApp number.
-      </p>
-    </header>
-    <div class="grid grid-2 reveal-stagger">
-      <a href={site.sister.hire.url} target="_blank" rel="noopener noreferrer" class="sister-card">
-        <div class="sister-card__img">
-          <img src="/img/cinema-rental-inspire.jpg" alt="DJI Inspire 2 with Zenmuse gimbal — cinema-grade rental kit" loading="lazy" />
-        </div>
-        <div class="sister-card__body">
-          <p class="eyebrow">{site.sister.hire.tag}</p>
-          <h3>hirevisual.com</h3>
-          <p>{site.sister.hire.desc}</p>
-          <span class="service-card__more">Visit hirevisual.com</span>
-        </div>
-      </a>
-      <a href={site.sister.stock.url} target="_blank" rel="noopener noreferrer" class="sister-card">
-        <div class="sister-card__img">
-          <img src="/img/bts-elephants-sunset.jpg" alt="Aerial wildlife footage from the stock archive" loading="lazy" />
-        </div>
-        <div class="sister-card__body">
-          <p class="eyebrow">{site.sister.stock.tag}</p>
-          <h3>stock.highlyvisual.com</h3>
-          <p>{site.sister.stock.desc}</p>
-          <span class="service-card__more">Visit stock.highlyvisual.com</span>
-        </div>
-      </a>
+  <section class="sister-section reveal" aria-label="Sister sites">
+    <div class="sister-section__grain" aria-hidden="true"></div>
+    <div class="sister-section__spotlight" aria-hidden="true"></div>
+    <div class="container sister-section__inner">
+      <header class="section-head sister-section__head">
+        <p class="section-title sister-section__eyebrow">
+          <span class="eyebrow__rule" aria-hidden="true"></span>Sister sites<span class="eyebrow__rule" aria-hidden="true"></span>
+        </p>
+        <h2>Hire &amp; stock — separate properties.</h2>
+        <p class="section-lede">
+          Equipment hire and the broadcast stock archive live on dedicated domains.
+          Both are run from the same Nairobi shop and share the same WhatsApp number.
+        </p>
+      </header>
+      <div class="grid grid-2 reveal-stagger">
+        <a href={site.sister.hire.url} target="_blank" rel="noopener noreferrer" class="sister-card">
+          <div class="sister-card__img">
+            <img src="/img/cinema-rental-inspire.jpg" alt="DJI Inspire 2 with Zenmuse gimbal — cinema-grade rental kit" loading="lazy" />
+            <div class="sister-card__mask" aria-hidden="true"></div>
+          </div>
+          <div class="sister-card__body">
+            <p class="eyebrow">{site.sister.hire.tag}</p>
+            <h3>hirevisual.com</h3>
+            <p>{site.sister.hire.desc}</p>
+            <span class="sister-card__more">Visit hirevisual.com <span class="sister-card__arrow" aria-hidden="true">→</span></span>
+          </div>
+        </a>
+        <a href={site.sister.stock.url} target="_blank" rel="noopener noreferrer" class="sister-card">
+          <div class="sister-card__img">
+            <img src="/img/bts-elephants-sunset.jpg" alt="Aerial wildlife footage from the stock archive" loading="lazy" />
+            <div class="sister-card__mask" aria-hidden="true"></div>
+          </div>
+          <div class="sister-card__body">
+            <p class="eyebrow">{site.sister.stock.tag}</p>
+            <h3>stock.highlyvisual.com</h3>
+            <p>{site.sister.stock.desc}</p>
+            <span class="sister-card__more">Visit stock.highlyvisual.com <span class="sister-card__arrow" aria-hidden="true">→</span></span>
+          </div>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -352,18 +360,79 @@ const featuredItemList = {
     .press-arrow { display: none; }
   }
 
-  /* Sister site cards */
+  /* === Sister sites section — full-bleed depth treatment === */
+  .sister-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background:
+      linear-gradient(to bottom, rgba(245,244,241,0.02) 0%, transparent 30%, rgba(0,0,0,0.30) 100%),
+      var(--bg);
+  }
+  .sister-section__inner {
+    position: relative;
+    z-index: 2;
+  }
+  /* Spotlight — warm-white luminance only */
+  .sister-section__spotlight {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(60% 50% at 50% 0%, rgba(245,244,241,0.08) 0%, rgba(245,244,241,0.02) 40%, transparent 70%);
+  }
+  /* Film grain — same SVG noise as SiteBand for cross-page coherence */
+  .sister-section__grain {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.15;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 280 280'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.6' numOctaves='2' stitchTiles='stitch' seed='5'/><feColorMatrix values='0 0 0 0 0.96  0 0 0 0 0.95  0 0 0 0 0.91  0 0 0 0.85 0'/></filter><rect width='280' height='280' filter='url(%23n)'/></svg>");
+    background-size: 280px 280px;
+  }
+  .sister-section__head { text-align: center; margin-left: auto; margin-right: auto; }
+  .sister-section__head .section-lede { margin-left: auto; margin-right: auto; }
+  .sister-section__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    letter-spacing: 0.22em;
+  }
+  .sister-section__eyebrow .eyebrow__rule {
+    display: inline-block;
+    width: 36px;
+    height: 1px;
+    background: var(--border-strong);
+  }
+
+  /* Sister site cards — image-led, dimensional */
   .sister-card {
     position: relative;
     display: flex;
     flex-direction: column;
     background: var(--surface);
+    border: 1px solid var(--border);
     overflow: hidden;
     text-decoration: none;
     color: var(--text);
-    transition: background var(--motion-normal), transform var(--motion-normal);
+    transition: background var(--motion-normal), border-color var(--motion-normal), transform var(--motion-normal), box-shadow var(--motion-normal);
+    box-shadow:
+      inset 0 1px 0 rgba(245,244,241,0.04),
+      0 1px 0 rgba(0,0,0,0.4);
   }
-  .sister-card:hover { background: var(--surface-2); transform: translateY(-3px); opacity: 1; }
+  .sister-card:hover {
+    background: var(--surface-2);
+    border-color: var(--border-strong);
+    transform: translateY(-4px);
+    opacity: 1;
+    box-shadow:
+      inset 0 1px 0 rgba(245,244,241,0.06),
+      0 16px 40px rgba(0,0,0,0.55);
+  }
   .sister-card__img {
     position: relative;
     aspect-ratio: 16 / 9;
@@ -372,22 +441,61 @@ const featuredItemList = {
   .sister-card__img img {
     width: 100%; height: 100%;
     object-fit: cover;
-    transition: transform 1200ms var(--ease-out-soft);
+    transition: transform 1400ms var(--ease-out-soft), filter var(--motion-normal);
+    filter: grayscale(0.25) contrast(0.98) brightness(0.85);
   }
-  .sister-card:hover .sister-card__img img { transform: scale(1.05); }
+  .sister-card:hover .sister-card__img img {
+    transform: scale(1.05);
+    filter: grayscale(0) contrast(1) brightness(1);
+  }
+  /* Bottom-fade mask to bleed image into card surface */
+  .sister-card__mask {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(10,10,11,0) 60%, var(--surface) 100%);
+    transition: background var(--motion-normal);
+  }
+  .sister-card:hover .sister-card__mask {
+    background: linear-gradient(to bottom, rgba(10,10,11,0) 60%, var(--surface-2) 100%);
+  }
   .sister-card__body {
     padding: var(--space-3);
   }
-  .sister-card h3 {
-    font-size: 28px;
+  .sister-card .eyebrow {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     margin: 0 0 var(--space-1);
-    letter-spacing: -0.02em;
+  }
+  .sister-card h3 {
+    font-size: clamp(24px, 2.4vw, 32px);
+    margin: 0 0 var(--space-1);
+    letter-spacing: -0.022em;
+    line-height: 1.05;
   }
   .sister-card p {
     font-size: 14px;
     color: var(--text-muted);
     line-height: 1.55;
     margin: 0 0 var(--space-2);
+  }
+  .sister-card__more {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.04em;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sister-card__arrow {
+    display: inline-block;
+    transition: transform var(--motion-normal) var(--ease-out);
+  }
+  .sister-card:hover .sister-card__arrow {
+    transform: translateX(6px);
   }
 
   /* Final CTA */
