@@ -119,7 +119,7 @@ export const credits: Credit[] = [
   { title: 'Endangered Species', productionHouse: 'Lionsgate', distributor: 'Theatrical', role: 'Aerial cinematography (Kenya unit)', year: '2021', cardImage: '/img/credit-endangered-species.jpg', lane: 'commercial' },
   { title: 'Poacher', productionHouse: 'Plan B Entertainment', distributor: 'Amazon Prime Video', role: 'Aerial cinematography (Kenya unit)', year: '2024', cardImage: '/img/credit-poacher.jpg', lane: 'commercial' },
   { title: 'Cheli & Peacock Mobile Safaris', productionHouse: 'Cheli & Peacock', distributor: 'Brand film', role: 'Producer · DP · Drone Operator', year: '2023', cardImage: '/img/credit-cheli-peacock.jpg', url: '/work/cheli-peacock/', lane: 'commercial' },
-  { title: 'Canniverse', productionHouse: 'Silk Road Visual + Kenya Tourism Board', distributor: 'Fulldome / immersive', role: 'Documentary photography consultant', year: '2024–', cardImage: '/img/hero-4-silkroad.png', url: '/work/silk-road-canniverse/', lane: 'fixing' },
+  { title: 'Canniverse', productionHouse: 'Silk Road Visual + Kenya Tourism Board', distributor: 'Fulldome / immersive', role: 'Documentary photography consultant', year: '2024–', cardImage: '/img/hero-4-silkroad.jpg', url: '/work/silk-road-canniverse/', lane: 'fixing' },
   { title: 'Kasas Kenya', productionHouse: 'Kasas Air Charter', distributor: 'Brand film', role: 'Producer · Director · DOP · Drone Operator', year: '2026', cardImage: '/img/sup-2-kasas-kenya.jpg', url: '/work/kasas-kenya/', lane: 'commercial' },
 ];
 

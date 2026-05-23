@@ -1,0 +1,144 @@
+Images processed: 138
+Total before: 46.37 MB
+Total after:  20.02 MB
+Saved:        26.36 MB  (56.8%)
+
+File                                                 Before      After      Saved  Note
+portrait-attenborough-hires.jpg                      9161 KB      194 KB     8967 KB  resized 2872px→1800px,jpeg
+wildlife-cheetah-profile.jpg                         4604 KB      222 KB     4382 KB  resized 4096px→1800px,jpeg
+hero-5-attenborough.jpg                              4177 KB      340 KB     3837 KB  resized 5796px→2400px,jpeg
+sup-2-event-aerial.jpg                               3426 KB      182 KB     3243 KB  resized 4000px→1800px,jpeg
+sup-1-fixing-crew.jpg                                2939 KB      163 KB     2776 KB  resized 3840px→1800px,jpeg
+wildlife-lion-bush.jpg                               2794 KB      384 KB     2410 KB  resized 3543px→1800px,jpeg
+kit-on-location.jpg                                  1161 KB      229 KB      932 KB  resized 2933px→1800px,jpeg
+sup-1-fixing.jpg                                      388 KB      247 KB      141 KB  resized 1920px→1800px,jpeg
+body-storm.webp                                       206 KB      154 KB       52 KB  jpeg
+portrait-barny-flying.jpg                             107 KB       72 KB       36 KB  jpeg
+bts-launching-mavic.webp                              299 KB      277 KB       22 KB  jpeg
+body-crested-crane.webp                               290 KB      268 KB       22 KB  jpeg
+hero-3-canoes.webp                                    395 KB      374 KB       21 KB  jpeg
+body-img-1186.webp                                    172 KB      159 KB       13 KB  jpeg
+body-ivory-burn.webp                                   98 KB       86 KB       12 KB  jpeg
+heli-cabin-dusk.webp                                   82 KB       71 KB       11 KB  jpeg
+bts-earth-at-night.webp                               304 KB      293 KB       11 KB  jpeg
+feat-5-green-planet.webp                              329 KB      318 KB       11 KB  jpeg
+body-coastal-aerial.webp                              208 KB      198 KB       10 KB  jpeg
+aerial-dune-landscape.webp                            112 KB      102 KB       10 KB  jpeg
+hero-2-serval.webp                                    600 KB      591 KB       10 KB  jpeg
+aerial-remote-camp.webp                               228 KB      220 KB        9 KB  jpeg
+cinema-rental-inspire.webp                            487 KB      479 KB        7 KB  jpeg
+wildlife-amboseli-elephant.jpg                        192 KB      185 KB        7 KB  jpeg
+body-btj-7717.webp                                     97 KB       90 KB        7 KB  jpeg
+bts-elephants-sunset.webp                             193 KB      186 KB        7 KB  jpeg
+feat-3-helicopter-elephants.webp                      193 KB      186 KB        7 KB  jpeg
+bts-helicopter-crew.webp                               71 KB       65 KB        6 KB  jpeg
+feat-2-helicopter-crew.webp                            71 KB       65 KB        6 KB  jpeg
+credit-africa-from-above.webp                          46 KB       40 KB        6 KB  jpeg
+feat-5-dynasties-ii.webp                               76 KB       70 KB        6 KB  jpeg
+bts-elephants-aerial.webp                             273 KB      268 KB        6 KB  jpeg
+feat-1-elephants-aerial.webp                          273 KB      268 KB        6 KB  jpeg
+credit-the-green-planet.webp                          168 KB      163 KB        5 KB  jpeg
+hero-1-drone-bob-poole.webp                            44 KB       39 KB        5 KB  jpeg
+credit-secret-world-of-sound.webp                     136 KB      131 KB        5 KB  jpeg
+credit-breaking-boundaries.webp                        61 KB       56 KB        5 KB  jpeg
+credit-nigel-archer.webp                               83 KB       79 KB        4 KB  jpeg
+body-storm-landscape.webp                              33 KB       29 KB        4 KB  jpeg
+aerial-migration-mara.webp                             52 KB       48 KB        4 KB  jpeg
+credit-fearless-chef.webp                              61 KB       57 KB        3 KB  jpeg
+credit-endangered-species.webp                         68 KB       65 KB        3 KB  jpeg
+credit-cheli-peacock.webp                              28 KB       25 KB        3 KB  jpeg
+credit-seat-at-the-table.webp                          96 KB       93 KB        3 KB  jpeg
+credit-rendezvous.webp                                103 KB      101 KB        3 KB  jpeg
+credit-secrets-of-elephants.webp                      132 KB      130 KB        3 KB  jpeg
+feat-3-secrets-of-the-elephants.webp                  132 KB      130 KB        3 KB  jpeg
+credit-dynasties-ii.webp                               46 KB       43 KB        3 KB  jpeg
+body-cheetah.webp                                      52 KB       50 KB        3 KB  jpeg
+drone-flamingos.webp                                   24 KB       22 KB        2 KB  jpeg
+credit-legacy.webp                                    213 KB      211 KB        2 KB  jpeg
+credit-queens.webp                                     38 KB       37 KB        2 KB  jpeg
+credit-incredible-animal-journeys.webp                 44 KB       43 KB        1 KB  jpeg
+feat-4-heron.webp                                      24 KB       23 KB        1 KB  jpeg
+credit-our-changing-planet.webp                        11 KB       10 KB        1 KB  jpeg
+credit-wild-babies.webp                                30 KB       29 KB        1 KB  jpeg
+credit-poacher.webp                                    15 KB       14 KB        1 KB  jpeg
+credit-perfect-planet.webp                             15 KB       14 KB        0 KB  jpeg
+credit-seven-worlds.webp                               15 KB       14 KB        0 KB  jpeg
+feat-4-seven-worlds-one-planet.webp                    15 KB       14 KB        0 KB  jpeg
+credit-prodigies.webp                                   9 KB        9 KB        0 KB  jpeg
+credit-tiny-world.webp                                  9 KB        9 KB        0 KB  jpeg
+credit-earth-at-night.webp                             13 KB       12 KB        0 KB  jpeg
+sup-2-kasas-kenya.jpg                                  81 KB       81 KB        0 KB  jpeg
+credit-our-planet-ii.webp                              10 KB       10 KB        0 KB  jpeg
+credit-earth-from-space.webp                           15 KB       15 KB        0 KB  jpeg
+credit-a-life-on-our-planet.webp                       14 KB       14 KB        0 KB  jpeg
+feat-1-a-life-on-our-planet.webp                       14 KB       14 KB        0 KB  jpeg
+credit-ecosphere.webp                                  16 KB       15 KB        0 KB  jpeg
+credit-secret-world-of-sound.jpeg                     187 KB      187 KB        0 KB  jpeg
+credit-the-green-planet.jpg                           223 KB      223 KB        0 KB  jpeg
+credit-our-great-national-parks.webp                   23 KB       22 KB        0 KB  jpeg
+feat-2-our-great-national-parks.webp                   23 KB       22 KB        0 KB  jpeg
+feat-5-green-planet.jpg                               454 KB      454 KB        0 KB  jpeg
+credit-legacy.jpg                                     245 KB      244 KB        0 KB  jpeg
+cinema-rental-inspire.jpg                             634 KB      634 KB        0 KB  jpeg
+credit-story-of-us.webp                                 8 KB        7 KB        0 KB  jpeg
+credit-breaking-boundaries.jpg                        118 KB      118 KB        0 KB  jpeg
+credit-equator-from-the-air.webp                       13 KB       12 KB        0 KB  jpeg
+body-img-1186.jpg                                     295 KB      295 KB        0 KB  jpeg
+body-ivory-burn.jpg                                   195 KB      195 KB        0 KB  jpeg
+hero-4-silkroad.jpg                                   190 KB      190 KB        0 KB  jpeg
+credit-nigel-archer.jpg                               131 KB      131 KB        0 KB  jpeg
+credit-our-great-national-parks.jpg                    28 KB       28 KB        0 KB  jpeg
+feat-2-our-great-national-parks.jpg                    28 KB       28 KB        0 KB  jpeg
+feat-5-dynasties-ii.jpg                               174 KB      174 KB        0 KB  jpeg
+credit-secrets-of-elephants.jpg                       185 KB      185 KB        0 KB  jpeg
+feat-3-secrets-of-the-elephants.jpg                   185 KB      185 KB        0 KB  jpeg
+credit-seat-at-the-table.jpg                          145 KB      145 KB        0 KB  jpeg
+aerial-migration-mara.jpg                             108 KB      108 KB        0 KB  jpeg
+credit-fearless-chef.jpg                              116 KB      116 KB        0 KB  jpeg
+aerial-remote-camp.jpg                                342 KB      341 KB        0 KB  jpeg
+credit-poacher.jpg                                     22 KB       22 KB        0 KB  jpeg
+bts-earth-at-night.jpg                                395 KB      395 KB        0 KB  jpeg
+credit-dynasties-ii.jpg                                92 KB       92 KB        0 KB  jpeg
+credit-rendezvous.jpg                                 136 KB      136 KB        0 KB  jpeg
+credit-perfect-planet.jpg                              20 KB       20 KB        0 KB  jpeg
+body-btj-7717.jpg                                     222 KB      222 KB        0 KB  jpeg
+credit-africa-from-above.jpg                          107 KB      107 KB        0 KB  jpeg
+body-crested-crane.jpg                                493 KB      493 KB        0 KB  jpeg
+bts-elephants-sunset.jpg                              318 KB      318 KB        0 KB  jpeg
+feat-3-helicopter-elephants.jpg                       318 KB      318 KB        0 KB  jpeg
+credit-story-of-us.jpg                                 13 KB       13 KB        0 KB  jpeg
+credit-wild-babies.jpg                                 38 KB       38 KB        0 KB  jpeg
+credit-queens.jpg                                      55 KB       55 KB        0 KB  jpeg
+credit-cheli-peacock.jpg                               66 KB       66 KB        0 KB  jpeg
+credit-earth-at-night.jpg                              19 KB       19 KB        0 KB  jpeg
+credit-tiny-world.jpg                                  15 KB       15 KB        0 KB  jpeg
+credit-ecosphere.jpg                                   24 KB       24 KB        0 KB  jpeg
+hero-1-drone-bob-poole.jpg                            191 KB      191 KB        0 KB  jpeg
+credit-earth-from-space.jpg                            21 KB       21 KB        0 KB  jpeg
+credit-a-life-on-our-planet.jpg                        20 KB       20 KB        0 KB  jpeg
+feat-1-a-life-on-our-planet.jpg                        20 KB       20 KB        0 KB  jpeg
+aerial-dune-landscape.jpg                             186 KB      186 KB        0 KB  jpeg
+body-coastal-aerial.jpg                               304 KB      304 KB        0 KB  jpeg
+credit-equator-from-the-air.jpg                        19 KB       19 KB        0 KB  jpeg
+bts-elephants-aerial.jpg                              386 KB      386 KB        0 KB  jpeg
+feat-1-elephants-aerial.jpg                           386 KB      386 KB        0 KB  jpeg
+bts-helicopter-crew.jpg                               163 KB      163 KB        0 KB  jpeg
+feat-2-helicopter-crew.jpg                            163 KB      163 KB        0 KB  jpeg
+credit-our-changing-planet.jpg                         28 KB       28 KB        0 KB  jpeg
+credit-seven-worlds.jpg                                21 KB       21 KB        0 KB  jpeg
+feat-4-seven-worlds-one-planet.jpg                     21 KB       21 KB        0 KB  jpeg
+logo.png                                               23 KB       23 KB        0 KB  skip-logo
+logo.svg                                                0 KB        0 KB        0 KB  skip-svg
+test-rename-dst.txt                                     0 KB        0 KB        0 KB  error-open:cannot identify image file '/sessions/exciting-quirky-goldberg/mnt/Highly Visual/build/site/public/img/test-rename-dst.txt'
+body-storm-landscape.jpg                               99 KB       99 KB       -0 KB  jpeg
+heli-cabin-dusk.jpg                                   204 KB      204 KB       -0 KB  jpeg
+credit-prodigies.jpg                                   15 KB       15 KB       -0 KB  jpeg
+bts-launching-mavic.jpg                               445 KB      445 KB       -0 KB  jpeg
+hero-2-serval.jpg                                     782 KB      782 KB       -0 KB  jpeg
+drone-flamingos.jpg                                    54 KB       54 KB       -0 KB  jpeg
+hero-3-canoes.jpg                                     669 KB      669 KB       -0 KB  jpeg
+body-storm.jpg                                        394 KB      394 KB       -0 KB  jpeg
+feat-4-heron.jpg                                       71 KB       71 KB       -0 KB  jpeg
+credit-endangered-species.jpg                         113 KB      113 KB       -0 KB  jpeg
+body-cheetah.jpg                                      108 KB      109 KB       -1 KB  jpeg
+sup-3-coastal-aerial.jpg                              209 KB      304 KB      -94 KB  resized 2000px→1800px,jpeg

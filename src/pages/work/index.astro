@@ -58,6 +58,10 @@ const workItemList = {
         Project-by-project deep dives. The full credit list — 30+ broadcast productions —
         lives on <a href="/credits/">/credits/</a>; this is where each one gets a page of its own.
       </p>
+      <div class="work-hero__cta">
+        <a href="/contact/" class="cta cta--primary">Discuss a project</a>
+        <a href="/credits/" class="cta cta--ghost">Full credit list</a>
+      </div>
     </div>
   </section>
 
@@ -146,6 +150,27 @@ const workItemList = {
     opacity: 0.92;
   }
   .work-hero__content a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+  .work-hero__cta {
+    display: flex;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    flex-wrap: wrap;
+  }
+  .work-hero__cta .cta--primary {
+    background: var(--text);
+    color: var(--bg);
+    padding: 14px 28px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border: 1px solid var(--text);
+    text-decoration: none;
+    transition: transform var(--motion-normal) var(--ease-out), opacity var(--motion-normal);
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .work-hero__cta .cta--primary:hover { transform: translateY(-1px); opacity: 0.92; }
+  .work-hero__cta a { text-decoration: none; }
 
   .work-section { padding-top: var(--space-4); }
 

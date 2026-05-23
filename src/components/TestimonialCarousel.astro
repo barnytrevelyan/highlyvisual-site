@@ -53,5 +53,25 @@ const {
   }
   .testimonial-section .section-title {
     text-align: center;
+    margin-bottom: var(--space-2);
+  }
+  /* Mobile — strip the large vertical breathing room. The carousel
+     visually centres itself in its own padding and stacks tall on
+     small viewports; collapse the section frame so it doesn't read
+     as a half-screen of empty black. */
+  @media (max-width: 768px) {
+    .testimonial-section {
+      padding-top: var(--space-3);
+      padding-bottom: var(--space-3);
+    }
+    .testimonial-section .section-title {
+      margin-bottom: var(--space-1);
+    }
+  }
+  @media (max-width: 480px) {
+    .testimonial-section {
+      padding-top: var(--space-2);
+      padding-bottom: var(--space-2);
+    }
   }
 </style>

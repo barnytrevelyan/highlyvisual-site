@@ -9,8 +9,8 @@
   --surface:      #15161A;
   --surface-2:    #1F2024;
   --text:         #F5F4F1;
-  --text-muted:   #9B9C9F;
-  --text-faint:   #5D5E62;
+  --text-muted:   #B0B1B4;
+  --text-faint:   #7B7C80;
   --border:       #252628;
   --border-strong:#393A3E;
   --accent:       #E8C890;   /* warm amber, sparingly — only used for award highlights */
@@ -118,6 +118,31 @@ a:hover { opacity: 0.88; }
 
 ::selection { background: var(--text); color: var(--bg); }
 
+/* Global focus ring — visible on every interactive element via keyboard.
+   Honours :focus-visible so mouse clicks don't leave a stuck outline, but
+   tabbing always shows a clear high-contrast indicator. WCAG 2.1 §2.4.7. */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+.cta:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(10, 10, 11, 0.85);
+}
+
+/* Bumped contrast on muted/faint text — text-faint previously fell below
+   WCAG AA for small body text at 3.2:1. Keep the visual hierarchy by using
+   a slightly brighter faint and reserving the dim tone for spacers only. */
+
 /* Skip link */
 .skip-link {
   position: absolute;
@@ -174,6 +199,9 @@ section { padding-top: var(--space-5); padding-bottom: var(--space-5); }
   letter-spacing: 0.12em;
   margin: 0 0 var(--space-3);
 }
+@media (max-width: 768px) {
+  .section-title { margin-bottom: var(--space-2); }
+}
 .section-lede {
   font-size: clamp(18px, 1.8vw, 24px);
   line-height: 1.5;
@@ -181,6 +209,16 @@ section { padding-top: var(--space-5); padding-bottom: var(--space-5); }
   opacity: 0.92;
   max-width: 760px;
   margin: 0 0 var(--space-4);
+}
+@media (max-width: 768px) {
+  .section-lede {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: var(--space-3);
+  }
+}
+@media (max-width: 480px) {
+  .section-lede { margin-bottom: var(--space-2); }
 }
 
 /* CTA */

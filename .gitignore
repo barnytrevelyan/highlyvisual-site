@@ -27,3 +27,8 @@ pnpm-debug.log*
 
 # vercel
 .vercel
+
+# local backups
+_trash/
+img-original-backup/
+img-original-backup-perf/

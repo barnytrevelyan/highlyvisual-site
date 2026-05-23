@@ -3,6 +3,7 @@ import '../styles/tokens.css';
 import '../styles/animations.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import SiteBand from '../components/SiteBand.astro';
 import { site } from '../data/site';
 
 interface Props {
@@ -19,17 +20,27 @@ interface Props {
   extraSchema?: Record<string, unknown>[];
   // URL of an image (relative path or absolute) to <link rel="preload"> for LCP.
   preloadImage?: string;
+  // Sitewide pre-footer band. Defaults to the full call-to-action treatment.
+  // Pages that already render their own bespoke final CTA (homepage, contact)
+  // pass `band="compact"` to keep just the credentials strip + sister-site
+  // tiles; pages can opt out entirely with `band="none"`.
+  band?: 'full' | 'compact' | 'none';
+  bandHeading?: string;
+  bandLede?: string;
 }
 
 const {
   title,
   description,
-  ogImage = '/img/portrait-barny-flying.jpg',
+  ogImage = '/img/og-default.jpg',
   ogType = 'website',
   canonical,
   bodyClass,
   extraSchema = [],
   preloadImage,
+  band = 'full',
+  bandHeading,
+  bandLede,
 } = Astro.props;
 const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
 const absoluteOgImage = new URL(ogImage, Astro.site).toString();
@@ -50,7 +61,12 @@ const absoluteOgImage = new URL(ogImage, Astro.site).toString();
     <meta name="theme-color" content="#0A0A0B" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <link rel="canonical" href={canonicalURL} />
-    <link rel="icon" href="/img/logo.png" type="image/png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Open Graph -->
     <meta property="og:type" content={ogType} />
@@ -190,6 +206,13 @@ const absoluteOgImage = new URL(ogImage, Astro.site).toString();
     <Header />
     <main id="main-content">
       <slot />
+      {band !== 'none' && (
+        <SiteBand
+          compact={band === 'compact'}
+          heading={bandHeading}
+          lede={bandLede}
+        />
+      )}
     </main>
     <Footer />
     <script is:inline src="/scripts/animations.js" defer></script>

@@ -30,6 +30,63 @@ const aboutPage = {
   about: { '@id': new URL('/', Astro.site).toString() + '#person' },
   mainEntity: { '@id': new URL('/', Astro.site).toString() + '#organization' },
 };
+
+// FAQ schema — surfaces operator credentials and scope as Q&A for AI / LLM
+// crawlers and rich-results-eligible Q&A snippets.
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Where is Highly Visual based?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Nairobi, Kenya. Operations span East Africa with regular work in Tanzania, Uganda, Rwanda, Botswana, South Africa and beyond.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Is Barny Trevelyan-Johnson CAA-licensed for drone operations?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. UK Civil Aviation Authority Permission for Commercial Operations (PfCO) UAS 9543, continuously held since 2017. Highly Visual was the first company in East Africa to operate professionally with drones for broadcast.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Is Highly Visual a KFCB-registered film fixer?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes — Highly Visual Limited is a registered local film agent with the Kenya Film Classification Board, capable of full local production support including permits, scouting, crew, vehicles, helicopters and customs.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What production houses has Barny worked with?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'BBC Natural History Unit, Silverback Films, Plimsoll Productions, Offspring Films, National Geographic, Disney+, Netflix, Apple TV+, Channel 4, Wild Space Productions, Higher Ground Productions, Nutopia, Wildstar Films, Humble Bee, Asylum Entertainment and others.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Does Highly Visual provide stock footage or equipment hire?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes — via two sister businesses. Equipment hire is at hirevisual.com (cinema-grade rental including DJI Inspire 3, Sony FX6/FX3, full lighting and audio kits). Broadcast 4K+ stock footage is at stock.highlyvisual.com (1,200+ clips, discounted for African productions, students and NGOs).',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Does Barny operate solo or with a crew?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Solo practice. Barny operates as a single-named cinematographer and drone operator. Crew is engaged per-production from a long-standing East African network.',
+      },
+    },
+  ],
+};
 ---
 <BaseLayout
   title={title}
@@ -37,7 +94,7 @@ const aboutPage = {
   ogImage="/img/portrait-barny-flying.jpg"
   ogType="profile"
   preloadImage="/img/portrait-barny-flying.jpg"
-  extraSchema={[breadcrumb, aboutPage]}
+  extraSchema={[breadcrumb, aboutPage, faqSchema]}
 >
 
   <!-- About hero — portrait + intro statement -->
@@ -60,6 +117,10 @@ const aboutPage = {
           regulations, KFCB and KCAA — while fostering strong relationships with local
           communities and conservation organisations to support ethical storytelling.
         </p>
+        <div class="about-hero-cta">
+          <a href="/contact/" class="cta cta--primary">Start a conversation</a>
+          <a href="/work/" class="cta cta--ghost">See the work</a>
+        </div>
       </div>
     </div>
   </section>
@@ -272,6 +333,13 @@ const aboutPage = {
 </BaseLayout>
 
 <style>
+  .about-hero-cta {
+    display: flex;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    flex-wrap: wrap;
+  }
+
   .about-hero {
     padding-top: clamp(120px, 18vh, 200px);
     padding-bottom: var(--space-5);
@@ -332,6 +400,9 @@ const aboutPage = {
     margin: var(--space-5) 0;
     padding: 0;
     overflow: hidden;
+  }
+  @media (max-width: 768px) {
+    .about-banner { margin: var(--space-3) 0; }
   }
   .about-banner img {
     width: 100%;
@@ -484,12 +555,15 @@ const aboutPage = {
     gap: var(--space-4);
     margin-top: var(--space-3);
   }
-  @media (max-width: 900px) { .about-testimonials { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) { .about-testimonials { grid-template-columns: 1fr; gap: var(--space-2); margin-top: var(--space-2); } }
   .pull-quote-card {
     margin: 0;
     padding: var(--space-3);
     background: var(--surface);
     border-left: 2px solid var(--accent);
+  }
+  @media (max-width: 768px) {
+    .pull-quote-card { padding: var(--space-2); }
   }
   .pull-quote-card blockquote {
     font-size: 16px;
@@ -497,6 +571,13 @@ const aboutPage = {
     font-style: italic;
     color: var(--text);
     margin: 0 0 var(--space-2);
+  }
+  @media (max-width: 768px) {
+    .pull-quote-card blockquote {
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: var(--space-1);
+    }
   }
   .pull-quote-card figcaption {
     font-size: 13px;
@@ -510,6 +591,12 @@ const aboutPage = {
     text-align: center;
     padding-top: var(--space-6);
     padding-bottom: var(--space-6);
+  }
+  @media (max-width: 768px) {
+    .final-cta-section { padding-top: var(--space-4); padding-bottom: var(--space-4); }
+  }
+  @media (max-width: 480px) {
+    .final-cta-section { padding-top: var(--space-3); padding-bottom: var(--space-3); }
   }
   .final-cta-section h2 {
     font-size: clamp(32px, 4.5vw, 56px);
