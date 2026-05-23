@@ -24,28 +24,36 @@ const {
 <section class={`hero hero--${height}`} aria-label="Hero">
   <!-- Cinematic still rotator with Ken Burns. Replaced by video iframe if videoUrl is set. -->
   <div class="hero-rotator" data-interval="5500" aria-hidden="true">
-    {rotator.map((slide, i) => (
-      <div class={`hero-rotator__slide ${i === 0 ? 'is-active' : ''}`}>
-        <img class="hero-rotator__img"
-             src={slide.src}
-             alt={slide.alt}
-             loading={i === 0 ? 'eager' : 'lazy'}
-             fetchpriority={i === 0 ? 'high' : 'auto'} />
-      </div>
-    ))}
+    {rotator.map((slide, i) => {
+      // Build srcset variants for any /img/*.jpg source. The 800/1200/1600
+      // sizes were generated alongside the originals during the audit fix;
+      // browsers pick the best fit and we stop shipping a 1800px source
+      // to a 412px mobile viewport.
+      const m = typeof slide.src === 'string' ? slide.src.match(/^(.+)\.(jpg|jpeg|webp)$/i) : null;
+      const srcset = m ? `${m[1]}-800.${m[2]} 800w, ${m[1]}-1200.${m[2]} 1200w, ${m[1]}-1600.${m[2]} 1600w, ${slide.src} 1800w` : undefined;
+      return (
+        <div class={`hero-rotator__slide ${i === 0 ? 'is-active' : ''}`}>
+          <img class="hero-rotator__img"
+               src={slide.src}
+               srcset={srcset}
+               sizes="100vw"
+               alt={slide.alt}
+               loading={i === 0 ? 'eager' : 'lazy'}
+               fetchpriority={i === 0 ? 'high' : 'auto'}
+               decoding={i === 0 ? 'sync' : 'async'} />
+        </div>
+      );
+    })}
   </div>
 
   {videoUrl && (
-    <div class="hero-video-wrap" aria-hidden="true">
-      <iframe class="hero-video"
-              src={videoUrl}
-              title="Natural-history showreel"
-              frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture"
-              loading="eager"
-              referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    <div class="hero-video-wrap" aria-hidden="true" data-hero-video data-src={videoUrl}>
+      {/* iframe is mounted by /scripts/hero-video.js on first user
+          interaction (or 4s post-load) so the eager Vimeo request
+          doesn't dominate first paint on cold visits. */}
     </div>
   )}
+  {videoUrl && <script is:inline src="/scripts/hero-video.js" defer></script>}
 
   <div class="hero-gradient" aria-hidden="true"></div>
 
@@ -137,5 +145,28 @@ const {
     letter-spacing: 0.18em;
     text-transform: uppercase;
     pointer-events: none;
+  }
+
+  /* Mobile fold protection — at 360×568 the eyebrow + H1 + sub + CTAs
+     plus default padding pushed the secondary CTA below the fold (audit
+     U4). On small viewports we tighten vertical rhythm and hide the
+     scroll hint so the primary + secondary CTAs are guaranteed visible
+     above 568px. */
+  @media (max-width: 480px) {
+    .hero-content {
+      padding-bottom: var(--space-3);
+    }
+    .hero .eyebrow {
+      margin-bottom: var(--space-1);
+    }
+    .hero h1 {
+      font-size: clamp(28px, 8.5vw, 40px);
+      margin-bottom: var(--space-2);
+    }
+    .hero-sub {
+      margin-bottom: var(--space-2);
+      max-width: 32ch;
+    }
+    .hero-scroll-hint { display: none; }
   }
 </style>

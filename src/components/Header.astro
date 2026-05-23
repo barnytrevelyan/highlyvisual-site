@@ -54,24 +54,27 @@ const navItems = [
   .logo img { height: 64px; width: auto; display: block; }
   .primary-nav {
     display: flex;
-    gap: var(--space-3);
+    gap: var(--space-2);          /* tighter outer gap; padding takes over */
     align-items: center;
   }
   .primary-nav a {
     font-size: 13.5px;
     font-weight: 500;
     letter-spacing: 0.04em;
-    padding: 10px 0;
+    /* WCAG 2.5.5: each link box ≥ 44px wide AND 48px tall */
+    padding: 10px 10px;
     min-height: 48px;
+    min-width: 44px;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     position: relative;
     color: var(--text);
   }
   .primary-nav a::after {
     content: "";
     position: absolute;
-    left: 0; right: 0; bottom: 8px;
+    left: 10px; right: 10px; bottom: 8px;  /* underline tracks padding inset */
     height: 1px;
     background: var(--text);
     transform: scaleX(0);

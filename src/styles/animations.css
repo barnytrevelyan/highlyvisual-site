@@ -192,27 +192,41 @@ html.has-js .reveal-stagger.is-in-view > * {
     margin-top: var(--space-2);
   }
 }
+/* Pagination dots — visible at 24×24 (formerly 3px tall, which was
+   functionally unhittable on touch). A transparent 44×44 hit area is
+   layered on top via padding + background-clip so the visual remains
+   the same dot but the tap-target meets WCAG 2.5.5. */
 .testimonial-dot {
-  width: 32px;
-  height: 3px;
+  /* 44×44 hit area; visual dot sized via background-clip */
+  width: 44px;
+  height: 44px;
+  padding: 10px;            /* (44 − 24) / 2 = 10 → 24×24 inner */
   background: var(--border-strong);
+  background-clip: content-box;
   border: 0;
-  padding: 0;
+  border-radius: 50%;
   cursor: pointer;
-  transition: background var(--motion-normal), width var(--motion-normal);
+  transition: background var(--motion-normal), transform var(--motion-normal);
+  box-sizing: border-box;
 }
 .testimonial-dot[aria-current="true"] {
   background: var(--text);
-  width: 48px;
+  background-clip: content-box;
+  transform: scale(1.08);
+}
+.testimonial-dot:hover {
+  background: var(--text);
+  background-clip: content-box;
 }
 .testimonial-prev, .testimonial-next {
   background: transparent;
   border: 1px solid var(--border-strong);
   color: var(--text);
-  width: 40px; height: 40px;
+  width: 48px; height: 48px;       /* was 40×40 — now meets WCAG 2.5.5 */
   border-radius: 50%;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 20px;
+  line-height: 1;
   transition: background var(--motion-normal), border-color var(--motion-normal);
   display: inline-flex; align-items: center; justify-content: center;
 }
