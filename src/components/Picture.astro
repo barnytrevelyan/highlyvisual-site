@@ -1,0 +1,80 @@
+---
+// Picture — serves a WebP source with the original JPEG/PNG as fallback.
+// Layout-neutral: the global `picture { display: contents }` rule (tokens.css)
+// means wrapping an <img> in this component never changes layout — existing
+// CSS that targets the inner <img> (by class or descendant selector) keeps
+// working unchanged.
+//
+// Pass `widths` (e.g. [800,1200,1600]) only when sized variants exist on disk
+// as `<base>-<w>.<ext>` (currently just the hero stills). Otherwise a single
+// WebP twin (`<base>.webp`) is used, which the generate-webp pass created for
+// every raster image in /img.
+interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+  sizes?: string;
+  widths?: number[];
+  loading?: 'lazy' | 'eager';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  decoding?: 'sync' | 'async' | 'auto';
+  width?: number;
+  height?: number;
+}
+
+const {
+  src,
+  alt,
+  class: className,
+  sizes,
+  widths,
+  loading = 'lazy',
+  fetchpriority,
+  decoding = 'async',
+  width,
+  height,
+} = Astro.props;
+
+const m = typeof src === 'string' ? src.match(/^(.+)\.(jpe?g|png)$/i) : null;
+const base = m ? m[1] : null;
+const ext = m ? m[2] : null;
+const webp = base ? `${base}.webp` : null;
+
+function srcset(e: string): string | undefined {
+  if (!base || !widths || widths.length === 0) return undefined;
+  const parts = widths.map((w) => `${base}-${w}.${e} ${w}w`);
+  parts.push(`${base}.${e} ${Math.max(...widths) + 200}w`);
+  return parts.join(', ');
+}
+
+const webpSrcset = webp ? (srcset('webp') ?? webp) : undefined;
+const jpgSrcset = ext ? srcset(ext) : undefined;
+---
+{webp ? (
+  <picture>
+    <source type="image/webp" srcset={webpSrcset} sizes={sizes} />
+    <img
+      src={src}
+      srcset={jpgSrcset}
+      sizes={sizes}
+      alt={alt}
+      class={className}
+      loading={loading}
+      fetchpriority={fetchpriority}
+      decoding={decoding}
+      width={width}
+      height={height}
+    />
+  </picture>
+) : (
+  <img
+    src={src}
+    alt={alt}
+    class={className}
+    loading={loading}
+    fetchpriority={fetchpriority}
+    decoding={decoding}
+    width={width}
+    height={height}
+  />
+)}

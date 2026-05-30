@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Picture from '../components/Picture.astro';
 import { site } from '../data/site';
 
 const title = 'Contact Highly Visual — Nairobi';
@@ -31,7 +32,7 @@ const contactPage = {
 
   <!-- Hero -->
   <section class="contact-hero">
-    <img class="contact-hero__bg" src="/img/bts-elephants-sunset.jpg" alt="" loading="eager" />
+    <Picture class="contact-hero__bg" src="/img/bts-elephants-sunset.jpg" alt="" loading="eager" fetchpriority="high" />
     <div class="contact-hero__gradient" aria-hidden="true"></div>
     <div class="container contact-hero__content reveal">
       <p class="eyebrow">Contact</p>

@@ -9,6 +9,9 @@ interface Props {
   cta?: { label: string; href: string };
   secondaryCta?: { label: string; href: string };
   height?: 'full' | 'large' | 'medium';
+  // One-line proof statement rendered under the CTAs (credibility at the
+  // decision point).
+  proof?: string;
 }
 
 const {
@@ -19,6 +22,7 @@ const {
   cta,
   secondaryCta,
   height = 'full',
+  proof,
 } = Astro.props;
 ---
 <section class={`hero hero--${height}`} aria-label="Hero">
@@ -28,19 +32,25 @@ const {
       // Build srcset variants for any /img/*.jpg source. The 800/1200/1600
       // sizes were generated alongside the originals during the audit fix;
       // browsers pick the best fit and we stop shipping a 1800px source
-      // to a 412px mobile viewport.
-      const m = typeof slide.src === 'string' ? slide.src.match(/^(.+)\.(jpg|jpeg|webp)$/i) : null;
-      const srcset = m ? `${m[1]}-800.${m[2]} 800w, ${m[1]}-1200.${m[2]} 1200w, ${m[1]}-1600.${m[2]} 1600w, ${slide.src} 1800w` : undefined;
+      // to a 412px mobile viewport. WebP twins of every size were generated
+      // in the same pass, so we offer a WebP <source> first with the JPEG
+      // srcset as the fallback for the ~3% of browsers without WebP.
+      const m = typeof slide.src === 'string' ? slide.src.match(/^(.+)\.(jpg|jpeg|png)$/i) : null;
+      const jpgSrcset = m ? `${m[1]}-800.${m[2]} 800w, ${m[1]}-1200.${m[2]} 1200w, ${m[1]}-1600.${m[2]} 1600w, ${slide.src} 1800w` : undefined;
+      const webpSrcset = m ? `${m[1]}-800.webp 800w, ${m[1]}-1200.webp 1200w, ${m[1]}-1600.webp 1600w, ${m[1]}.webp 1800w` : undefined;
       return (
         <div class={`hero-rotator__slide ${i === 0 ? 'is-active' : ''}`}>
-          <img class="hero-rotator__img"
-               src={slide.src}
-               srcset={srcset}
-               sizes="100vw"
-               alt={slide.alt}
-               loading={i === 0 ? 'eager' : 'lazy'}
-               fetchpriority={i === 0 ? 'high' : 'auto'}
-               decoding={i === 0 ? 'sync' : 'async'} />
+          <picture>
+            {webpSrcset && <source type="image/webp" srcset={webpSrcset} sizes="100vw" />}
+            <img class="hero-rotator__img"
+                 src={slide.src}
+                 srcset={jpgSrcset}
+                 sizes="100vw"
+                 alt={slide.alt}
+                 loading={i === 0 ? 'eager' : 'lazy'}
+                 fetchpriority={i === 0 ? 'high' : 'auto'}
+                 decoding={i === 0 ? 'sync' : 'async'} />
+          </picture>
         </div>
       );
     })}
@@ -66,6 +76,7 @@ const {
         {cta && <a href={cta.href} class="cta">{cta.label}</a>}
         {secondaryCta && <a href={secondaryCta.href} class="cta cta--ghost">{secondaryCta.label}</a>}
       </div>
+      {proof && <p class="hero-proof">{proof}</p>}
     </div>
   </div>
 
@@ -127,6 +138,15 @@ const {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
+  }
+  .hero-proof {
+    margin: var(--space-2) 0 0;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    max-width: 60ch;
   }
   .hero-scroll-hint {
     position: absolute;

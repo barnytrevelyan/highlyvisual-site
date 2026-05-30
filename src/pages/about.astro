@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AwardsGrid from '../components/AwardsGrid.astro';
+import Picture from '../components/Picture.astro';
 import { site } from '../data/site';
 import { testimonials } from '../data/testimonials';
 
@@ -31,61 +32,44 @@ const aboutPage = {
   mainEntity: { '@id': new URL('/', Astro.site).toString() + '#organization' },
 };
 
-// FAQ schema — surfaces operator credentials and scope as Q&A for AI / LLM
-// crawlers and rich-results-eligible Q&A snippets.
+// FAQ — single source of truth for BOTH the visible Q&A section below and the
+// FAQPage schema, so structured data always reflects content the user can see
+// (Google requirement; previously the schema had no visible counterpart).
+const faqs = [
+  {
+    q: 'Where is Highly Visual based?',
+    a: 'Nairobi, Kenya. Operations span East Africa with regular work in Tanzania, Uganda, Rwanda, Botswana, South Africa and beyond.',
+  },
+  {
+    q: 'Is Barny Trevelyan-Johnson CAA-licensed for drone operations?',
+    a: 'Yes. UK Civil Aviation Authority Permission for Commercial Operations (PfCO) UAS 9543, continuously held since 2017. Highly Visual was the first company in East Africa to operate professionally with drones for broadcast.',
+  },
+  {
+    q: 'Is Highly Visual a KFCB-registered film fixer?',
+    a: 'Yes — Highly Visual Limited is a registered local film agent with the Kenya Film Classification Board, capable of full local production support including permits, scouting, crew, vehicles, helicopters and customs.',
+  },
+  {
+    q: 'What production houses has Barny worked with?',
+    a: 'BBC Natural History Unit, Silverback Films, Plimsoll Productions, Offspring Films, National Geographic, Disney+, Netflix, Apple TV+, Channel 4, Wild Space Productions, Higher Ground Productions, Nutopia, Wildstar Films, Humble Bee, Asylum Entertainment and others.',
+  },
+  {
+    q: 'Does Highly Visual provide stock footage or equipment hire?',
+    a: 'Yes — via two sister businesses. Equipment hire is at hirevisual.com (cinema-grade rental including DJI Inspire 3, Sony FX6/FX3, full lighting and audio kits). Broadcast 4K+ stock footage is at stock.highlyvisual.com (2,700+ clips, discounted for African productions, students and NGOs).',
+  },
+  {
+    q: 'Does Barny operate solo or with a crew?',
+    a: 'Solo practice. Barny operates as a single-named cinematographer and drone operator. Crew is engaged per-production from a long-standing East African network.',
+  },
+];
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'Where is Highly Visual based?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Nairobi, Kenya. Operations span East Africa with regular work in Tanzania, Uganda, Rwanda, Botswana, South Africa and beyond.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Is Barny Trevelyan-Johnson CAA-licensed for drone operations?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Yes. UK Civil Aviation Authority Permission for Commercial Operations (PfCO) UAS 9543, continuously held since 2017. Highly Visual was the first company in East Africa to operate professionally with drones for broadcast.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Is Highly Visual a KFCB-registered film fixer?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Yes — Highly Visual Limited is a registered local film agent with the Kenya Film Classification Board, capable of full local production support including permits, scouting, crew, vehicles, helicopters and customs.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'What production houses has Barny worked with?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'BBC Natural History Unit, Silverback Films, Plimsoll Productions, Offspring Films, National Geographic, Disney+, Netflix, Apple TV+, Channel 4, Wild Space Productions, Higher Ground Productions, Nutopia, Wildstar Films, Humble Bee, Asylum Entertainment and others.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Does Highly Visual provide stock footage or equipment hire?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Yes — via two sister businesses. Equipment hire is at hirevisual.com (cinema-grade rental including DJI Inspire 3, Sony FX6/FX3, full lighting and audio kits). Broadcast 4K+ stock footage is at stock.highlyvisual.com (2,700+ clips, discounted for African productions, students and NGOs).',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Does Barny operate solo or with a crew?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Solo practice. Barny operates as a single-named cinematographer and drone operator. Crew is engaged per-production from a long-standing East African network.',
-      },
-    },
-  ],
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
 };
 ---
 <BaseLayout
@@ -93,7 +77,8 @@ const faqSchema = {
   description={description}
   ogImage="/img/portrait-barny-flying.jpg"
   ogType="profile"
-  preloadImage="/img/portrait-barny-flying.jpg"
+  preloadImage="/img/portrait-barny-flying.webp"
+  preloadImageType="image/webp"
   extraSchema={[breadcrumb, aboutPage, faqSchema]}
 >
 
@@ -101,7 +86,7 @@ const faqSchema = {
   <section class="about-hero">
     <div class="container about-hero-inner">
       <figure class="about-portrait reveal reveal--scale">
-        <img src="/img/portrait-barny-flying.jpg" alt="Barny Trevelyan-Johnson piloting a drone on location in East Africa — operator portrait by Michel Laplace-Toulouse" loading="eager" fetchpriority="high" />
+        <Picture src="/img/portrait-barny-flying.jpg" alt="Barny Trevelyan-Johnson piloting a drone on location in East Africa — operator portrait by Michel Laplace-Toulouse" loading="eager" fetchpriority="high" />
         <figcaption class="about-portrait__credit">Photo · Michel Laplace-Toulouse</figcaption>
       </figure>
       <div class="about-intro reveal">
@@ -185,7 +170,7 @@ const faqSchema = {
 
   <!-- Banner — operator at work, narrative bridge from history to today -->
   <figure class="about-banner reveal">
-    <img src="/img/heli-cabin-dusk.jpg" alt="Inside a helicopter cabin at dusk, looking out over East African dryland" loading="lazy" />
+    <Picture src="/img/heli-cabin-dusk.jpg" alt="Inside a helicopter cabin at dusk, looking out over East African dryland" loading="lazy" />
     <figcaption>Last-light heli transit over the dryland — most of the working day is on aircraft or on foot.</figcaption>
   </figure>
 
@@ -229,7 +214,7 @@ const faqSchema = {
 
   <!-- Conservation context banner — wildlife close-up -->
   <figure class="about-banner about-banner--portrait reveal">
-    <img src="/img/wildlife-cheetah-profile.jpg" alt="Cheetah in profile on long grass — natural-history subject coverage" loading="lazy" />
+    <Picture src="/img/wildlife-cheetah-profile.jpg" alt="Cheetah in profile on long grass — natural-history subject coverage" loading="lazy" />
     <figcaption>The work is for the subjects in front of the lens — every project adheres to strict environmental and proximity guidelines.</figcaption>
   </figure>
 
@@ -282,7 +267,7 @@ const faqSchema = {
 
   <!-- Locations banner — where the work happens -->
   <figure class="about-banner reveal">
-    <img src="/img/aerial-migration-mara.jpg" alt="Aerial of wildebeest migration across the Mara plains" loading="lazy" />
+    <Picture src="/img/aerial-migration-mara.jpg" alt="Aerial of wildebeest migration across the Mara plains" loading="lazy" />
     <figcaption>Wildebeest migration aerial, Maasai Mara — recurring assignment territory.</figcaption>
   </figure>
 
@@ -318,6 +303,20 @@ const faqSchema = {
       ))}
     </div>
     <p class="featured-cta"><a href="/work/" class="cta cta--ghost">More projects, more quotes →</a></p>
+  </section>
+
+  <!-- FAQ — visible Q&A backing the FAQPage schema -->
+  <section class="container reveal" aria-label="Frequently asked questions">
+    <p class="section-title">FAQ</p>
+    <h2>Questions I get asked.</h2>
+    <div class="faq-list reveal-stagger">
+      {faqs.map((f) => (
+        <details class="faq-item">
+          <summary><span>{f.q}</span><span class="faq-mark" aria-hidden="true"></span></summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
   </section>
 
   <!-- Final CTA -->
@@ -585,6 +584,53 @@ const faqSchema = {
     letter-spacing: 0.04em;
   }
   .pull-quote-card strong { color: var(--text); }
+
+  /* FAQ */
+  .faq-list {
+    margin-top: var(--space-3);
+    border-top: 1px solid var(--border);
+    max-width: 860px;
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+  }
+  .faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: var(--space-3) 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    font-size: clamp(16px, 1.6vw, 19px);
+    font-weight: 600;
+    color: var(--text);
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-mark {
+    position: relative;
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+  }
+  .faq-mark::before,
+  .faq-mark::after {
+    content: "";
+    position: absolute;
+    background: var(--text-muted);
+    transition: transform var(--motion-normal) var(--ease-out), opacity var(--motion-normal);
+  }
+  .faq-mark::before { top: 6px; left: 0; width: 14px; height: 2px; }
+  .faq-mark::after { top: 0; left: 6px; width: 2px; height: 14px; }
+  .faq-item[open] .faq-mark::after { transform: rotate(90deg); opacity: 0; }
+  .faq-item summary:hover { opacity: 0.85; }
+  .faq-item p {
+    margin: 0 0 var(--space-3);
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text-muted);
+    max-width: 70ch;
+  }
 
   /* Final CTA */
   .final-cta-section {

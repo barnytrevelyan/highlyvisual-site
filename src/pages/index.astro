@@ -6,9 +6,10 @@ import TestimonialCarousel from '../components/TestimonialCarousel.astro';
 import CreditGrid from '../components/CreditGrid.astro';
 import AwardsGrid from '../components/AwardsGrid.astro';
 import Marquee from '../components/Marquee.astro';
+import Picture from '../components/Picture.astro';
 import { site } from '../data/site';
 import { awards, credits } from '../data/awards';
-import { videos } from '../data/videos';
+import { videos, heroShowreel, videoObjectSchema } from '../data/videos';
 
 const allWork = await getCollection('work');
 const featured = allWork
@@ -21,6 +22,17 @@ const headlineAwards = awards.filter((a) => a.status === 'won');
 
 // Stock teasers for the showreel strip
 const stockTeasers = videos.filter((v) => v.category === 'stock-teaser');
+
+// VideoObject schema for the three videos embedded on this page (hero showreel
+// + the two stock teasers) so AI assistants and search can surface the reel.
+const homeVideoSchemas = [heroShowreel, ...stockTeasers].map((v) => videoObjectSchema(v, site.url));
+
+// Responsive WebP preload for the hero LCP image — a phone fetches the ~77KB
+// 800w WebP instead of the 390KB full JPEG.
+const heroBase = (site.hero.rotator[0]?.src ?? '').replace(/\.(jpe?g|png)$/i, '');
+const heroPreloadSrcset = heroBase
+  ? `${heroBase}-800.webp 800w, ${heroBase}-1200.webp 1200w, ${heroBase}-1600.webp 1600w, ${heroBase}.webp 1800w`
+  : undefined;
 
 const title = 'Highly Visual — Natural-history cinematographer, Nairobi';
 const description =
@@ -45,7 +57,10 @@ const featuredItemList = {
   title={title}
   description={description}
   preloadImage={site.hero.rotator[0]?.src}
-  extraSchema={[featuredItemList]}
+  preloadImageSrcset={heroPreloadSrcset}
+  preloadImageSizes="100vw"
+  preloadImageType="image/webp"
+  extraSchema={[featuredItemList, ...homeVideoSchemas]}
   band="compact"
 >
   <Hero
@@ -53,6 +68,7 @@ const featuredItemList = {
     sub={site.hero.sub}
     cta={site.hero.cta}
     secondaryCta={{ label: 'Get in touch', href: '/contact/' }}
+    proof="Drone & camera work for BBC NHU, Silverback, Plimsoll, Nat Geo, Disney+ & Netflix"
   />
 
   <!-- Section: Testimonial carousel — second screen, builds credibility immediately -->
@@ -73,7 +89,7 @@ const featuredItemList = {
       {featured.map((w) => (
         <a href={`/work/${w.slug}/`} class="card">
           <div class="card-img-wrap">
-            <img class="card-img" src={w.data.cardImage ?? w.data.heroImage} alt={w.data.cardAlt ?? w.data.heroAlt} loading="lazy" />
+            <Picture class="card-img" src={w.data.cardImage ?? w.data.heroImage} alt={w.data.cardAlt ?? w.data.heroAlt} loading="lazy" />
           </div>
           <div class="card-meta">
             <p class="tag">{w.data.lane.replace('-', ' ')}</p>
@@ -104,7 +120,7 @@ const featuredItemList = {
     <div class="grid grid-4 reveal-stagger services-grid">
       <a href="/services/#drone" class="service-card">
         <div class="service-card__img">
-          <img src="/img/hero-3-canoes.jpg" alt="Aerial drone capability" loading="lazy" />
+          <Picture src="/img/hero-3-canoes.jpg" alt="Aerial drone capability" loading="lazy" />
         </div>
         <div class="service-card__body">
           <h3 class="service-card__title">Drone &amp; aerial</h3>
@@ -114,7 +130,7 @@ const featuredItemList = {
       </a>
       <a href="/services/#long-lens" class="service-card">
         <div class="service-card__img">
-          <img src="/img/hero-2-serval.jpg" alt="Long-lens wildlife cinematography" loading="lazy" />
+          <Picture src="/img/hero-2-serval.jpg" alt="Long-lens wildlife cinematography" loading="lazy" />
         </div>
         <div class="service-card__body">
           <h3 class="service-card__title">Long-lens cinematography</h3>
@@ -124,7 +140,7 @@ const featuredItemList = {
       </a>
       <a href="/fixing/" class="service-card">
         <div class="service-card__img">
-          <img src="/img/sup-2-event-aerial.jpg" alt="Aerial of a major production event with marquees and crew on a Kenyan conservancy" loading="lazy" />
+          <Picture src="/img/sup-2-event-aerial.jpg" alt="Aerial of a major production event with marquees and crew on a Kenyan conservancy" loading="lazy" />
         </div>
         <div class="service-card__body">
           <h3 class="service-card__title">Local film fixing</h3>
@@ -134,7 +150,7 @@ const featuredItemList = {
       </a>
       <a href="/services/#production" class="service-card">
         <div class="service-card__img">
-          <img src="/img/sup-2-kasas-kenya.jpg" alt="Commercial and brand production" loading="lazy" />
+          <Picture src="/img/sup-2-kasas-kenya.jpg" alt="Commercial and brand production" loading="lazy" />
         </div>
         <div class="service-card__body">
           <h3 class="service-card__title">Commercial production</h3>
@@ -232,7 +248,7 @@ const featuredItemList = {
       <div class="grid grid-2 reveal-stagger">
         <a href={site.sister.hire.url} target="_blank" rel="noopener noreferrer" class="sister-card">
           <div class="sister-card__img">
-            <img src="/img/cinema-rental-inspire.jpg" alt="DJI Inspire 2 with Zenmuse gimbal — cinema-grade rental kit" loading="lazy" />
+            <Picture src="/img/cinema-rental-inspire.jpg" alt="DJI Inspire 2 with Zenmuse gimbal — cinema-grade rental kit" loading="lazy" />
             <div class="sister-card__mask" aria-hidden="true"></div>
           </div>
           <div class="sister-card__body">
@@ -244,7 +260,7 @@ const featuredItemList = {
         </a>
         <a href={site.sister.stock.url} target="_blank" rel="noopener noreferrer" class="sister-card">
           <div class="sister-card__img">
-            <img src="/img/bts-elephants-sunset.jpg" alt="Aerial wildlife footage from the stock archive" loading="lazy" />
+            <Picture src="/img/bts-elephants-sunset.jpg" alt="Aerial wildlife footage from the stock archive" loading="lazy" />
             <div class="sister-card__mask" aria-hidden="true"></div>
           </div>
           <div class="sister-card__body">

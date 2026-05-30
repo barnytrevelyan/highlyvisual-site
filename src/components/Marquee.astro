@@ -1,5 +1,6 @@
 ---
 import { site } from '../data/site';
+import Picture from './Picture.astro';
 
 type LogoItem = { name: string; logo: string; plate?: 'light' };
 interface Props {
@@ -18,7 +19,7 @@ const doubled = [...items, ...items];
     <div class="marquee-track">
       {doubled.map((item) => (
         <span class={`marquee-logo ${item.plate === 'light' ? 'is-plate' : ''}`}>
-          <img src={item.logo} alt={item.name} loading="lazy" decoding="async" />
+          <Picture src={item.logo} alt={item.name} loading="lazy" />
         </span>
       ))}
     </div>

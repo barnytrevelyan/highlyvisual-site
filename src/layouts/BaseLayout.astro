@@ -20,6 +20,11 @@ interface Props {
   extraSchema?: Record<string, unknown>[];
   // URL of an image (relative path or absolute) to <link rel="preload"> for LCP.
   preloadImage?: string;
+  // Responsive LCP preload: when set, the hero is preloaded via imagesrcset so
+  // a phone fetches the ~100KB 800w variant instead of the full-size image.
+  preloadImageSrcset?: string;
+  preloadImageSizes?: string;
+  preloadImageType?: string;
   // Sitewide pre-footer band. Defaults to the full call-to-action treatment.
   // Pages that already render their own bespoke final CTA (homepage, contact)
   // pass `band="compact"` to keep just the credentials strip + sister-site
@@ -38,6 +43,9 @@ const {
   bodyClass,
   extraSchema = [],
   preloadImage,
+  preloadImageSrcset,
+  preloadImageSizes,
+  preloadImageType,
   band = 'full',
   bandHeading,
   bandLede,
@@ -46,7 +54,7 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).toStri
 const absoluteOgImage = new URL(ogImage, Astro.site).toString();
 ---
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en">
   <head>
     <!-- Scroll-reveal gate + safety timer. Externalised so it passes
          `script-src 'self'` in the CSP — the inline version was being
@@ -85,16 +93,28 @@ const absoluteOgImage = new URL(ogImage, Astro.site).toString();
     <meta name="twitter:image" content={absoluteOgImage} />
     <meta name="twitter:image:alt" content={`${site.name} — ${title}`} />
 
-    <!-- Performance: preconnect to media providers we embed -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Performance: preconnect to the media provider we embed -->
     <link rel="preconnect" href="https://player.vimeo.com" />
     <link rel="dns-prefetch" href="https://i.vimeocdn.com" />
 
-    <!-- Fonts — display=swap defers blocking; preconnect above primes the TLS handshake -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Fonts — self-hosted Inter (woff2 in /fonts), declared via @font-face in
+         tokens.css with font-display: swap. No third-party, render-blocking
+         request. Preload the two weights used above the fold (body 400,
+         display 800) so first paint isn't gated on the font fetch. -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-400.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-800.woff2" crossorigin />
 
-    {preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />}
+    {preloadImage && (
+      <link
+        rel="preload"
+        as="image"
+        href={preloadImageSrcset ? undefined : preloadImage}
+        imagesrcset={preloadImageSrcset}
+        imagesizes={preloadImageSrcset ? (preloadImageSizes ?? '100vw') : undefined}
+        type={preloadImageType}
+        fetchpriority="high"
+      />
+    )}
 
     <!-- WebSite JSON-LD -->
     <script type="application/ld+json" set:html={JSON.stringify({

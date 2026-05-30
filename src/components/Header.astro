@@ -19,6 +19,7 @@ const navItems = [
         <a href={href} aria-current={pathname === href || pathname.startsWith(href.replace(/\/$/, '/')) ? 'page' : undefined}>{label}</a>
       ))}
     </nav>
+    <a href="/contact/" class="header-cta">Get in touch</a>
     <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" data-nav-toggle>
       <span></span><span></span><span></span>
     </button>
@@ -56,7 +57,25 @@ const navItems = [
     display: flex;
     gap: var(--space-2);          /* tighter outer gap; padding takes over */
     align-items: center;
+    margin-left: auto;            /* nav + CTA cluster on the right, logo left */
   }
+  /* Persistent header CTA — contact is one tap away from any page, any scroll. */
+  .header-cta {
+    flex-shrink: 0;
+    margin-left: var(--space-2);
+    padding: 9px 18px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--text);
+    border-radius: 2px;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    transition: background var(--motion-normal) var(--ease-out), color var(--motion-normal) var(--ease-out);
+  }
+  .header-cta:hover { background: var(--text); color: var(--bg); opacity: 1; }
   .primary-nav a {
     font-size: 13.5px;
     font-weight: 500;
@@ -105,6 +124,7 @@ const navItems = [
 
   @media (max-width: 900px) {
     .nav-toggle { display: inline-flex; }
+    .header-cta { display: none; }   /* the toggle + in-menu Contact take over */
     .logo img { height: 52px; }
     .primary-nav {
       position: absolute;

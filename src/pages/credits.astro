@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CreditGrid from '../components/CreditGrid.astro';
 import AwardsGrid from '../components/AwardsGrid.astro';
+import Picture from '../components/Picture.astro';
 import { credits, additionalCredits, awards } from '../data/awards';
 import { site } from '../data/site';
 
@@ -74,7 +75,7 @@ const awardSchema = awards.map((a) => ({
 
   <!-- Hero -->
   <section class="credits-hero">
-    <img class="credits-hero__bg" src="/img/credit-the-green-planet.jpg" alt="" loading="eager" />
+    <Picture class="credits-hero__bg" src="/img/credit-the-green-planet.jpg" alt="" loading="eager" fetchpriority="high" />
     <div class="credits-hero__gradient" aria-hidden="true"></div>
     <div class="container credits-hero__content reveal">
       <p class="eyebrow">Credits · 2002 — present</p>

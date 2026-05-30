@@ -134,6 +134,28 @@ export function getVideoById(id: string): VimeoVideo | undefined {
   return videos.find((v) => v.id === id);
 }
 
+// Build a schema.org VideoObject JSON-LD block from a VimeoVideo.
+// `siteUrl` is the canonical origin (e.g. site.url) so thumbnailUrl is absolute,
+// as Google requires. Mirrors the per-case-study block in work/[slug].astro so
+// the homepage showreel and the /services/ embed are described identically.
+export function videoObjectSchema(video: VimeoVideo, siteUrl: string): Record<string, unknown> {
+  const thumb = video.thumbnail.startsWith('http')
+    ? video.thumbnail
+    : siteUrl.replace(/\/$/, '') + video.thumbnail;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    name: video.title,
+    description: video.description,
+    thumbnailUrl: thumb,
+    embedUrl: video.embedUrl,
+    contentUrl: video.embedUrl,
+    uploadDate: video.uploadDate,
+    duration: `PT${Math.floor(video.duration / 60)}M${video.duration % 60}S`,
+    publisher: { '@type': 'Organization', '@id': siteUrl.replace(/\/$/, '') + '/#organization' },
+  };
+}
+
 export function getVideosByCategory(category: VimeoVideo['category']): VimeoVideo[] {
   return videos.filter((v) => v.category === category);
 }

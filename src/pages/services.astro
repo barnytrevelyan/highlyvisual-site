@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TestimonialCarousel from '../components/TestimonialCarousel.astro';
+import Picture from '../components/Picture.astro';
 import { site } from '../data/site';
 import { testimonials } from '../data/testimonials';
-import { videos } from '../data/videos';
+import { videos, videoObjectSchema } from '../data/videos';
 
 const cheliPeacock = videos.find((v) => v.id === '808308047');
 const kasas = videos.find((v) => v.id === '1106721568');
@@ -32,16 +33,20 @@ const service = {
   description:
     'Drone-operator and cinematographer-for-hire across natural-history broadcast, fixing for international productions, and end-to-end commercial film production. CAA-licensed, KFCB-registered, 14+ countries on record.',
 };
+
+// VideoObject for the Kasas commercial embedded on this page, so AI assistants
+// and search can surface the showcased commercial film.
+const kasasVideoSchema = kasas ? videoObjectSchema(kasas, site.url) : null;
 ---
 <BaseLayout
   title={title}
   description={description}
-  extraSchema={[breadcrumb, service]}
+  extraSchema={[breadcrumb, service, ...(kasasVideoSchema ? [kasasVideoSchema] : [])]}
 >
 
   <!-- Services hero -->
   <section class="services-hero">
-    <img class="services-hero__bg" src="/img/hero-3-canoes.jpg" alt="Dugout canoes on an East African lakeshore at dawn — location-establishing shot" loading="eager" />
+    <Picture class="services-hero__bg" src="/img/hero-3-canoes.jpg" alt="Dugout canoes on an East African lakeshore at dawn — location-establishing shot" loading="eager" fetchpriority="high" />
     <div class="services-hero__gradient" aria-hidden="true"></div>
     <div class="container services-hero__content reveal">
       <p class="eyebrow">Services · 24 years operating</p>
@@ -64,7 +69,7 @@ const service = {
   <section id="drone" class="service-section service-section--alt">
     <div class="container service-section__inner reveal">
       <div class="service-section__media">
-        <img src="/img/hero-1-drone-bob-poole.jpg" alt="DJI Inspire 2 silhouetted against East African sunrise" loading="lazy" />
+        <Picture src="/img/hero-1-drone-bob-poole.jpg" alt="DJI Inspire 2 silhouetted against East African sunrise" loading="lazy" />
       </div>
       <div class="service-section__body">
         <p class="section-title">01 · Drone &amp; aerial</p>
@@ -114,7 +119,7 @@ const service = {
         </ul>
       </div>
       <div class="service-section__media">
-        <img src="/img/hero-2-serval.jpg" alt="Serval in tall grass, long-lens" loading="lazy" />
+        <Picture src="/img/hero-2-serval.jpg" alt="Serval in tall grass, long-lens" loading="lazy" />
       </div>
     </div>
   </section>
@@ -123,7 +128,7 @@ const service = {
   <section id="fixing" class="service-section service-section--alt">
     <div class="container service-section__inner reveal">
       <div class="service-section__media">
-        <img src="/img/sup-1-fixing.jpg" alt="Safari camp with crew around the campfire at dusk on the Mara" loading="lazy" />
+        <Picture src="/img/sup-1-fixing.jpg" alt="Safari camp with crew around the campfire at dusk on the Mara" loading="lazy" />
       </div>
       <div class="service-section__body">
         <p class="section-title">03 · Film fixing</p>
@@ -199,7 +204,7 @@ const service = {
     <div class="stock-strip">
       <a href={site.sister.stock.url} target="_blank" rel="noopener noreferrer" class="card">
         <div class="card-img-wrap">
-          <img class="card-img" src="/img/bts-elephants-aerial.jpg" alt="Aerial wildlife stock footage from Kenya" loading="lazy" />
+          <Picture class="card-img" src="/img/bts-elephants-aerial.jpg" alt="Aerial wildlife stock footage from Kenya" loading="lazy" />
         </div>
         <div class="card-meta">
           <h3 class="card-title">Aerial Archive</h3>
@@ -208,7 +213,7 @@ const service = {
       </a>
       <a href={site.sister.stock.url} target="_blank" rel="noopener noreferrer" class="card">
         <div class="card-img-wrap">
-          <img class="card-img" src="/img/body-crested-crane.jpg" alt="Long-lens wildlife stock footage from Kenya" loading="lazy" />
+          <Picture class="card-img" src="/img/body-crested-crane.jpg" alt="Long-lens wildlife stock footage from Kenya" loading="lazy" />
         </div>
         <div class="card-meta">
           <h3 class="card-title">Long Lens Wildlife</h3>

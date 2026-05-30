@@ -3,6 +3,45 @@
    Palette: dark base + warm near-white. The WORK brings the colour.
    Motion: cinematic, restrained but present. Animation serves the work. */
 
+/* Self-hosted Inter (woff2 in /public/fonts). Replaces the third-party,
+   render-blocking Google Fonts request. font-display: swap keeps text visible
+   during the (now first-party, cached) font fetch. */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/inter-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/inter-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/inter-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/inter-700.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('/fonts/inter-800.woff2') format('woff2');
+}
+
 :root {
   /* Colour */
   --bg:           #0A0A0B;
@@ -175,6 +214,11 @@ p { margin: 0 0 var(--space-2); }
 
 /* Image defaults */
 img { max-width: 100%; height: auto; display: block; }
+
+/* <picture> is a layout-neutral wrapper — display:contents removes its box so
+   the inner <img> lays out exactly as a bare <img> would. Lets the Picture
+   component add a WebP <source> without disturbing any existing image CSS. */
+picture { display: contents; }
 
 /* Container */
 .container {

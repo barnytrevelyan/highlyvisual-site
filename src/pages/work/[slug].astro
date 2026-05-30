@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getTestimonialBySlug } from '../../data/testimonials';
 import { caseStudyVideos, getVideoById } from '../../data/videos';
+import Picture from '../../components/Picture.astro';
 
 export async function getStaticPaths() {
   const entries = await getCollection('work');
@@ -75,13 +76,14 @@ if (videoJsonld) extraSchema.push(videoJsonld);
   description={d.summary}
   ogImage={d.heroImage}
   ogType="article"
-  preloadImage={d.heroImage}
+  preloadImage={d.heroImage.replace(/\.(jpe?g|png)$/i, '.webp')}
+  preloadImageType="image/webp"
   extraSchema={extraSchema}
 >
   <article class="case-study">
     <!-- Hero -->
     <header class="cs-hero">
-      <img class="cs-hero-img" src={d.heroImage} alt={d.heroAlt} loading="eager" fetchpriority="high" />
+      <Picture class="cs-hero-img" src={d.heroImage} alt={d.heroAlt} loading="eager" fetchpriority="high" />
       <div class="cs-hero-gradient" aria-hidden="true"></div>
       <div class="container cs-hero-content reveal">
         <p class="cs-meta-line">
@@ -159,7 +161,7 @@ if (videoJsonld) extraSchema.push(videoJsonld);
         <div class={`cs-body-images-grid ${d.bodyImages.length === 1 ? 'is-1' : d.bodyImages.length === 2 ? 'is-2' : 'is-3plus'} reveal-stagger`}>
           {d.bodyImages.map((img) => (
             <figure>
-              <img src={img.src} alt={img.alt} loading="lazy" />
+              <Picture src={img.src} alt={img.alt} loading="lazy" />
               {img.caption && <figcaption>{img.caption}</figcaption>}
             </figure>
           ))}
@@ -188,7 +190,7 @@ if (videoJsonld) extraSchema.push(videoJsonld);
           {related.map((r: any) => (
             <a href={`/work/${r.slug}/`} class="card">
               <div class="card-img-wrap">
-                <img class="card-img" src={r.data.cardImage ?? r.data.heroImage} alt={r.data.cardAlt ?? r.data.heroAlt} loading="lazy" />
+                <Picture class="card-img" src={r.data.cardImage ?? r.data.heroImage} alt={r.data.cardAlt ?? r.data.heroAlt} loading="lazy" />
               </div>
               <div class="card-meta">
                 <h3 class="card-title">{r.data.title}</h3>
