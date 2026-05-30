@@ -57,9 +57,6 @@ const featuredItemList = {
   title={title}
   description={description}
   preloadImage={site.hero.rotator[0]?.src}
-  preloadImageSrcset={heroPreloadSrcset}
-  preloadImageSizes="100vw"
-  preloadImageType="image/webp"
   extraSchema={[featuredItemList, ...homeVideoSchemas]}
   band="compact"
 >
@@ -68,7 +65,6 @@ const featuredItemList = {
     sub={site.hero.sub}
     cta={site.hero.cta}
     secondaryCta={{ label: 'Get in touch', href: '/contact/' }}
-    proof="Drone & camera work for BBC NHU, Silverback, Plimsoll, Nat Geo, Disney+ & Netflix"
   />
 
   <!-- Section: Testimonial carousel — second screen, builds credibility immediately -->
@@ -89,7 +85,7 @@ const featuredItemList = {
       {featured.map((w) => (
         <a href={`/work/${w.slug}/`} class="card">
           <div class="card-img-wrap">
-            <Picture class="card-img" src={w.data.cardImage ?? w.data.heroImage} alt={w.data.cardAlt ?? w.data.heroAlt} loading="lazy" />
+            <img class="card-img" src={w.data.cardImage ?? w.data.heroImage} alt={w.data.cardAlt ?? w.data.heroAlt} loading="lazy" />
           </div>
           <div class="card-meta">
             <p class="tag">{w.data.lane.replace('-', ' ')}</p>
@@ -120,7 +116,7 @@ const featuredItemList = {
     <div class="grid grid-4 reveal-stagger services-grid">
       <a href="/services/#drone" class="service-card">
         <div class="service-card__img">
-          <Picture src="/img/hero-3-canoes.jpg" alt="Aerial drone capability" loading="lazy" />
+          <img src="/img/hero-3-canoes.jpg" alt="Aerial drone capability" loading="lazy" />
         </div>
         <div class="service-card__body">
           <h3 class="service-card__title">Drone &amp; aerial</h3>
@@ -130,7 +126,7 @@ const featuredItemList = {
       </a>
       <a href="/services/#long-lens" class="service-card">
         <div class="service-card__img">
-          <Picture src="/img/hero-2-serval.jpg" alt="Long-lens wildlife cinematography" loading="lazy" />
+          <img src="/img/hero-2-serval.jpg" alt="Long-lens wildlife cinematography" loading="lazy" />
         </div>
         <div class="service-card__body">
           <h3 class="service-card__title">Long-lens cinematography</h3>
@@ -140,7 +136,7 @@ const featuredItemList = {
       </a>
       <a href="/fixing/" class="service-card">
         <div class="service-card__img">
-          <Picture src="/img/sup-2-event-aerial.jpg" alt="Aerial of a major production event with marquees and crew on a Kenyan conservancy" loading="lazy" />
+          <img src="/img/sup-2-event-aerial.jpg" alt="Aerial of a major production event with marquees and crew on a Kenyan conservancy" loading="lazy" />
         </div>
         <div class="service-card__body">
           <h3 class="service-card__title">Local film fixing</h3>
@@ -150,7 +146,7 @@ const featuredItemList = {
       </a>
       <a href="/services/#production" class="service-card">
         <div class="service-card__img">
-          <Picture src="/img/sup-2-kasas-kenya.jpg" alt="Commercial and brand production" loading="lazy" />
+          <img src="/img/sup-2-kasas-kenya.jpg" alt="Commercial and brand production" loading="lazy" />
         </div>
         <div class="service-card__body">
           <h3 class="service-card__title">Commercial production</h3>
@@ -248,7 +244,7 @@ const featuredItemList = {
       <div class="grid grid-2 reveal-stagger">
         <a href={site.sister.hire.url} target="_blank" rel="noopener noreferrer" class="sister-card">
           <div class="sister-card__img">
-            <Picture src="/img/cinema-rental-inspire.jpg" alt="DJI Inspire 2 with Zenmuse gimbal — cinema-grade rental kit" loading="lazy" />
+            <img src="/img/cinema-rental-inspire.jpg" alt="DJI Inspire 2 with Zenmuse gimbal — cinema-grade rental kit" loading="lazy" />
             <div class="sister-card__mask" aria-hidden="true"></div>
           </div>
           <div class="sister-card__body">
@@ -260,7 +256,7 @@ const featuredItemList = {
         </a>
         <a href={site.sister.stock.url} target="_blank" rel="noopener noreferrer" class="sister-card">
           <div class="sister-card__img">
-            <Picture src="/img/bts-elephants-sunset.jpg" alt="Aerial wildlife footage from the stock archive" loading="lazy" />
+            <img src="/img/bts-elephants-sunset.jpg" alt="Aerial wildlife footage from the stock archive" loading="lazy" />
             <div class="sister-card__mask" aria-hidden="true"></div>
           </div>
           <div class="sister-card__body">

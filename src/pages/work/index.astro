@@ -50,7 +50,7 @@ const workItemList = {
 
   <!-- Hero -->
   <section class="work-hero">
-    <Picture class="work-hero__bg" src="/img/bts-elephants-aerial.jpg" alt="" loading="eager" fetchpriority="high" />
+    <img class="work-hero__bg" src="/img/bts-elephants-aerial.jpg" alt="" loading="eager" fetchpriority="high" />
     <div class="work-hero__gradient" aria-hidden="true"></div>
     <div class="container work-hero__content reveal">
       <p class="eyebrow">Work</p>
@@ -85,7 +85,7 @@ const workItemList = {
         {allWork.map((w) => (
           <a href={`/work/${w.slug}/`} class="card work-card" data-lane={w.data.lane}>
             <div class="card-img-wrap">
-              <Picture class="card-img" src={w.data.cardImage ?? w.data.heroImage} alt={w.data.cardAlt ?? w.data.heroAlt} loading="lazy" />
+              <img class="card-img" src={w.data.cardImage ?? w.data.heroImage} alt={w.data.cardAlt ?? w.data.heroAlt} loading="lazy" />
             </div>
             <div class="card-meta">
               <p class="tag">{w.data.lane.replace('-', ' ')}</p>

@@ -16,7 +16,7 @@ const list = limit ? items.slice(0, limit) : items;
     <div class="credit-card" data-lane={c.lane} title={`${c.title} — ${c.productionHouse}${c.distributor ? ' · ' + c.distributor : ''} · ${c.year}`}>
       {c.url ? (
         <a href={c.url} aria-label={`${c.title} — case study`} class="credit-card__link">
-          <Picture src={c.cardImage} alt={`${c.title} — show artwork`} loading="lazy" />
+          <img src={c.cardImage} alt={`${c.title} — show artwork`} loading="lazy" />
           {showCaptionOnHover && (
             <div class="credit-card__caption">
               <div class="credit-card__title"><em>{c.title}</em></div>
@@ -26,7 +26,7 @@ const list = limit ? items.slice(0, limit) : items;
         </a>
       ) : (
         <>
-          <Picture src={c.cardImage} alt={`${c.title} — show artwork`} loading="lazy" />
+          <img src={c.cardImage} alt={`${c.title} — show artwork`} loading="lazy" />
           {showCaptionOnHover && (
             <div class="credit-card__caption">
               <div class="credit-card__title"><em>{c.title}</em></div>
