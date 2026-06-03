@@ -4,6 +4,8 @@ import '../styles/animations.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import SiteBand from '../components/SiteBand.astro';
+import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
 import { site } from '../data/site';
 
 interface Props {
@@ -236,5 +238,7 @@ const absoluteOgImage = new URL(ogImage, Astro.site).toString();
     </main>
     <Footer />
     <script is:inline src="/scripts/animations.js" defer></script>
+    <Analytics />
+    <SpeedInsights />
   </body>
 </html>
