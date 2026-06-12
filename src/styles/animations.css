@@ -29,6 +29,27 @@ html.has-js .reveal--scale {
 html.has-js .reveal--scale.is-in-view { transform: translateY(0) scale(1); }
 html.has-js .reveal--fade { transform: none; }
 
+/* === Hero entrance — staggered cascade ===
+   On load, the hero's eyebrow → headline → sub → CTAs → proof line arrive in
+   sequence rather than as one block. Children of the hero's .reveal each get
+   their own transition with an incremental delay. */
+html.has-js .hero .reveal > * {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 900ms var(--ease-out-soft),
+    transform 900ms var(--ease-out-soft);
+}
+html.has-js .hero .reveal.is-in-view > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+html.has-js .hero .reveal.is-in-view > *:nth-child(1) { transition-delay: 100ms; }
+html.has-js .hero .reveal.is-in-view > *:nth-child(2) { transition-delay: 220ms; }
+html.has-js .hero .reveal.is-in-view > *:nth-child(3) { transition-delay: 360ms; }
+html.has-js .hero .reveal.is-in-view > *:nth-child(4) { transition-delay: 510ms; }
+html.has-js .hero .reveal.is-in-view > *:nth-child(5) { transition-delay: 660ms; }
+
 /* Staggered children — uses --i CSS var set by JS */
 html.has-js .reveal-stagger > * {
   opacity: 0;
@@ -41,6 +62,19 @@ html.has-js .reveal-stagger.is-in-view > * {
   opacity: 1;
   transform: translateY(0);
   transition-delay: calc(var(--i, 0) * 70ms);
+}
+/* Desktop: staggered children also resolve from a slight defocus — like a
+   rack-focus pull. Kept off mobile (filter transitions are GPU-costly on
+   low-end devices). */
+@media (min-width: 769px) {
+  html.has-js .reveal-stagger > * {
+    filter: blur(7px);
+    transition:
+      opacity var(--motion-reveal) var(--ease-out-soft),
+      transform var(--motion-reveal) var(--ease-out-soft),
+      filter var(--motion-reveal) var(--ease-out-soft);
+  }
+  html.has-js .reveal-stagger.is-in-view > * { filter: blur(0); }
 }
 
 /* === Hero rotator (cross-fading still images with Ken Burns) === */
@@ -106,6 +140,17 @@ html.has-js .reveal-stagger.is-in-view > * {
   position: relative;
   overflow: hidden;
 }
+/* Soft spotlight pool behind the quote — gives the testimonial screen a
+   sense of staged light instead of words floating in a void. */
+.testimonial-carousel::before {
+  content: "";
+  position: absolute;
+  inset: -12% -18%;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(48% 56% at 50% 32%, rgba(245, 244, 241, 0.05) 0%, transparent 70%);
+}
+.testimonial-track { position: relative; z-index: 1; }
 .testimonial-track {
   display: flex;
   transition: transform 700ms var(--ease-out-soft);
@@ -143,9 +188,9 @@ html.has-js .reveal-stagger.is-in-view > * {
   display: block;
   font-style: normal;
   font-family: serif;
-  font-size: 64px;
+  font-size: 84px;
   line-height: 0.6;
-  color: var(--text-faint);
+  color: var(--accent-dim);
   margin-bottom: var(--space-1);
 }
 /* Smaller serif quote-mark on mobile — 64px eats most of a phone viewport
@@ -262,7 +307,7 @@ html.has-js .reveal-stagger.is-in-view > * {
 }
 .credit-card:hover img {
   transform: scale(1.06);
-  filter: brightness(1);
+  filter: brightness(1.04) saturate(1.05);
 }
 .credit-card__caption {
   position: absolute;
@@ -306,7 +351,11 @@ html.has-js .reveal-stagger.is-in-view > * {
   letter-spacing: -0.01em;
   color: var(--text);
   display: inline-block;
+  opacity: 0.55;
+  transition: opacity var(--motion-normal) var(--ease-out);
 }
+/* Hovered name comes into full light while the track pauses */
+.marquee-item:hover { opacity: 1; }
 .marquee-dot {
   color: var(--text-faint);
   margin: 0 var(--space-2);
@@ -320,12 +369,36 @@ html.has-js .reveal-stagger.is-in-view > * {
   gap: var(--space-3);
 }
 .award-card {
+  position: relative;
+  overflow: hidden;
   padding: var(--space-3);
-  background: var(--surface);
+  background: linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 55%);
   border-left: 2px solid var(--accent);
-  transition: background var(--motion-normal), border-color var(--motion-normal);
+  border-top: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  transition:
+    background var(--motion-normal),
+    border-color var(--motion-normal),
+    transform var(--motion-slow) var(--ease-out),
+    box-shadow var(--motion-slow) var(--ease-out);
 }
-.award-card:hover { background: var(--surface-2); }
+/* Warm corner glow breathing out from the accent edge on hover */
+.award-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(130% 90% at 0% 0%, var(--accent-faint) 0%, transparent 55%);
+  opacity: 0;
+  transition: opacity var(--motion-slow) var(--ease-out);
+}
+.award-card:hover {
+  background: var(--surface-2);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+.award-card:hover::after { opacity: 1; }
 .award-year {
   font-size: 12px;
   font-weight: 700;
@@ -359,16 +432,26 @@ html.has-js .reveal-stagger.is-in-view > * {
   display: flex;
   flex-direction: column;
   background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: inset 0 1px 0 rgba(245, 244, 241, 0.04);
   overflow: hidden;
   height: 100%;
   text-decoration: none;
   color: var(--text);
-  transition: background var(--motion-normal), transform var(--motion-normal);
+  transition:
+    background var(--motion-normal),
+    border-color var(--motion-normal),
+    transform var(--motion-slow) var(--ease-out),
+    box-shadow var(--motion-slow) var(--ease-out);
 }
 .service-card:hover {
   background: var(--surface-2);
-  transform: translateY(-3px);
+  border-color: var(--border-strong);
+  transform: translateY(-4px);
   opacity: 1;
+  box-shadow:
+    inset 0 1px 0 rgba(245, 244, 241, 0.06),
+    0 16px 44px rgba(0, 0, 0, 0.55);
 }
 .service-card__img {
   position: relative;
@@ -441,3 +524,24 @@ html.has-js .reveal-stagger.is-in-view > * {
 }
 .timeline-event h3 { font-size: 19px; margin: 0 0 6px; }
 .timeline-event p { color: var(--text-muted); font-size: 15px; line-height: 1.6; margin: 0; }
+
+/* === Scroll progress hairline ===
+   2px film-strip progress along the top edge — warm-white running into the
+   amber accent. Mounted by animations.js; width driven by transform so it
+   never triggers layout. Sits above the fixed header. */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  z-index: 200;
+  pointer-events: none;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  background: linear-gradient(to right, rgba(245, 244, 241, 0.55), var(--accent));
+  opacity: 0.9;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress { display: none; }
+}

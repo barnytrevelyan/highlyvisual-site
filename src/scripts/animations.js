@@ -119,11 +119,42 @@
     window.addEventListener('scroll', update, { passive: true });
   }
 
+  // --- Scroll progress hairline ---
+  function initScrollProgress() {
+    if (reduced) return;
+    const bar = document.createElement('div');
+    bar.className = 'scroll-progress';
+    bar.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(bar);
+    let ticking = false;
+    function update() {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(window.scrollY / max, 1) : 0) + ')';
+      ticking = false;
+    }
+    window.addEventListener('scroll', () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    update();
+  }
+
+  // --- Cursor spotlight on cards (sets --mx/--my consumed by CSS) ---
+  function initCardSpotlight() {
+    if (reduced || window.matchMedia('(hover: none)').matches) return;
+    document.addEventListener('pointermove', (e) => {
+      const card = e.target.closest && e.target.closest('.card, .service-card');
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (((e.clientX - r.left) / r.width) * 100).toFixed(2) + '%');
+      card.style.setProperty('--my', (((e.clientY - r.top) / r.height) * 100).toFixed(2) + '%');
+    }, { passive: true });
+  }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-      initReveal(); initHeroRotator(); initCarousels(); initHeaderFade();
+      initReveal(); initHeroRotator(); initCarousels(); initHeaderFade(); initScrollProgress(); initCardSpotlight();
     });
   } else {
-    initReveal(); initHeroRotator(); initCarousels(); initHeaderFade();
+    initReveal(); initHeroRotator(); initCarousels(); initHeaderFade(); initScrollProgress(); initCardSpotlight();
   }
 })();

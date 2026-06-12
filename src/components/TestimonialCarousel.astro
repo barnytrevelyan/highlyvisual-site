@@ -52,8 +52,16 @@ const {
     padding-bottom: var(--space-5);
   }
   .testimonial-section .section-title {
-    text-align: center;
+    justify-content: center;   /* label is a flex row (amber tick + text) */
     margin-bottom: var(--space-2);
+  }
+  /* Centered variant gets a mirroring tick on the right */
+  .testimonial-section .section-title::after {
+    content: "";
+    width: 22px;
+    height: 1px;
+    background: var(--accent);
+    flex-shrink: 0;
   }
   /* Mobile — strip the large vertical breathing room. The carousel
      visually centres itself in its own padding and stacks tall on
